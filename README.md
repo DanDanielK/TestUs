@@ -1,6 +1,7 @@
 # TestUs
 
-![Project Logo](link/to/your/logo.png)
+
+![testus](https://github.com/DanDanielK/TestUs/assets/25459629/e3167e30-95b3-41a4-90a9-e7afceeac009)
 
 ## Description
 
