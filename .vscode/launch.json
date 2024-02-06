@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-TestUsApplication<TestUs>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.springbootquickstart.TestUs.TestUsApplication",
+            "projectName": "TestUs",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
