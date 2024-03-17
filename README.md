@@ -18,7 +18,7 @@ Welcome to TestUs! This project is designed to be a web system for building, che
 
 ## Installation
 
-To install TestMe, follow these steps:
+To install TestUs, follow these steps:
 
 1. Clone the repository: `git clone https://github.com/DanDanielK/TestUs.git`
 2. Navigate to the project directory: `cd TestUs`
@@ -32,9 +32,13 @@ Here's how you can use TestUs:
 
 ## Features
 
-- **Feature 1:** Create student and coordinator acounts.
-- **Feature 2:** Description of feature 2.
-- **Feature 3:** Description of feature 3.
+- **Feature 1:** login, logout and register mechanism.
+- **Feature 2:** admin: create new coordinator acounts.
+- **Feature 3:** admin: edit/delete student/coordinator acounts.
+- **Feature 4:** coordinator: Description of feature .
+- **Feature 5:** coordinator:  .
+- **Feature 6:** student:  .
+- **Feature 7:** student:  .
 
 ## Contributing
 
