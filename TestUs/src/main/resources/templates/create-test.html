@@ -1,83 +1,4 @@
 <!DOCTYPE html>
-  <!-- JavaScript to add new question containers -->
-  <script>
-    var questionCount = 0;
-
-    function addQuestion() {
-        questionCount++; // Increment question count
-
-        var questionDetails = document.getElementById("questionDetails");
-
-        // Create a new question container
-        var newQuestionContainer = document.createElement("div");
-        newQuestionContainer.classList.add("question-container");
-
-        // Add question type dropdown
-        var questionTypeDropdown = document.createElement("select");
-        questionTypeDropdown.name = "questionType" + questionCount;
-        var option1 = document.createElement("option");
-        option1.text = "Select Question Type";
-        option1.value = "";
-        var option2 = document.createElement("option");
-        option2.text = "American Question";
-        option2.value = "american";
-        var option3 = document.createElement("option");
-        option3.text = "True/False Question";
-        option3.value = "truefalse";
-        questionTypeDropdown.add(option1);
-        questionTypeDropdown.add(option2);
-        questionTypeDropdown.add(option3);
-        newQuestionContainer.appendChild(questionTypeDropdown);
-
-        // Add line break
-        newQuestionContainer.appendChild(document.createElement("br"));
-
-        // Add input fields for question details based on the selected question type
-        var questionDetailsHtml = `
-            <input type="text" name="question${questionCount}" placeholder="Question" required><br>
-        `;
-        newQuestionContainer.innerHTML += questionDetailsHtml;
-
-        // Add the new question container to the question details section
-        questionDetails.appendChild(newQuestionContainer);
-    }
-    function showQuestionDetails() {
-    var questionType = document.getElementById("questionType").value;
-    var questionDetails = document.getElementById("questionDetails");
-
-    // Hide all question details initially
-    questionDetails.innerHTML = "";
-
-    // Show question details based on the selected question type
-    if (questionType === "american") {
-        questionDetails.innerHTML = `
-            <div class="question-container">
-                <input type="text" name="americanQuestion${questionCount}" placeholder="American Question" required><br>
-                <input type="text" name="option1${questionCount}" placeholder="Option 1" required><br>
-                <input type="text" name="option2${questionCount}" placeholder="Option 2" required><br>
-                <input type="text" name="option3${questionCount}" placeholder="Option 3" required><br>
-                <input type="text" name="option4${questionCount}" placeholder="Option 4" required><br>
-                <input type="text" name="correctAnswer${questionCount}" placeholder="Correct Answer (e.g., A, B, C, D)" required><br>
-            </div>
-        `;
-    } else if (questionType === "truefalse") {
-        questionDetails.innerHTML = `
-            <div class="question-container">
-                <input type="text" name="trueFalseQuestion${questionCount}" placeholder="True/False Question" required><br>
-                <select name="correctAnswer${questionCount}" required>
-                    <option value="">Select Correct Answer</option>
-                    <option value="true">True</option>
-                    <option value="false">False</option>
-                </select><br>
-            </div>
-        `;
-    }
-
-    // Show the question details container
-    questionDetails.style.display = "block";
-}
-
-</script>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
@@ -150,11 +71,15 @@
             padding: 10px;
             margin-bottom: 10px;
         }
+
+        .readonly {
+            background-color: #f2f2f2;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h2>Create Test</h2>
+        <h2>Test Creation</h2>
 
         <!-- Display success message if available -->
         <div th:if="${successMessage}" class="success-message" role="alert">
@@ -165,14 +90,108 @@
             <input type="text" name="title" placeholder="Test Title" required><br>
             
             <!-- Container for question details -->
-            <div id="questionDetails" class="question-details">
+            <div id="questionDetails">
                 <!-- Question containers will be added dynamically here -->
             </div>
 
-            <input type="button" value="Add Question" onclick="addQuestion()" />
-            <input type="submit" value="Create Test">
+            <input type="button" value="Add New Question" onclick="showQuestionTypeDropdown()" />
+            <input type="submit" id="saveTestButton" value="Save Test" style="display:none;">
         </form>
         <p>Return to <a href="/">home</a></p>
     </div>
+
+    <!-- JavaScript to add new question containers -->
+    <script>
+        var questionCount = 0;
+    
+        function showQuestionTypeDropdown() {
+            var questionDetails = document.getElementById("questionDetails");
+    
+            // Create a new question container
+            var newQuestionContainer = document.createElement("div");
+            newQuestionContainer.classList.add("question-container");
+            
+            // Add question number
+            var questionNumber = document.createElement("h3");
+            questionNumber.textContent = "Question " + (questionCount + 1);
+            newQuestionContainer.appendChild(questionNumber);
+            questionCount++;
+            // Add question type dropdown
+            var questionTypeDropdown = document.createElement("select");
+            questionTypeDropdown.name = "questionType" + questionCount;
+            var option1 = document.createElement("option");
+            option1.text = "Select Question Type";
+            option1.value = "";
+            var option2 = document.createElement("option");
+            option2.text = "American Question";
+            option2.value = "american";
+            var option3 = document.createElement("option");
+            option3.text = "True/False Question";
+            option3.value = "truefalse";
+            questionTypeDropdown.add(option1);
+            questionTypeDropdown.add(option2);
+            questionTypeDropdown.add(option3);
+            questionTypeDropdown.setAttribute("onchange", "showQuestionDetails(this)");
+            newQuestionContainer.appendChild(questionTypeDropdown);
+    
+            // Add the new question container to the question details section
+            questionDetails.appendChild(newQuestionContainer);
+        }
+    
+        function showQuestionDetails(dropdown) {
+    var questionType = dropdown.value;
+    var questionContainer = dropdown.parentElement;
+
+    // Remove previous question details if any
+    var questionDetails = questionContainer.getElementsByClassName("question-details")[0];
+    if (questionDetails) {
+        questionDetails.remove();
+    }
+
+    // Create question details container
+    questionDetails = document.createElement("div");
+    questionDetails.classList.add("question-details");
+
+    // Add input fields based on question type
+    if (questionType === "american") {
+        questionDetails.innerHTML = `
+            <input type="text" name="question${questionCount}" placeholder="Question" required><br>
+            <input type="text" name="option1${questionCount}" placeholder="Option 1" required><br>
+            <input type="text" name="option2${questionCount}" placeholder="Option 2" required><br>
+            <input type="text" name="option3${questionCount}" placeholder="Option 3" required><br>
+            <input type="text" name="option4${questionCount}" placeholder="Option 4" required><br>
+            <select name="correctAnswer${questionCount}" required>
+                <option value="">Select Correct Answer</option>
+                <option value="option1">Option 1</option>
+                <option value="option2">Option 2</option>
+                <option value="option3">Option 3</option>
+                <option value="option4">Option 4</option>
+            </select><br>
+        `;
+    } else if (questionType === "truefalse") {
+        questionDetails.innerHTML = `
+            <input type="text" name="question${questionCount}" placeholder="Question" required><br>
+            <select name="correctAnswer${questionCount}" required>
+                <option value="">Select Correct Answer</option>
+                <option value="true">True</option>
+                <option value="false">False</option>
+            </select><br>
+        `;
+    }
+
+    // Add question details to question container
+    questionContainer.appendChild(questionDetails);
+
+    // Show the question details container
+    questionDetails.style.display = "block";
+
+    // Hide the dropdown
+    dropdown.style.display = "none";
+
+    // Show the save button
+    var saveTestButton = document.getElementById("saveTestButton");
+    saveTestButton.style.display = "block";
+}
+    </script>
 </body>
 </html>
