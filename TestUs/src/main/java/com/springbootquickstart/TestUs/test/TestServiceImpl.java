@@ -4,6 +4,11 @@ import org.springframework.stereotype.Service;
 
 import com.springbootquickstart.TestUs.dto.TestCreationDto;
 
-public interface TestService {
-    void createTest(TestCreationDto test);
+@Service
+public class TestServiceImpl implements TestService {
+    @Override
+    public void createTest(TestCreationDto test) {
+
+    }
+
 }

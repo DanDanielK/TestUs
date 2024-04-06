@@ -1,4 +1,83 @@
 <!DOCTYPE html>
+  <!-- JavaScript to add new question containers -->
+  <script>
+    var questionCount = 0;
+
+    function addQuestion() {
+        questionCount++; // Increment question count
+
+        var questionDetails = document.getElementById("questionDetails");
+
+        // Create a new question container
+        var newQuestionContainer = document.createElement("div");
+        newQuestionContainer.classList.add("question-container");
+
+        // Add question type dropdown
+        var questionTypeDropdown = document.createElement("select");
+        questionTypeDropdown.name = "questionType" + questionCount;
+        var option1 = document.createElement("option");
+        option1.text = "Select Question Type";
+        option1.value = "";
+        var option2 = document.createElement("option");
+        option2.text = "American Question";
+        option2.value = "american";
+        var option3 = document.createElement("option");
+        option3.text = "True/False Question";
+        option3.value = "truefalse";
+        questionTypeDropdown.add(option1);
+        questionTypeDropdown.add(option2);
+        questionTypeDropdown.add(option3);
+        newQuestionContainer.appendChild(questionTypeDropdown);
+
+        // Add line break
+        newQuestionContainer.appendChild(document.createElement("br"));
+
+        // Add input fields for question details based on the selected question type
+        var questionDetailsHtml = `
+            <input type="text" name="question${questionCount}" placeholder="Question" required><br>
+        `;
+        newQuestionContainer.innerHTML += questionDetailsHtml;
+
+        // Add the new question container to the question details section
+        questionDetails.appendChild(newQuestionContainer);
+    }
+    function showQuestionDetails() {
+    var questionType = document.getElementById("questionType").value;
+    var questionDetails = document.getElementById("questionDetails");
+
+    // Hide all question details initially
+    questionDetails.innerHTML = "";
+
+    // Show question details based on the selected question type
+    if (questionType === "american") {
+        questionDetails.innerHTML = `
+            <div class="question-container">
+                <input type="text" name="americanQuestion${questionCount}" placeholder="American Question" required><br>
+                <input type="text" name="option1${questionCount}" placeholder="Option 1" required><br>
+                <input type="text" name="option2${questionCount}" placeholder="Option 2" required><br>
+                <input type="text" name="option3${questionCount}" placeholder="Option 3" required><br>
+                <input type="text" name="option4${questionCount}" placeholder="Option 4" required><br>
+                <input type="text" name="correctAnswer${questionCount}" placeholder="Correct Answer (e.g., A, B, C, D)" required><br>
+            </div>
+        `;
+    } else if (questionType === "truefalse") {
+        questionDetails.innerHTML = `
+            <div class="question-container">
+                <input type="text" name="trueFalseQuestion${questionCount}" placeholder="True/False Question" required><br>
+                <select name="correctAnswer${questionCount}" required>
+                    <option value="">Select Correct Answer</option>
+                    <option value="true">True</option>
+                    <option value="false">False</option>
+                </select><br>
+            </div>
+        `;
+    }
+
+    // Show the question details container
+    questionDetails.style.display = "block";
+}
+
+</script>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
@@ -14,7 +93,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
         }
 
         .container {
@@ -22,12 +101,13 @@
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 300px;
+            width: 400px;
             text-align: center;
         }
 
         input[type="text"],
         input[type="number"],
+        select,
         input[type="submit"] {
             width: 100%;
             padding: 10px;
@@ -58,6 +138,18 @@
             border-radius: 4px;
             border: 1px solid #c3e6cb; /* Light green border */
         }
+
+        /* Hide question details initially */
+        .question-details {
+            display: none;
+        }
+
+        .question-container {
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>
@@ -69,10 +161,15 @@
             <span th:text="${successMessage}"></span>
         </div>
         
-        <form action="/create-test" method="post">
+        <form action="create-test" method="post">
             <input type="text" name="title" placeholder="Test Title" required><br>
-            <!-- Add other fields for test creation here -->
+            
+            <!-- Container for question details -->
+            <div id="questionDetails" class="question-details">
+                <!-- Question containers will be added dynamically here -->
+            </div>
 
+            <input type="button" value="Add Question" onclick="addQuestion()" />
             <input type="submit" value="Create Test">
         </form>
         <p>Return to <a href="/">home</a></p>
