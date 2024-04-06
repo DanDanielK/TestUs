@@ -2,6 +2,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "TestUsApplication",
+            "request": "launch",
+            "mainClass": "com.springbootquickstart.TestUs.TestUsApplication",
+            "projectName": ""
+        },
+        {
+            "type": "java",
             "name": "Spring Boot-TestUsApplication<TestUs>",
             "request": "launch",
             "cwd": "${workspaceFolder}",
