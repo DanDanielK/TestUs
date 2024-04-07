@@ -26,6 +26,11 @@
         <groupId>org.springframework.security</groupId>
         <artifactId>spring-security-config</artifactId>
     </dependency>-->
+	<dependency>
+		<groupId>org.hibernate</groupId>
+		<artifactId>hibernate-core</artifactId>
+		<version>6.4.4.Final</version> <!-- Adjust the version as needed -->
+	</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>

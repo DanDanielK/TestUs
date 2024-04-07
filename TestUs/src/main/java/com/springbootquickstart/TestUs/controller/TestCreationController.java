@@ -12,10 +12,9 @@ import com.springbootquickstart.TestUs.test.TestService;
 
 @Controller
 public class TestCreationController {
-    @Autowired
-    private TestService testService;
-    private TestCreationDto testCreationDto = new TestCreationDto();
+    private final TestService testService;
 
+    @Autowired
     public TestCreationController(TestService testService) {
         this.testService = testService;
     }
@@ -48,9 +47,10 @@ public class TestCreationController {
     }
 
     @PostMapping("/teacher/save-test")
-    public String saveTest(RedirectAttributes redirectAttributes) {
-        testService.createTest(testCreationDto); // Save the created test
-        redirectAttributes.addFlashAttribute("successMessage", "Test created successfully!");
+    public String saveTest(@ModelAttribute TestCreationDto test,
+            RedirectAttributes redirectAttributes) {
+        testService.createTest(test);
+        redirectAttributes.addFlashAttribute("successMessage", "Test saved successfully!");
         return "redirect:/teacher/create-test";
     }
 }
