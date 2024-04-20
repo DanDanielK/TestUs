@@ -1,24 +1,26 @@
 package com.springbootquickstart.TestUs.questions;
 
+import com.springbootquickstart.TestUs.test.Test;
 import java.util.List;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "questions")
 @Inheritance(strategy = InheritanceType.JOINED)
+@Table(name = "questions")
 public abstract class Question {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "question_text")
     private String questionText;
 
-    @Column(name = "correct_answer")
     private String correctAnswer;
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
     private List<Option> options;
+
+    @ManyToOne
+    private Test test;
 
     public Question(String questionText, String correctAnswer, List<Option> options) {
         this.questionText = questionText;
@@ -52,5 +54,13 @@ public abstract class Question {
 
     public void setOptions(List<Option> options) {
         this.options = options;
+    }
+
+    public Test getTest() {
+        return test;
+    }
+
+    public void setTest(Test test) {
+        this.test = test;
     }
 }
