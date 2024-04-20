@@ -15,6 +15,7 @@ public class Option {
     private Long id;
 
     private String value;
+
     @ManyToOne
     private Question question;
 

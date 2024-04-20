@@ -5,7 +5,9 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class UserInfo {
+public class LoginDto {
+
     private String email;
-    private String fullName;
+    private String password;
+
 }

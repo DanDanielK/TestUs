@@ -3,10 +3,7 @@ package com.springbootquickstart.TestUs.test;
 import java.util.List;
 import com.springbootquickstart.TestUs.questions.Question;
 import java.time.LocalDateTime;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -20,6 +17,7 @@ public class Test {
     private String title;
     private LocalDateTime startTime;
     private int duration;
+    @OneToMany(mappedBy = "test", cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = Question.class)
     private List<Question> questions;
 
 }

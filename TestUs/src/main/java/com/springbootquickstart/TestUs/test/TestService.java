@@ -1,11 +1,43 @@
-package com.springbootquickstart.TestUs.test;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
-import java.util.List;
+import org.springframework.transaction.annotation.Transactional;
 import com.springbootquickstart.TestUs.dto.TestCreationDto;
+import com.springbootquickstart.TestUs.test.Test;
+import com.springbootquickstart.TestUs.test.TestRepository;
+import java.util.List;
 
-public interface TestService {
-    void createTest(TestCreationDto test);
+@Service
+public class TestService {
 
-    List<Test> getAllTests();
+    @Autowired
+    private TestRepository testRepository;
+
+    public TestService(TestRepository testRepository) {
+        System.out.println("eeee banana alalalalalallalalalala " + testRepository.toString());
+        this.testRepository = testRepository;
+    }
+
+    @Transactional
+    public void createTest(TestCreationDto testDto) {
+        Test test = convertToTest(testDto);
+        testRepository.save(test);
+    }
+
+    private Test convertToTest(TestCreationDto testDto) {
+        // Convert TestCreationDto to Test entity
+        // This could involve mapping fields from testDto to test entity
+        // and handling any additional logic required
+        Test test = new Test();
+        test.setTitle(testDto.getTitle());
+        test.setQuestions(testDto.getQuestions());
+        test.setDuration(testDto.getDuration());
+        test.setStartTime(testDto.getStartTime());
+        // Set other fields as needed
+        return test;
+    }
+
+    public List<Test> getAllTests() {
+        return testRepository.findAll();
+    }
 }
