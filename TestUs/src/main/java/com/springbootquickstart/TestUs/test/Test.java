@@ -17,7 +17,7 @@ public class Test {
     private String title;
     private LocalDateTime startTime;
     private int duration;
-    @OneToMany(mappedBy = "test", cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = Question.class)
+    @OneToMany(mappedBy = "test", cascade = CascadeType.ALL)
     private List<Question> questions;
 
 }

@@ -16,16 +16,12 @@ public abstract class Question {
 
     private String correctAnswer;
 
-    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
-    private List<Option> options;
-
     @ManyToOne
     private Test test;
 
-    public Question(String questionText, String correctAnswer, List<Option> options) {
+    public Question(String questionText, String correctAnswer) {
         this.questionText = questionText;
         this.correctAnswer = correctAnswer;
-        this.options = options;
     }
 
     // Abstract method to get the type of question
@@ -46,14 +42,6 @@ public abstract class Question {
 
     public void setCorrectAnswer(String correctAnswer) {
         this.correctAnswer = correctAnswer;
-    }
-
-    public List<Option> getOptions() {
-        return options;
-    }
-
-    public void setOptions(List<Option> options) {
-        this.options = options;
     }
 
     public Test getTest() {
