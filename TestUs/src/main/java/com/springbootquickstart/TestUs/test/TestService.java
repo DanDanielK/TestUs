@@ -1,3 +1,5 @@
+package com.springbootquickstart.TestUs.test;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
@@ -10,12 +12,10 @@ import java.util.List;
 @Service
 public class TestService {
 
-    @Autowired
     private TestRepository testRepository;
 
-    public TestService(TestRepository testRepository) {
-        System.out.println("eeee banana alalalalalallalalalala " + testRepository.toString());
-        this.testRepository = testRepository;
+    public TestService(TestRepository repository) {
+        this.testRepository = repository;
     }
 
     @Transactional
