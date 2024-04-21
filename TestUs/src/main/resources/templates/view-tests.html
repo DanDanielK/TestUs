@@ -14,25 +14,19 @@
                 <th>Title</th>
                 <th>Start Time</th>
                 <th>Duration</th>
-                <th>Questions</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
             <!-- Loop through tests and display them -->
             <tr th:each="test : ${tests}">
-                <td th:text="${test.testID}"></td>
+                <td th:text="${test.testId}"></td>
                 <td th:text="${test.title}"></td>
                 <td th:text="${test.startTime}"></td>
                 <td th:text="${test.duration}"></td>
                 <td>
-                    <ul>
-                        <!-- Loop through questions for each test -->
-                        <li th:each="question : ${test.questions}">
-                            <!-- Display question and its correct answer -->
-                            <span th:text="${question.questionText}"></span>
-                            <span> - Correct Answer: <strong th:text="${question.correctAnswer}"></strong></span>
-                        </li>
-                    </ul>
+                    <!-- Link to view questions of the test -->
+                    <a th:href="@{/view-questions(testId=${test.testId})}">View Questions</a>
                 </td>
             </tr>
         </tbody>

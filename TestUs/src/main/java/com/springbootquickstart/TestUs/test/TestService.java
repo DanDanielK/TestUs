@@ -1,12 +1,8 @@
 package com.springbootquickstart.TestUs.test;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.springbootquickstart.TestUs.dto.TestCreationDto;
-import com.springbootquickstart.TestUs.test.Test;
-import com.springbootquickstart.TestUs.test.TestRepository;
 import java.util.List;
 
 @Service

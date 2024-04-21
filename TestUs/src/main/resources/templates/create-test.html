@@ -88,7 +88,9 @@
         
         <form action="create-test" method="post">
             <input type="text" name="title" placeholder="Test Title" required><br>
-            
+            <input type="datetime-local" name="startTime" required><br>
+            <input type="number" name="duration" placeholder="Duration (in minutes)" required><br>
+
             <!-- Container for question details -->
             <div id="questionDetails">
                 <!-- Question containers will be added dynamically here -->
@@ -97,7 +99,9 @@
             <input type="button" value="Add New Question" onclick="showQuestionTypeDropdown()" />
             <input type="submit" id="saveTestButton" value="Save Test" style="display:none;">
         </form>
-        <p>Return to <a href="/">home</a></p>
+
+        <br>
+        <a href="/teacher/view-tests">View Tests</a> <!-- Link to navigate to view tests page -->
     </div>
 
     <!-- JavaScript to add new question containers -->
