@@ -5,9 +5,7 @@ import java.util.List;
 import com.springbootquickstart.TestUs.questions.Question;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Data
 @NoArgsConstructor
