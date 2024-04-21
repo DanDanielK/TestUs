@@ -12,11 +12,11 @@ import com.springbootquickstart.TestUs.test.TestService;
 
 @Controller
 public class TestCreationController {
-    private final TestService testService;
 
-    @Autowired
-    public TestCreationController(TestService testService) {
-        this.testService = testService;
+    private TestService testService;
+
+    public TestCreationController(TestService service) {
+        this.testService = service;
     }
 
     @GetMapping("/teacher/create-test")
