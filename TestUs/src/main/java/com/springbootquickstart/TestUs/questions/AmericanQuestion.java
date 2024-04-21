@@ -7,12 +7,16 @@ import lombok.Data;
 
 @Entity
 @Data
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "americanquestions")
 public class AmericanQuestion extends Question {
 
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
+    private List<Option> options;
+
     public AmericanQuestion(String questionText, List<Option> options, String correctAnswer) {
-        super(questionText, correctAnswer, options);
+        super(questionText, correctAnswer);
+        this.options = options;
     }
 
     @Override

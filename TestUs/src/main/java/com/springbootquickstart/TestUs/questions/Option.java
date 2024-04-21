@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 @Entity
+@Table(name = "options")
 public class Option {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,6 +18,7 @@ public class Option {
     private String value;
 
     @ManyToOne
+    @JoinColumn(name = "question_id")
     private Question question;
 
     // Constructors, getters, and setters

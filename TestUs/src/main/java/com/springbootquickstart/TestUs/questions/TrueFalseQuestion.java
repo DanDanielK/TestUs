@@ -4,12 +4,12 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "truefalsequestions")
 public class TrueFalseQuestion extends Question {
 
     public TrueFalseQuestion(String questionText, String correctAnswer) {
-        super(questionText, correctAnswer, null);
+        super(questionText, correctAnswer);
     }
 
     @Override
