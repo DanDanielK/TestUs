@@ -7,12 +7,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.springbootquickstart.TestUs.dto.RegisterDto;
 import com.springbootquickstart.TestUs.sdudent.StudentController.Button;
+import com.springbootquickstart.TestUs.user.User;
 import com.springbootquickstart.TestUs.user.UserService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -47,13 +50,12 @@ public class AdminController {
         return "mainMenu";  
     }
 
-
+    
     @GetMapping("/add-coordinator")
     public String addCoordinator() {
         return "addCoordinator";
     }
 
-    
     @PostMapping(path = "/add-coordinator" , consumes = "application/x-www-form-urlencoded")
     public String addCoordinatorPost(RegisterDto registerDto,RedirectAttributes redirectAttributes, HttpServletRequest request) {
 
@@ -72,9 +74,86 @@ public class AdminController {
         } catch (Exception e) {
             return null; //DOTO handle error UI
         }
-
-        
     
     }
-    
+
+
+    @GetMapping("/view-{role:(?:students|coordinators)}")
+    public String viewUsers(@PathVariable("role") String role, Model model) {
+
+        List<User> usersList = new ArrayList<>();
+
+
+        //DODO: get users by role
+        // Optional<User> users = Optional.empty();
+
+        // if (role.equals("coordinators")) {
+            
+        //     //users = userRepository.findByRolesName("coordinator");
+        // } else {
+        //     //users = userRepository.findByRolesName("student");
+        // }
+
+        // //model.addAttribute("users", users);
+
+        
+        User user1 = new User((long) 209355234, "John", "Doe", "ssss@gggm.com", "password");
+
+        
+        usersList.add(user1); //remove
+        
+        model.addAttribute("usersList", usersList);
+
+        return "viewUsers";
+    }
+
+
+    @GetMapping("/view-{role:(?:students|coordinators)}/delete")
+    public String deleteUser(@PathVariable("role") String role, @RequestParam("id") Long id, RedirectAttributes r, Model model) {
+
+        try {
+            
+            //handle href link
+            model.addAttribute("role", role);
+
+            //delete user
+            userService.deleteUser(id); 
+            
+            //indicate success
+            r.addFlashAttribute("successMessage", " user with ID " + id + " has been deleted.");
+
+        } catch (Exception e) {
+            r.addFlashAttribute("failMessage", e.getMessage());
+        }
+
+        //return to the same page
+        return "redirect:/admin/view-" + role;
+    }
+
+    @GetMapping("/view-{role:(?:students|coordinators)}/edit")
+    public String editeUser(@PathVariable("role") String role, @RequestParam("id") Long id, RedirectAttributes r, Model model) {
+
+        try {
+
+            //handle href link
+            model.addAttribute("role", role);
+
+            //get user by id
+            User user = userService.getUser(id);
+            
+            //send user info to the edit page
+            model.addAttribute("user", user);
+
+
+        } catch (Exception e) {
+            r.addFlashAttribute("failMessage", e.getMessage());
+            //return the same page
+            return "redirect:/admin/view-" + role;
+        }
+
+        //return the edit page
+        return "redirect:/admin/view-" + role + "/edit";
+    }
+
+
 }
