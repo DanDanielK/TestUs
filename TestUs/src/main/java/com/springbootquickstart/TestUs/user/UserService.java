@@ -1,5 +1,7 @@
 package com.springbootquickstart.TestUs.user;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -47,5 +49,38 @@ public class UserService  {
         //save new user
         userRepo.save(user);
     }
-   
+
+
+    public void deleteUser(Long id) throws Exception {
+
+        //check for user in DB
+        if (!userRepo.findById(id).isPresent()) {
+            throw new Exception("Not found user with id: " + id);
+        }
+
+
+        //DOTO: check if user is a coordinator and has current semester courses
+        //if so, do not delete
+
+
+
+        userRepo.deleteById(id);
+    }
+
+    public void updateUser(RegisterDto registerDto) throws Exception {
+
+    }
+
+    public User getUser(Long id) throws Exception {
+
+        Optional<User> user = userRepo.findById(id);
+
+        if (user.isEmpty() ) {
+            throw new Exception("Not found user with id: " + id);
+        }
+
+        return user.get();
+    }
+
+
 }
