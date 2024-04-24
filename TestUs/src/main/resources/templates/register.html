@@ -1,88 +1,81 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TestUs - Register</title>
-    <style>
-        /* Add your custom CSS styles here */
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
+    <meta charset="ISO-8859-1">
+    <title>Role Based Auth</title>
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
-        .container {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 300px;
-            text-align: center;
-        }
-
-        input[type="number"],
-        input[type="text"],
-        input[type="email"],
-        input[type="password"],
-        input[type="confirmPassword"],
-        select,
-        input[type="submit"] {
-            width: 100%;
-            padding: 10px;
-            margin: 8px 0;
-            display: inline-block;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-
-        input[type="submit"] {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-
-        input[type="submit"]:hover {
-            background-color: #45a049;
-        }
-
-        /* Style for the success message */
-        .success-message {
-            background-color: #d4edda; /* Green background */
-            color: #155724; /* Dark green text */
-            padding: 10px;
-            margin-bottom: 15px;
-            border-radius: 4px;
-            border: 1px solid #c3e6cb; /* Light green border */
-        }
-    </style>
 </head>
+<style>
+    .navbar {
+        background-color: #61df88;
+    }
+</style>
+
 <body>
+
+<!-- create navigation bar ( header) -->
+<nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
-        <h2>Register</h2>
-        
-        <!-- Display success message if available -->
-        <div th:if="${successMessage}" class="success-message" role="alert">
-            <span th:text="${successMessage}"></span>
+        <div class="navbar-header">
+            <h2>Role Based Authentication</h2>
         </div>
-        
-        <form action="/register" method="post">
-            <input type="text" name="id" placeholder="ID" required ><br>
-            <input type="text" name="firstName" placeholder="First Name" required><br>
-            <input type="text" name="lastName" placeholder="Last Name" required><br>
-            <input type="email" name="email" placeholder="Email" required><br>
-            <input type="password" name="password" placeholder="Password" required><br>
-            <input type="password" name="confirmPassword" placeholder="Confirm Password" required><br>
-            <input type="submit" value="Register">
-        </form>
-        <p>Already have an account? <a href="/login">Login here</a></p>
     </div>
+</nav>
+
+<br><br><br><br><br><br><br>
+<!-- Create HTML registration form -->
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+
+            <!-- success message -->
+            <div th:if="${param.success}">
+                <div class="alert alert-info">You've successfully registered
+                    to our awesome app!</div>
+            </div>
+
+            <h1>Registration</h1>
+
+            <form th:action="@{/register}" method="post"
+                  th:object="${user}">
+                <div class="form-group">
+                    <label class="control-label" for="userName">
+                        UserName </label>
+                    <input id="userName" class="form-control"
+                           th:field="*{userName}" required
+                           autofocus="autofocus" />
+                </div>
+
+
+                <div class="form-group">
+                    <label class="control-label" for="password">
+                        Password </label> <input id="password"
+                                                 class="form-control" type="password"
+                                                 th:field="*{password}" required
+                                                 autofocus="autofocus" />
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label" for="role">
+                        Role </label> <select id="role" th:field="*{role}" class="form-control form-control-lg">
+                    <option value="STUDENT">STUDENT</option>
+                    <option value="TEACHER">TEACHER</option>
+                    <option value="ADMIN">ADMIN</option>
+                </select>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">
+                        Register</button>
+                    <span>Already registered? <a href="/"
+                                                 th:href="@{/login}">Login
+                                here</a></span>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 </body>
 </html>
