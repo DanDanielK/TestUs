@@ -26,12 +26,12 @@ public class StudentController {
     private MyUserRepository userRepository;
 
 
-    @GetMapping()
-    public String displayStudentDashboard(Model model){
-        String user= returnUsername();
-        model.addAttribute("userDetails", user);
-        return "student/profile";
-    }
+//    @GetMapping()
+//    public String displayStudentDashboard(Model model){
+//        String user= returnUsername();
+//        model.addAttribute("userDetails", user);
+//        return "student/profile";
+//    }
 
 
 

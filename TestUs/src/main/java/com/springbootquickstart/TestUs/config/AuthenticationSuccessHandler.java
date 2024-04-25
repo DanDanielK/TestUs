@@ -20,6 +20,7 @@ public class AuthenticationSuccessHandler extends SavedRequestAwareAuthenticatio
 
         if  (authentication.getAuthorities().stream()
                 .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"))) {
+            System.out.println("Admin");
 
             redirectUrl = "/admin";
 

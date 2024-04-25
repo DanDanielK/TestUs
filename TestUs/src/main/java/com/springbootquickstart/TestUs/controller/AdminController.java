@@ -52,17 +52,17 @@ public class AdminController {
     }
 
 
-    @GetMapping()
-    public String displayAdminDashboard(Model model){
-        String user= returnUsername();
-
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Optional<MyUser> myUser = userService.findByUsername(auth.getName());
-        model.addAttribute("courseList", courseService.findAll());
-
-        model.addAttribute("userDetails", user);
-        return "admin/profile";
-    }
+//    @GetMapping()
+//    public String displayAdminDashboard(Model model){
+//        String user= returnUsername();
+//
+//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//        Optional<MyUser> myUser = userService.findByUsername(auth.getName());
+//        model.addAttribute("courseList", courseService.findAll());
+//
+//        model.addAttribute("userDetails", user);
+//        return "admin/profile";
+//    }
 
     public String getCourseList(Model model){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();

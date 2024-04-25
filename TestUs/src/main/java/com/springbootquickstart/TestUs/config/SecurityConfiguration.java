@@ -9,6 +9,7 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -33,9 +34,10 @@ public class SecurityConfiguration {
         return httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(registry -> {
-                    registry.requestMatchers("/home", "/register/**").permitAll();
+                    registry.requestMatchers("/","/home", "/register/**","/static/**","/css/**","/images/**").permitAll();
                     registry.requestMatchers("/admin/**").hasRole("ADMIN");
-                    registry.requestMatchers("/user/**").hasRole("USER");
+                    registry.requestMatchers("/student/**").hasRole("STUDENT");
+                    registry.requestMatchers("/teacher/**").hasRole("TEACHER");
                     registry.anyRequest().authenticated();
                 })
 
@@ -46,7 +48,9 @@ public class SecurityConfiguration {
                             .permitAll();
                 })
                 .build();
+
     }
+
 
 //    @Bean
 //    public UserDetailsService userDetailsService() {
