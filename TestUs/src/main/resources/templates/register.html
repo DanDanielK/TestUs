@@ -40,11 +40,37 @@
 
             <form th:action="@{/register}" method="post"
                   th:object="${user}">
+
                 <div class="form-group">
-                    <label class="control-label" for="userName">
-                        UserName </label>
-                    <input id="userName" class="form-control"
-                           th:field="*{userName}" required
+                    <label class="control-label" for="id">
+                        ID </label>
+                    <input id="id" class="form-control"
+                           th:field="*{id}" required
+                           autofocus="autofocus" />
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label" for="firstName">
+                        First Name </label>
+                    <input id="firstName" class="form-control"
+                           th:field="*{firstName}" required
+                           autofocus="autofocus" />
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label" for="lastName">
+                        Last Name </label>
+                    <input id="lastName" class="form-control"
+                           th:field="*{lastName}" required
+                           autofocus="autofocus" />
+                </div>
+
+
+                <div class="form-group">
+                    <label class="control-label" for="email">
+                        Email </label>
+                    <input id="email" class="form-control"
+                           th:field="*{email}" required
                            autofocus="autofocus" />
                 </div>
 
@@ -55,6 +81,22 @@
                                                  class="form-control" type="password"
                                                  th:field="*{password}" required
                                                  autofocus="autofocus" />
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label" for="phone">
+                        Phone </label>
+                    <input id="phone" class="form-control"
+                           th:field="*{phone}" required
+                           autofocus="autofocus" />
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label" for="address">
+                        Address </label>
+                    <input id="address" class="form-control"
+                           th:field="*{address}" required
+                           autofocus="autofocus" />
                 </div>
 
                 <div class="form-group">

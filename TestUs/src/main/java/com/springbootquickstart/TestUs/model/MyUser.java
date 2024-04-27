@@ -2,6 +2,9 @@ package com.springbootquickstart.TestUs.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,31 +18,42 @@ import java.util.Set;
 @AllArgsConstructor
 @Entity
 @NoArgsConstructor
+@Builder
 public class MyUser {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
-    private String username;
+    //@GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
+    @NotBlank
+    @Size(min = 4, max = 255)
     private String password;
+
+    @Transient
+    private String confirmPassword;
+
+    @NotBlank
     private String firstName;
+
+    @NotBlank
     private String lastName;
+
+    @Column(unique = true)
+    @NotBlank
+    @Email
+    private String email;
 
     @Enumerated(EnumType.STRING)
     private Role role;
 
-//    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
-//    @JsonIgnore
-//    @JoinTable(name = "users_role", joinColumns = @JoinColumn(name = "cust_id", referencedColumnName = "id"),
-//            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "roleId") )
-//    Set<Role> roles = new HashSet<Role>();
-//
-//    public Set<Role> getRole() {
-//        return roles;
-//    }
-//
-//    public void setRole(Role role) {
-//        this.roles.add(role);
-//    }
+    @NotBlank
+    private String phone;
+
+    @NotBlank
+    private String address;
+
+    private boolean accountLocked;
+
+
 
 }

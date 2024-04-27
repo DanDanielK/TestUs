@@ -41,9 +41,9 @@ public class AdminController {
     private String returnUsername() {
         SecurityContext securityContext = SecurityContextHolder.getContext();
         UserDetails user = (UserDetails) securityContext.getAuthentication().getPrincipal();
-        Optional<MyUser> myUser = userService.findByUsername(user.getUsername());
+        Optional<MyUser> myUser = userService.findByEmail(user.getUsername());
         if (myUser.isPresent()) {
-            return myUser.get().getUsername();
+            return myUser.get().getEmail();
         }else{
             throw new UsernameNotFoundException(user.getUsername());
         }
@@ -66,7 +66,7 @@ public class AdminController {
 
     public String getCourseList(Model model){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Optional<MyUser> myUser = userService.findByUsername(auth.getName());
+        Optional<MyUser> myUser = userService.findByEmail(auth.getName());
         if (myUser.isPresent()) {
             model.addAttribute("courseList", courseService.findAll());
             return "admin/course";
@@ -144,9 +144,13 @@ public class AdminController {
         // //model.addAttribute("users", users);
 
 
-        MyUser user1 = new MyUser((int) 209355234, "ssss@gggm.com", "password", "John", "Doe", Role.ADMIN);
-
-
+        MyUser user1 = MyUser.builder()
+                .firstName("John")
+                        .lastName("Doe")
+                                .email("ssss@gggm.com")
+                                        .password("password")
+                                                .role(Role.ADMIN)
+                                                        .build();
         usersList.add(user1); //remove
 
         model.addAttribute("usersList", usersList);
@@ -178,9 +182,8 @@ public class AdminController {
     }
 
 
-    //change to get username instead of id
     @GetMapping("/view-{role:(?:students|coordinators)}/edit")
-    public String editeUser(@PathVariable("role") String role, @RequestParam("username") String username, RedirectAttributes r, Model model) {
+    public String editeUser(@PathVariable("role") String role, @RequestParam("id") Long id, RedirectAttributes r, Model model) {
 
         try {
 
@@ -188,7 +191,7 @@ public class AdminController {
             model.addAttribute("role", role);
 
             //get user by id
-            MyUser user = userService.findByUsername(username).get();
+           MyUser user = userService.getUser(id);
 
             //send user info to the edit page
             model.addAttribute("user", user);

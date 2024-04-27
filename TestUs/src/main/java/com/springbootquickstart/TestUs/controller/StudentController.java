@@ -36,18 +36,7 @@ public class StudentController {
 
 
 
-    private String returnUsername() {
-        SecurityContext securityContext = SecurityContextHolder.getContext();
-        UserDetails user = (UserDetails) securityContext.getAuthentication().getPrincipal();
-        Optional<MyUser> myUser = userRepository.findByUsername(user.getUsername());
-        if (myUser.isPresent()) {
-            return myUser.get().getUsername();
-        }else{
-            throw new UsernameNotFoundException(user.getUsername());
-        }
-       // MyUser users = userRepository.findByUsername(user.getUsername());
-       // return users.getName();
-    }
+
 
 
     /* student main menu page */

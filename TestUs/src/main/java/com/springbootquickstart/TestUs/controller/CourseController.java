@@ -26,7 +26,7 @@ public class CourseController {
     @GetMapping("/admin/course")
     public String getCourseList(Model model){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Optional<MyUser> myUser = userRepository.findByUsername(auth.getName());
+        Optional<MyUser> myUser = userRepository.findByEmail(auth.getName());
         if (myUser.isPresent()) {
             model.addAttribute("courseList", courseService.findAll());
             return "admin/course";
