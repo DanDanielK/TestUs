@@ -3,6 +3,9 @@ package com.springbootquickstart.TestUs.test;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.springbootquickstart.TestUs.dto.TestCreationDto;
+import com.springbootquickstart.TestUs.questions.Question;
+import java.util.logging.Logger;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -16,7 +19,15 @@ public class TestService {
 
     @Transactional
     public void createTest(TestCreationDto testDto) {
+        Logger logger = Logger.getLogger(getClass().getName());
         Test test = convertToTest(testDto);
+        List<Question> questionsToAdd = new ArrayList<>();
+        for (Question question : testDto.getQuestions()) {
+            logger.info(question.getQuestionText());
+            question.setTest(test);
+            questionsToAdd.add(question);
+        }
+        test.getQuestions().addAll(questionsToAdd);
         testRepository.save(test);
     }
 

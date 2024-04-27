@@ -1,5 +1,6 @@
 package com.springbootquickstart.TestUs.controller;
 
+import org.hibernate.boot.archive.spi.ArchiveException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -8,6 +9,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.springbootquickstart.TestUs.dto.TestCreationDto;
 import com.springbootquickstart.TestUs.test.TestService;
+import java.time.LocalDateTime;
+import jakarta.servlet.http.HttpServletRequest;
+import com.springbootquickstart.TestUs.questions.*;
+import java.util.*;
 
 @Controller
 public class TestCreationController {
@@ -24,10 +29,42 @@ public class TestCreationController {
     }
 
     @PostMapping("/teacher/create-test")
-    public String createTest(@ModelAttribute("test") TestCreationDto test,
+    public String createTest(HttpServletRequest request,
             RedirectAttributes redirectAttributes) {
-        testService.createTest(test);
-        redirectAttributes.addFlashAttribute("successMessage", "Test created successfully!");
+        String title = request.getParameter("title");
+        String startTimeStr = request.getParameter("startTime");
+        LocalDateTime startTime = LocalDateTime.parse(startTimeStr);
+        int duration = Integer.parseInt(request.getParameter("duration"));
+        List<Question> questionList = new ArrayList<>();
+        int i = 1;
+        while (request.getParameter("question" + i) != null) {
+            String questionType = request.getParameter("questionType" + i);
+            String questionText = request.getParameter("question" + i);
+            String correctAnswer = request.getParameter("correctAnswer" + i);
+            if (questionType.equals("american")) {
+                String option1 = request.getParameter("option1" + i);
+                String option2 = request.getParameter("option2" + i);
+                String option3 = request.getParameter("option3" + i);
+                String option4 = request.getParameter("option4" + i);
+                AmericanQuestion americanQuestion = new AmericanQuestion(questionText, correctAnswer, option1, option2,
+                        option3, option4);
+                questionList.add(americanQuestion);
+
+            } else if (questionType.equals("truefalse")) {
+                // Create TrueFalseQuestion object
+                TrueFalseQuestion trueFalseQuestion = new TrueFalseQuestion(questionText, correctAnswer);
+                questionList.add(trueFalseQuestion);
+            }
+            i++;
+        }
+        TestCreationDto testDto = new TestCreationDto();
+        testDto.setTitle(title);
+        testDto.setStartTime(startTime);
+        testDto.setDuration(duration);
+        testDto.setQuestions(questionList);
+        testService.createTest(testDto);
+        String s = "Test created succesfully! number of questions saved: " + testDto.getQuestions().size();
+        redirectAttributes.addFlashAttribute("successMessage", s);
         return "redirect:/teacher/create-test";
     }
 
@@ -49,7 +86,8 @@ public class TestCreationController {
     public String saveTest(@ModelAttribute TestCreationDto test,
             RedirectAttributes redirectAttributes) {
         testService.createTest(test);
-        redirectAttributes.addFlashAttribute("successMessage", "Test saved successfully!");
+        String s = "Test saved succesfully! number of questions saved: " + test.getQuestions().size();
+        redirectAttributes.addFlashAttribute("successMessage", s);
         return "redirect:/teacher/create-test";
     }
 }

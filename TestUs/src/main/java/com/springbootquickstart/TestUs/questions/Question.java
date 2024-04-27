@@ -1,11 +1,12 @@
 package com.springbootquickstart.TestUs.questions;
 
 import com.springbootquickstart.TestUs.test.Test;
-import java.util.List;
 import jakarta.persistence.*;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
+@NoArgsConstructor
 @Table(name = "questions")
 public abstract class Question {
     @Id
@@ -16,7 +17,7 @@ public abstract class Question {
 
     private String correctAnswer;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     private Test test;
 
     public Question(String questionText, String correctAnswer) {
