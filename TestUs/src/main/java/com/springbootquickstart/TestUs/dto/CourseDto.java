@@ -7,6 +7,6 @@ import lombok.Data;
 public class CourseDto {
     private String courseName;
     private String courseDescription;
-    private String teacherName;
+    private String teacherEmail;
 
 }

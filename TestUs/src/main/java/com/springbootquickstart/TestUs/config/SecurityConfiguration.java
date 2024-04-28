@@ -1,6 +1,8 @@
 package com.springbootquickstart.TestUs.config;
 
 
+import com.springbootquickstart.TestUs.model.MyUser;
+import com.springbootquickstart.TestUs.model.Role;
 import com.springbootquickstart.TestUs.service.MyUserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -12,6 +14,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -44,7 +48,7 @@ private PasswordEncoder passwordEncoder;
                     registry.requestMatchers("/admin/**").hasRole("ADMIN");
                     registry.requestMatchers("/student/**").hasRole("STUDENT");
                     registry.requestMatchers("/teacher/**").hasRole("TEACHER");
-                    registry.anyRequest().authenticated();
+                    registry.anyRequest().denyAll();
                 })
 
                 .formLogin(httpSecurityFormLoginConfigurer -> {
@@ -84,6 +88,11 @@ private PasswordEncoder passwordEncoder;
 
     @Bean
     public UserDetailsService userDetailsService() {
+        UserDetails adminUser = User.builder()
+                .username("admin")
+                .password(passwordEncoder.encode("admin"))
+                .roles("ADMIN")
+                .build();
         return userDetailService;
     }
 
@@ -94,6 +103,9 @@ private PasswordEncoder passwordEncoder;
         provider.setPasswordEncoder(passwordEncoder);
         return provider;
     }
+
+
+
 
 
 

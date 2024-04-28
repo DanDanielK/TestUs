@@ -1,0 +1,2 @@
+INSERT INTO my_user(account_locked,id,address,email,first_name,last_name,password,phone,role)
+VALUES (false,1,'admin_adress','admin@testus.com','fadmin','ladmin','$2a$12$4v3b/MxU8HAqg02DIccLSeRnBoSCiG/2Sk59p48XyXy/28IbnwDfa','123456789','ADMIN');

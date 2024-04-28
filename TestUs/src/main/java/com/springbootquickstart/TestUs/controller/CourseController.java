@@ -5,7 +5,6 @@ import com.springbootquickstart.TestUs.repository.MyUserRepository;
 import com.springbootquickstart.TestUs.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

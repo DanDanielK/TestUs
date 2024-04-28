@@ -17,10 +17,10 @@ public class AccountController {
     @Autowired
     private MyUserDetailService userDetailService;
 
-    @ModelAttribute("user")
-    public UserLoginDto userLoginDto() {
-        return new UserLoginDto();
-    }
+//    @ModelAttribute("user")
+//    public UserLoginDto userLoginDto() {
+//        return new UserLoginDto();
+//    }
 
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
@@ -28,7 +28,7 @@ public class AccountController {
         return "home";
     }
 
-    @PostMapping
+
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public void loginUser(@ModelAttribute("user") UserLoginDto userLoginDto) {
         userDetailService.loadUserByUsername(userLoginDto.getUsername());

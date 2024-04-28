@@ -1,7 +1,9 @@
 package com.springbootquickstart.TestUs.controller;
 
 
+import com.springbootquickstart.TestUs.dto.CourseDto;
 import com.springbootquickstart.TestUs.dto.UserRegisteredDto;
+import com.springbootquickstart.TestUs.model.Course;
 import com.springbootquickstart.TestUs.model.MyUser;
 import com.springbootquickstart.TestUs.model.Role;
 import com.springbootquickstart.TestUs.repository.MyUserRepository;
@@ -64,23 +66,13 @@ public class AdminController {
 //        return "admin/profile";
 //    }
 
-    public String getCourseList(Model model){
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Optional<MyUser> myUser = userService.findByEmail(auth.getName());
-        if (myUser.isPresent()) {
-            model.addAttribute("courseList", courseService.findAll());
-            return "admin/course";
-        }else{
-            return "redirect:/login";
-        }
-    }
 
     /* admin main menu page */
     @GetMapping("")
     public String adminMenu(Model model) {
 
-        final String[] menuItemsText = {"Add New Coordinator", "View Coordinators","View Students" , "Logout"};
-        final String[] menuItemsUrl = {"add-coordinator", "view-coordinators","view-students", "logout"};
+        final String[] menuItemsText = {"View Courses","Add New Coordinator", "View Coordinators","View Students" , "Logout"};
+        final String[] menuItemsUrl = {"view-courses","add-coordinator", "view-coordinators","view-students", "logout"};
 
         List<Button> buttons = new ArrayList<>();
 
@@ -94,6 +86,13 @@ public class AdminController {
         model.addAttribute("menuTitle", "Admin Menu");
 
         return "mainMenu";
+    }
+
+    @GetMapping("/view-courses")
+    public String viewCourses(Model model) {
+        List<Course> courseList = new ArrayList<>(courseService.findAll());
+        model.addAttribute("courseList", courseList);
+        return "admin/courseViewAdmin";
     }
 
 
@@ -124,6 +123,11 @@ public class AdminController {
 
     }
 
+    @RequestMapping(value = "/addCourse", method = RequestMethod.POST)
+    public String addCourse(@ModelAttribute("course") CourseDto courseDto) {
+        courseService.save(courseDto);
+        return "redirect:/admin/view-courses";
+    }
 
     @GetMapping("/view-{role:(?:students|coordinators)}")
     public String viewUsers(@PathVariable("role") String role, Model model) {

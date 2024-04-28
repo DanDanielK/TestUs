@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+    <title>Course List</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/card.css">
+    <link rel="stylesheet" href="/css/popup.css">
+
+</head>
+
+<body>
+
+<ul class="cards">
+    <li class="cards__item"  th:each="course:${courseList}">
+        <div class="card">
+<!--           <div class="card_image"><img th:src="${course.image}" alt="course image"></div>-->
+            <div class="card__content">
+                <div class="card__title" th:text="${course.name}"></div>
+                <p class="card__text" th:text="${course.description}"></p>
+                <button class="btn btn--block card__btn">Details</button>
+            </div>
+        </div>
+    </li>
+
+    <li class="cards__item" >
+        <div class="card">
+            <button  class="btn__plus btn--block card__btn" id="show-add">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+                </svg>
+            </button>
+            </div>
+    </li>
+</ul>
+
+<div class="popup">
+    <div class="close-btn">
+        &times;
+    </div>
+        <form class="form" action="/admin/addCourse" method="post">
+            <h2>Add Course</h2>
+            <div class="form-element">
+                <label for="courseName">Course Name</label>
+                <input type="text" class="form-control" id="courseName" name="courseName" required>
+            </div>
+            <div class="form-element">
+                <label for="courseDescription">Course Description</label>
+                <input type="text" class="form-control" id="courseDescription" name="courseDescription" required>
+            </div>
+            <div class="form-element">
+                <label for="teacherEmail">Teacher Email</label>
+                <input type="text" class="form-control" id="teacherEmail" name="teacherEmail" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Add Course</button>
+        </form>
+    </div>
+<div class="overlay"></div>
+<script type="text/javascript" src="/css/popup.js"></script>
+
+</body>
+</html>
