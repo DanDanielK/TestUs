@@ -44,7 +44,7 @@ private PasswordEncoder passwordEncoder;
         return httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(registry -> {
-                    registry.requestMatchers("/","/home", "/register/**","/static/**","/css/**","/images/**").permitAll();
+                    registry.requestMatchers("/","/home", "/register/**","/static/**","/css/**","/images/**","/js/**").permitAll();
                     registry.requestMatchers("/admin/**").hasRole("ADMIN");
                     registry.requestMatchers("/student/**").hasRole("STUDENT");
                     registry.requestMatchers("/teacher/**").hasRole("TEACHER");
