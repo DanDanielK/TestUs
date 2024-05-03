@@ -22,6 +22,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -50,6 +51,10 @@ public class MyUserDetailService implements UserDetailsService {
 
     public Optional <MyUser> findById(long id) {
         return myUserRepo.findById(id);
+    }
+
+    public List<MyUser> findAll() {
+          return myUserRepo.findAll();
     }
 
     @Override

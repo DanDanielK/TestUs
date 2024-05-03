@@ -25,6 +25,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/admin")
@@ -71,8 +72,8 @@ public class AdminController {
     @GetMapping("")
     public String adminMenu(Model model) {
 
-        final String[] menuItemsText = {"View Courses","Add New Coordinator", "View Coordinators","View Students" , "Logout"};
-        final String[] menuItemsUrl = {"view-courses","add-coordinator", "view-coordinators","view-students", "logout"};
+        final String[] menuItemsText = {"View Courses","Add New Coordinator", "View Users" , "Logout"};
+        final String[] menuItemsUrl = {"view-courses","add-coordinator", "view-users", "logout"};
 
         List<Button> buttons = new ArrayList<>();
 
@@ -129,37 +130,13 @@ public class AdminController {
         return "redirect:/admin/view-courses";
     }
 
-    @GetMapping("/view-{role:(?:students|coordinators)}")
-    public String viewUsers(@PathVariable("role") String role, Model model) {
-
-        List<MyUser> usersList = new ArrayList<>();
-
-
-        //DODO: get users by role
-        // Optional<User> users = Optional.empty();
-
-        // if (role.equals("coordinators")) {
-
-        //     //users = userRepository.findByRolesName("coordinator");
-        // } else {
-        //     //users = userRepository.findByRolesName("student");
-        // }
-
-        // //model.addAttribute("users", users);
-
-
-        MyUser user1 = MyUser.builder()
-                .firstName("John")
-                        .lastName("Doe")
-                                .email("ssss@gggm.com")
-                                        .password("password")
-                                                .role(Role.ADMIN)
-                                                        .build();
-        usersList.add(user1); //remove
+    @GetMapping("/view-users")
+    public String viewUsers( Model model) {
+        List<MyUser> usersList = new ArrayList<>(userService.findAll());
 
         model.addAttribute("usersList", usersList);
 
-        return "viewUsers";
+        return "/admin/viewUsers";
     }
 
 //need to chane to deactivate
