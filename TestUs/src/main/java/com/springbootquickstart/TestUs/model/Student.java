@@ -19,15 +19,8 @@ public class Student {
     @JoinColumn(name = "user_id")
     private MyUser myUser;
 
-    @ManyToMany(mappedBy = "students")
-    private List<Course> courses=new ArrayList<Course>();
+    @OneToMany(mappedBy = "student")
+    private List<CourseStudent> courseStudents = new ArrayList<>();
 
-    public void addCourse(Course course){
-        courses.add(course);
-    }
-
-    public void removeCourse(Course course){
-        courses.remove(course);
-    }
 
 }

@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 @Data
@@ -23,18 +24,13 @@ public class Course {
     private String name;
     private String description;
 
-    @ManyToMany
-    @JoinTable(name="course_student",joinColumns = @JoinColumn(name = "course_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "student_id", referencedColumnName = "id"))
-    private List<Student> students=new ArrayList<Student>();
+//    @ManyToMany
+//    @JoinTable(name="course_student",joinColumns = @JoinColumn(name = "course_id", referencedColumnName = "id"),
+//            inverseJoinColumns = @JoinColumn(name = "student_id", referencedColumnName = "id"))
+//    private List<Student> students=new ArrayList<Student>();
+@OneToMany(mappedBy = "course")
+private List<CourseStudent> courseStudents = new ArrayList<>();
 
-    public void addStudent(Student student){
-        students.add(student);
-    }
-
-    public void removeStudent(Student student){
-        students.remove(student);
-    }
 
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "teacher_id")
