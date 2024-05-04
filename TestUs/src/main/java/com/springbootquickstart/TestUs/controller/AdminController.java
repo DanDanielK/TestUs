@@ -211,13 +211,14 @@ public class AdminController {
     }
 
     @PostMapping("/change-status")
-    public void changeStatus(@RequestParam("selectedCourseStudentId") Long courseStudentId,
-                                               @RequestParam("status") String status) {
+    public String changeStatus(@RequestParam("selectedCourseStudentId") Long courseStudentId,
+                                               @RequestParam("status") String status, Model model) {
 
 
         // Call the changeStatus method from StudentCourseService
        courseStudentService.changeStatus(courseStudentId, status);
 
+       return "redirect:/admin/courseDetails?courseId=" + courseStudentService.findById(courseStudentId).getCourse().getId();
     }
 
 }

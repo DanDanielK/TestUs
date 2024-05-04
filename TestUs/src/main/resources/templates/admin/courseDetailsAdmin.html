@@ -63,14 +63,15 @@
                             <td>
                                 <form th:action="@{/admin/change-status}" method="post">
                                     <input type="hidden" name="selectedCourseStudentId" th:value="${courseStudent.id}" />
-                                    <select class="form-control" name="status" onchange="this.form.submit()">
-                                        <option value="WAITING" th:selected="${courseStudent.signupStatus == 'WAITING'}">WAITING</option>
-                                        <option value="APPROVED" th:selected="${courseStudent.signupStatus == 'APPROVED'}">APPROVED</option>
-                                        <option value="DENIED" th:selected="${courseStudent.signupStatus == 'DENIED'}">DENIED</option>
-                                    </select>
+                                    <label>
+                                        <select class="form-control" name="status" onchange="this.form.submit()" th:value="${courseStudent.signupStatus}" th:selected="${courseStudent.signupStatus}">
+                                            <option value="WAITING" th:selected="${courseStudent.signupStatus.toString() == 'WAITING'}">WAITING</option>
+                                            <option value="APPROVED" th:selected="${courseStudent.signupStatus.toString() == 'APPROVED'}">APPROVED</option>
+                                            <option value="DENIED" th:selected="${courseStudent.signupStatus.toString() == 'DENIED'}">DENIED</option>
+                                        </select>
+                                    </label>
                                 </form>
-                            </td>
-                            <td>
+
                                 <!-- Button for update -->
                             </td>
                         </tr>

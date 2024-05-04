@@ -15,13 +15,20 @@
 <body>
 
 <ul class="cards">
-    <li class="cards__item"  th:each="course:${courseList}">
+    <li class="cards__item"  th:each="courseStudent:${courseStudentList}">
         <div class="card">
-<!--           <div class="card_image"><img th:src="${course.image}" alt="course image"></div>-->
+            <!-- <div class="card_image"><img th:src="${course.image}" alt="course image"></div> -->
             <div class="card__content">
-                <div class="card__title" th:text="${course.name}"></div>
-                <p class="card__text" th:text="${course.description}"></p>
-                <button class="btn btn--block card__btn">Details</button>
+                <div class="card__title" th:text="${courseStudent.course.name}"></div>
+                <p class="card__text" th:text="${courseStudent.course.description}"></p>
+                <!-- Check if signUpStatus is 'Approved' -->
+                <th:block th:if="${courseStudent.signupStatus.toString() == 'APPROVED'}">
+                    <button class="btn btn--block card__btn">Details</button>
+                </th:block>
+                <!-- If not 'Approved', display the status -->
+                <th:block th:unless="${courseStudent.signupStatus.toString() == 'APPROVED'}">
+                    <span th:text="'Current Status: '+${courseStudent.signupStatus}"></span>
+                </th:block>
             </div>
         </div>
     </li>

@@ -81,7 +81,7 @@ public class StudentController {
         Student student= studentService.findByEmail(auth.getName());
         List<Course> courseList=new ArrayList<>(courseStudentService.getCoursesByStudent(student));
     List<Course>coursesNotEnrolled=courseStudentService.findCoursesNotEnrolledByStudentId(student);
-        model.addAttribute("courseList",courseList);
+        model.addAttribute("courseStudentList",courseStudentService.findByStudent(student));
         model.addAttribute("coursesNotEnrolled",coursesNotEnrolled);
         return "student/courseView";
     }
