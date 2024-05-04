@@ -3,15 +3,12 @@ package com.springbootquickstart.TestUs.controller;
 
 import com.springbootquickstart.TestUs.dto.CourseDto;
 import com.springbootquickstart.TestUs.dto.UserRegisteredDto;
-import com.springbootquickstart.TestUs.model.Course;
-import com.springbootquickstart.TestUs.model.MyUser;
-import com.springbootquickstart.TestUs.model.Role;
+import com.springbootquickstart.TestUs.model.*;
 import com.springbootquickstart.TestUs.repository.MyUserRepository;
-import com.springbootquickstart.TestUs.service.Button;
-import com.springbootquickstart.TestUs.service.CourseService;
-import com.springbootquickstart.TestUs.service.MyUserDetailService;
+import com.springbootquickstart.TestUs.service.*;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -37,6 +34,15 @@ public class AdminController {
 
     @Autowired
     MyUserDetailService userService;
+
+    @Autowired
+    TeacherService teacherService;
+
+    @Autowired
+    StudentService studentService;
+
+    @Autowired
+    CourseStudentService courseStudentService;
 
 
 
@@ -137,11 +143,13 @@ public class AdminController {
 //        return "redirect:/admin/view-courses";
 //    }
 
-    @GetMapping("/view-course/{id}")
-    public String viewCourse(@PathVariable("id") Long id, Model model) {
-        Course course = courseService.findById(id);
-        model.addAttribute("course", course);
-        return "admin/courseDetails";
+    @GetMapping("/courseDetails")
+    public String viewCourse(@RequestParam("courseId") Long courseId, Model model) {
+        Course course = courseService.findById(courseId);
+        model.addAttribute("selectedCourse", course);
+        model.addAttribute("allTeacher", teacherService.findAll());
+        model.addAttribute("courseStudents", courseStudentService.findByCourse(course));
+        return "/admin/courseDetailsAdmin";
     }
 
     @GetMapping("/view-users")
@@ -200,6 +208,16 @@ public class AdminController {
 
         //return the edit page
         return "redirect:/admin/view-" + role + "/edit";
+    }
+
+    @PostMapping("/change-status")
+    public void changeStatus(@RequestParam("selectedCourseStudentId") Long courseStudentId,
+                                               @RequestParam("status") String status) {
+
+
+        // Call the changeStatus method from StudentCourseService
+       courseStudentService.changeStatus(courseStudentId, status);
+
     }
 
 }

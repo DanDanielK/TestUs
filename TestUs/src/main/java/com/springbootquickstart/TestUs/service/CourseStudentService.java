@@ -73,4 +73,33 @@ public class CourseStudentService {
     }
 
 
+    public List<CourseStudent> findAll() {
+        return  courseStudentRepository.findAll();
+    }
+
+    public List <CourseStudent> findByCourse(Course course){
+        return courseStudentRepository.findByCourse(course);
+    }
+    public List <CourseStudent> findByStudent(Student student){
+        return courseStudentRepository.findByStudent(student);
+    }
+    public CourseStudent findByCourseAndStudent(Course course, Student student){
+        return courseStudentRepository.findByCourseAndStudent(course, student).orElse(null);
+    }
+
+    public void changeStatus(Course course,Student student, String status){
+        CourseStudent courseStudent = findByCourseAndStudent(course, student);
+        courseStudent.setSignupStatus(CourseStudent.SignupStatus.valueOf(status));
+        save(courseStudent);
+    }
+
+    public void changeStatus(Long courseStudentId, String status){
+        CourseStudent courseStudent = findById(courseStudentId);
+        courseStudent.setSignupStatus(CourseStudent.SignupStatus.valueOf(status));
+        save(courseStudent);
+    }
+
+    public CourseStudent findById(Long id){
+        return courseStudentRepository.findById(id).orElse(null);
+    }
 }

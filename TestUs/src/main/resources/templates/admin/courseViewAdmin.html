@@ -20,7 +20,7 @@
             <div class="card__content">
                 <div class="card__title" th:text="${course.name}"></div>
                 <p class="card__text" th:text="${course.description}"></p>
-                <form th:action="@{/admin/courseDetails}" method="post">
+                <form th:action="@{/admin/courseDetails}" method="get">
                     <input type="hidden" name="courseId" th:value="${course.id}" />
                     <button type="submit" class="btn btn--block card__btn">Details</button>
                 </form>

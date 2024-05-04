@@ -1,0 +1,88 @@
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layouts/user}">
+    <div class="container" layout:fragment="content">
+        <div class="text-center mt-5">
+            <h2 th:text="${selectedCourse.name}">View Course</h2>
+        </div>
+        <div class="m-2">
+            <a href="/admin/view-course/" class="btn btn-primary">Go Back</a>
+        </div>
+
+<!--        <div th:if="${successMessage}" class="alert alert-success text-center">-->
+<!--            [[${successMessage}]]-->
+<!--        </div>-->
+<!--        <div th:if="${failMessage}" class="alert alert-danger text-center">-->
+<!--            [[${failMessage}]]-->
+<!--        </div>-->
+        <form th:action="@{/admin/update-course}" method="post"
+              th:object="${course}">
+            <div class="form-group">
+                <label for="courseName">Course Name</label>
+                <input type="text" class="form-control" id="courseName" name="courseName" th:value="${selectedCourse.name}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="courseDescription">Course Description</label>
+                <input type="text" class="form-control" id="courseDescription" name="courseDescription" th:value="${selectedCourse.description}" required>
+            </div>
+            <div class="form-element">
+                <label for="courseTeacher">Select Course</label>
+                <select id="courseTeacher" name="courseTeacher" class="form-control" required>
+                    <option th:each="teacher : ${allTeacher}" th:value="${selectedCourse.teacher.myUser.firstName} +' '+ ${selectedCourse.teacher.myUser.lastName}" th:text="${teacher.myUser.firstName}+' '+${teacher.myUser.lastName}"></option>
+                </select>
+            </div>
+            <div class="form-element">
+            <button type="submit" class="btn btn-primary">Update Course</button>
+            </div>
+        </form>
+
+        <div class="text-left mt-2">
+            students
+
+
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped" id="usersTable">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>E-mail</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Status</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <th:block th:each="courseStudent : ${courseStudents}">
+                        <tr>
+                            <td th:text="${courseStudent.student.myUser.id}">1</td>
+                            <td th:text="${courseStudent.student.myUser.email}">example@example.com</td>
+                            <td th:text="${courseStudent.student.myUser.firstName}">firstName</td>
+                            <td th:text="${courseStudent.student.myUser.lastName}">lastName</td>
+                            <td>
+                                <form th:action="@{/admin/change-status}" method="post">
+                                    <input type="hidden" name="selectedCourseStudentId" th:value="${courseStudent.id}" />
+                                    <select class="form-control" name="status" onchange="this.form.submit()">
+                                        <option value="WAITING" th:selected="${courseStudent.signupStatus == 'WAITING'}">WAITING</option>
+                                        <option value="APPROVED" th:selected="${courseStudent.signupStatus == 'APPROVED'}">APPROVED</option>
+                                        <option value="DENIED" th:selected="${courseStudent.signupStatus == 'DENIED'}">DENIED</option>
+                                    </select>
+                                </form>
+                            </td>
+                            <td>
+                                <!-- Button for update -->
+                            </td>
+                        </tr>
+                    </th:block>
+                    </tbody>
+                </table>
+            </div>
+
+
+    </div>
+<!--    <script>-->
+
+<!--    </script>-->
+    </div>
+</html>
