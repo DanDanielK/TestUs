@@ -130,6 +130,20 @@ public class AdminController {
         return "redirect:/admin/view-courses";
     }
 
+//    @RequestMapping(value = "/courseDetails", method = RequestMethod.POST)
+//    public String courseDetails(@ModelAttribute("courseId") int courseId) {
+//
+//        courseService.save(courseDto);
+//        return "redirect:/admin/view-courses";
+//    }
+
+    @GetMapping("/view-course/{id}")
+    public String viewCourse(@PathVariable("id") Long id, Model model) {
+        Course course = courseService.findById(id);
+        model.addAttribute("course", course);
+        return "admin/courseDetails";
+    }
+
     @GetMapping("/view-users")
     public String viewUsers( Model model) {
         List<MyUser> usersList = new ArrayList<>(userService.findAll());

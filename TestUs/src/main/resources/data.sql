@@ -8,7 +8,10 @@ INSERT INTO my_user(account_locked,id,address,email,first_name,last_name,passwor
 VALUES (false,3,'teacher_adress','teacher@testus.com','fteacher','lteacher','$2a$12$D/1tEbPdpQvW6vONq/DwmeO.92ZRmRr.rtKfoPIXPCamNny1YO586','123456789','TEACHER');
 
 INSERT INTO student(id,user_id)
-VALUES (1,2);
+VALUES (DEFAULT,2);
 
 INSERT INTO teacher(id,user_id)
-VALUES (1,3);
+VALUES (DEFAULT,3);
+
+INSERT INTO course(id,teacher_id,name,description)
+VALUES (DEFAULT,1,'Test course','Test course description');

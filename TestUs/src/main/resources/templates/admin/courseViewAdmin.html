@@ -17,11 +17,13 @@
 <ul class="cards">
     <li class="cards__item"  th:each="course:${courseList}">
         <div class="card">
-<!--           <div class="card_image"><img th:src="${course.image}" alt="course image"></div>-->
             <div class="card__content">
                 <div class="card__title" th:text="${course.name}"></div>
                 <p class="card__text" th:text="${course.description}"></p>
-                <button class="btn btn--block card__btn">Details</button>
+                <form th:action="@{/admin/courseDetails}" method="post">
+                    <input type="hidden" name="courseId" th:value="${course.id}" />
+                    <button type="submit" class="btn btn--block card__btn">Details</button>
+                </form>
             </div>
         </div>
     </li>
