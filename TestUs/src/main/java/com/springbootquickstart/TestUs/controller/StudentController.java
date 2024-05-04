@@ -30,8 +30,7 @@ import java.util.Optional;
 public class StudentController {
 
 
-    @Autowired
-    private MyUserRepository userRepository;
+
 
     @Autowired
     private StudentService studentService;

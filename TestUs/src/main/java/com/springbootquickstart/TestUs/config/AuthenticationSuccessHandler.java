@@ -30,7 +30,11 @@ public class AuthenticationSuccessHandler extends SavedRequestAwareAuthenticatio
     {
 
             redirectUrl = "/student";
-    }
+    }else if
+            (authentication.getAuthorities().stream()
+                .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_TEACHER"))){
+            redirectUrl = "/teacher";
+        }
         new DefaultRedirectStrategy().sendRedirect(request, response, redirectUrl);
 
     }

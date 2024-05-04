@@ -41,7 +41,7 @@ public class AccountController {
             new SecurityContextLogoutHandler().logout(request, response, auth);
         }
         // You can redirect wherever you want, but generally it's a good practice to
-        return "redirect:/";
+        return "redirect:/home";
     }
 
 
