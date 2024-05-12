@@ -4,32 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Tests</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
-    <h1>View Tests</h1>
-    <table border="1">
-        <thead>
-            <tr>
-                <th>Test ID</th>
-                <th>Title</th>
-                <th>Start Time</th>
-                <th>Duration</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- Loop through tests and display them -->
-            <tr th:each="test : ${tests}">
-                <td th:text="${test.testId}"></td>
-                <td th:text="${test.title}"></td>
-                <td th:text="${test.startTime}"></td>
-                <td th:text="${test.duration}"></td>
-                <td>
-                    <!-- Link to view questions of the test -->
-                    <a th:href="@{/view-questions(testId=${test.testId})}">View Questions</a>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="container">
+        <h1>View Tests</h1>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Test ID</th>
+                    <th>Title</th>
+                    <th>Start Time</th>
+                    <th>Duration</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Loop through tests and display them -->
+                <tr th:each="test : ${tests}">
+                    <td th:text="${test.testId}"></td>
+                    <td th:text="${test.title}"></td>
+                    <td th:text="${test.startTime}"></td>
+                    <td th:text="${test.duration}"></td>
+                    <td>
+                        <!-- Link to view questions of the test -->
+                        <a class="action-btn" th:href="@{/view-questions(testId=${test.testId})}">View Questions</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </body>
 </html>

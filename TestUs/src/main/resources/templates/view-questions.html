@@ -1,92 +1,63 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Test Details</title>
-        <style>
-            /* Add your custom CSS styles here */
-            body {
-                font-family: Arial, sans-serif;
-                background-color: #f4f4f4;
-                margin: 0;
-                padding: 0;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                min-height: 100vh;
-            }
-    
-            .container {
-                background-color: #fff;
-                padding: 20px;
-                border-radius: 8px;
-                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-                width: 800px;
-                text-align: center;
-            }
-    
-            table {
-                width: 100%;
-                border-collapse: collapse;
-                margin-top: 20px;
-            }
-    
-            th, td {
-                border: 1px solid #dddddd;
-                text-align: left;
-                padding: 8px;
-            }
-    
-            th {
-                background-color: #f2f2f2;
-            }
-    
-            th:first-child, td:first-child {
-                font-weight: bold;
-            }
-        </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Details</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
-    <h1>Questions for Test: <span th:text="${test.title}"></span></h1>
-    <h2>Test Details</h2>
-    <table border="1">
-        <tr>
-            <th>Start Time:</th>
-            <td><span th:text="${test.startTime}"></span></td>
-        </tr>
-        <tr>
-            <th>Duration:</th>
-            <td><span th:text="${test.duration}"></span> minutes</td>
-        </tr>
-    </table>
+    <div class="container">
+        <h1>Questions for Test: <span th:text="${test.title}"></span></h1>
+        <div class="test-details">
+            <h2>Test Details</h2>
+            <table>
+                <tr>
+                    <th>Start Time:</th>
+                    <td><span th:text="${test.startTime}"></span></td>
+                </tr>
+                <tr>
+                    <th>Duration:</th>
+                    <td><span th:text="${test.duration}"></span> minutes</td>
+                </tr>
+            </table>
+        </div>
 
-    <h2>Questions</h2>
-    <table border="1">
-        <thead>
-            <tr>
-                <th>Question Text</th>
-                <th>Options</th>
-                <th>Correct Answer</th>
-                <th>Type</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- Loop through questions and display them -->
-            <tr th:each="question : ${test.questions}">
-                <td><span th:text="${question.questionText}"></span></td>
-                <td>
-                    <ul>
-                        <!-- Loop through options for each question -->
-                        <li th:each="option : ${question.options}">
-                            <span th:text="${option}"></span>
-                        </li>
-                    </ul>
-                </td>
-                <td><span th:text="${question.correctAnswer}"></span></td>
-                <td><span th:text="${question.type}"></span></td>
-            </tr>
-        </tbody>
-    </table>
+        <div class="questions">
+            <h2>Questions</h2>
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>Question Text</th>
+                        <th>Options</th>
+                        <th>Correct Answer</th>
+                        <th>Type</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Loop through questions and display them -->
+                    <tr th:each="question : ${test.questions}">
+                        <td><span th:text="${question.questionText}"></span></td>
+                        <td>
+                            <!-- Check if the question is an American question -->
+                            <ul th:if="${question.type eq 'American'}">
+                                <li><span th:text="${question.option1}"></span></li>
+                                <li><span th:text="${question.option2}"></span></li>
+                                <li><span th:text="${question.option3}"></span></li>
+                                <li><span th:text="${question.option4}"></span></li>
+                            </ul>
+                            <!-- Check if the question is a True/False question -->
+                            <span th:if="${question.type eq 'TrueFalse'}">True / False</span>
+                        </td>
+                        <td><span th:text="${question.correctAnswer}"></span></td>
+                        <td><span th:text="${question.type}"></span></td>
+                    </tr>
+                </tbody>
+            </table>
+            <form action="/teacher/view-tests" method="get">
+                <button class="action-btn">Back to View Tests</button>
+            </form>
+        </div>
+    </div>
 </body>
 </html>
