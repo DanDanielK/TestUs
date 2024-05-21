@@ -1,50 +1,37 @@
 package com.springbootquickstart.TestUs.controller;
 
 
-
+import com.springbootquickstart.TestUs.dto.UserRegisteredDto;
+import com.springbootquickstart.TestUs.helper.UserFoundException;
+import com.springbootquickstart.TestUs.service.MyUserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import com.springbootquickstart.TestUs.dto.RegisterDto;
-import com.springbootquickstart.TestUs.user.UserService;
-
+import org.springframework.web.bind.annotation.*;
 
 @Controller
+@RequestMapping("/register")
 public class RegisterController {
 
     @Autowired
-    private UserService userService;
-   
+    private  MyUserDetailService userService;
 
-    @GetMapping("/register")
-    public String register() {
+
+    @ModelAttribute("user")
+    public UserRegisteredDto userRegistrationDto() {
+        return new UserRegisteredDto();
+    }
+
+    @GetMapping
+    public String showRegistrationForm() {
         return "register";
-
     }
 
-    @PostMapping(path = "/register" , consumes = "application/x-www-form-urlencoded")
-    public String registerUser(RegisterDto registerDto,RedirectAttributes redirectAttributes) {
-        
-        try {
-            userService.registerUser(registerDto);
-
-            //if was successful let user know
-            // Add a flash attribute to indicate success
-            redirectAttributes.addFlashAttribute("successMessage", "Registration successful!");
-        
-            // Redirect to the register page
-            return "redirect:/register";
-           
-        } catch (Exception e) {
-            return null;
-            //TOdO: handle error UI
-        }
-
-        
+    @PostMapping
+    public String registerUserAccount(@ModelAttribute("user")
+                                      UserRegisteredDto registrationDto) throws UserFoundException {
+        userService.save(registrationDto);
+        return "redirect:/login";
     }
-    
+
+
 }

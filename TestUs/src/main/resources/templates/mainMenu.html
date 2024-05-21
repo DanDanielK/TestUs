@@ -9,15 +9,15 @@
     <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
-    <div class="container ">
-        <h1 th:text="${menuTitle}">Dynamic Title</h1>
-       
-        <div th:each="button : ${buttons}">
-            <a th:href="@{|${button.url}|}">
-                <button type="button" class="btn btn-primary" th:text="${button.name}">
-                </button>
-            </a>
-        </div> 
+<div class="container ">
+    <h1 th:text="${menuTitle}">Dynamic Title</h1>
+
+    <div th:each="button : ${buttons}">
+        <a th:href="@{|${button.url}|}">
+            <button type="button" class="btn btn-primary" th:text="${button.name}">
+            </button>
+        </a>
     </div>
+</div>
 </body>
 </html>

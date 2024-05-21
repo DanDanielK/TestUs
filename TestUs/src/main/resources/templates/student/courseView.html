@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+    <title>Course List</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/card.css">
+    <link rel="stylesheet" href="/css/popup.css">
+
+</head>
+
+<body>
+
+<ul class="cards">
+    <li class="cards__item"  th:each="courseStudent:${courseStudentList}">
+        <div class="card">
+            <!-- <div class="card_image"><img th:src="${course.image}" alt="course image"></div> -->
+            <div class="card__content">
+                <div class="card__title" th:text="${courseStudent.course.name}"></div>
+                <p class="card__text" th:text="${courseStudent.course.description}"></p>
+                <!-- Check if signUpStatus is 'Approved' -->
+                <th:block th:if="${courseStudent.signupStatus.toString() == 'APPROVED'}">
+                    <button class="btn btn--block card__btn">Details</button>
+                </th:block>
+                <!-- If not 'Approved', display the status -->
+                <th:block th:unless="${courseStudent.signupStatus.toString() == 'APPROVED'}">
+                    <span th:text="'Current Status: '+${courseStudent.signupStatus}"></span>
+                </th:block>
+            </div>
+        </div>
+    </li>
+
+    <li class="cards__item" >
+        <div class="card">
+            <button  class="btn__plus btn--block card__btn" id="show-add">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+                </svg>
+            </button>
+            </div>
+    </li>
+</ul>
+
+<div class="popup">
+    <div class="close-btn">
+        &times;
+    </div>
+        <form class="form" action="/student/addCourse" method="post">
+            <h2>Assign to New Course</h2>
+            <div class="form-element">
+                <label for="courseName">Select Course</label>
+                <select id="courseName" name="courseId" class="form-control" required>
+                    <option th:each="course : ${coursesNotEnrolled}" th:value="${course.id}" th:text="${course.name}"></option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Add Course</button>
+        </form>
+    </div>
+<div class="overlay"></div>
+<script type="text/javascript" src="/js/popup.js"></script>
+
+</body>
+</html>
