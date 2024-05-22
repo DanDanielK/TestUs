@@ -11,6 +11,7 @@ public class TestCreationDto {
     private String title;
     private LocalDateTime startTime;
     private int duration;
+    private Long courseId;
     private List<Question> questions;
 
     public TestCreationDto() {
@@ -19,6 +20,10 @@ public class TestCreationDto {
 
     public List<Question> getQuestions() {
         return this.questions;
+    }
+
+    public Long getCourseId() {
+        return this.courseId;
     }
 
     public String getTitle() {
@@ -31,6 +36,10 @@ public class TestCreationDto {
 
     public LocalDateTime getStartTime() {
         return this.startTime;
+    }
+
+    public void setCourseId(Long courseId) {
+        this.courseId = courseId;
     }
 
     public void setQuestions(List<Question> questions) {

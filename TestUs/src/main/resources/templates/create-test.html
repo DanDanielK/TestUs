@@ -91,6 +91,12 @@
             <input type="datetime-local" name="startTime" required><br>
             <input type="number" name="duration" placeholder="Duration (in minutes)" required><br>
 
+            <!-- Added dropdown for selecting course -->
+            <select name="courseId" required>
+                <option value="">Select Course</option>
+                <option th:each="course : ${courses}" th:value="${course.id}" th:text="${course.name}"></option>
+            </select><br>
+
             <!-- Container for question details -->
             <div id="questionDetails">
                 <!-- Question containers will be added dynamically here -->

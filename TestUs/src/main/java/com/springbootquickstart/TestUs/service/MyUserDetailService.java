@@ -28,7 +28,6 @@ import java.util.Optional;
 @Service
 public class MyUserDetailService implements UserDetailsService {
 
-
     @Autowired
     private MyUserRepository myUserRepo;
 
@@ -41,20 +40,20 @@ public class MyUserDetailService implements UserDetailsService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public Boolean validatePassword(String password,MyUser user){
-        return passwordEncoder.matches(password,user.getPassword());
+    public Boolean validatePassword(String password, MyUser user) {
+        return passwordEncoder.matches(password, user.getPassword());
     }
 
     public Optional<MyUser> findByEmail(String email) {
         return myUserRepo.findByEmail(email);
     }
 
-    public Optional <MyUser> findById(long id) {
+    public Optional<MyUser> findById(long id) {
         return myUserRepo.findById(id);
     }
 
     public List<MyUser> findAll() {
-          return myUserRepo.findAll();
+        return myUserRepo.findAll();
     }
 
     @Override
@@ -62,11 +61,11 @@ public class MyUserDetailService implements UserDetailsService {
         Optional<MyUser> user = myUserRepo.findByEmail(username);
         if (user.isPresent()) {
             MyUser userObj = user.get();
-              return User.builder()
+            return User.builder()
                     .username(userObj.getEmail())
                     .password(userObj.getPassword())
                     .roles(getRoles(userObj))
-                      .accountLocked(userObj.isAccountLocked())
+                    .accountLocked(userObj.isAccountLocked())
                     .build();
 
         } else {
@@ -76,26 +75,25 @@ public class MyUserDetailService implements UserDetailsService {
 
     private String getRoles(MyUser user) {
         if (user.getRole() == null) {
-            return  "STUDENT";
+            return "STUDENT";
         }
         return user.getRole().toString();
     }
 
-
     public void save(UserRegisteredDto userRegisteredDTO) throws UserFoundException {
-//        Role role =STUDENT;
-//        if(userRegisteredDTO.getRole().equals("STUDENT"))
-//            role = roleRepo.findByRole("STUDENT");
-//        else if(userRegisteredDTO.getRole().equals("ADMIN"))
-//            role = roleRepo.findByRole("ADMIN");
+        // Role role =STUDENT;
+        // if(userRegisteredDTO.getRole().equals("STUDENT"))
+        // role = roleRepo.findByRole("STUDENT");
+        // else if(userRegisteredDTO.getRole().equals("ADMIN"))
+        // role = roleRepo.findByRole("ADMIN");
         if (myUserRepo.findByEmail(userRegisteredDTO.getEmail()).isPresent()) {
             throw new UserFoundException("User already exists");
-            //  new RuntimeException("User already exists");
+            // new RuntimeException("User already exists");
         }
         MyUser user = new MyUser();
         user.setId(userRegisteredDTO.getId());
         user.setEmail(userRegisteredDTO.getEmail());
-       user.setFirstName(userRegisteredDTO.getFirstName());
+        user.setFirstName(userRegisteredDTO.getFirstName());
         user.setLastName(userRegisteredDTO.getLastName());
         user.setPhone(userRegisteredDTO.getPhone());
         user.setAddress(userRegisteredDTO.getAddress());
@@ -117,25 +115,28 @@ public class MyUserDetailService implements UserDetailsService {
         }
     }
 
-    private MyUser returnMyUser() {
+    // dor:changed to public need to use it to see who is logged in
+    public MyUser returnMyUser() {
         SecurityContext securityContext = SecurityContextHolder.getContext();
         UserDetails user = (UserDetails) securityContext.getAuthentication().getPrincipal();
         Optional<MyUser> myUser = myUserRepo.findByEmail(user.getUsername());
         if (myUser.isPresent()) {
             return myUser.get();
-        }else{
+        } else {
             throw new UsernameNotFoundException(user.getUsername());
         }
     }
 
     public MyUser getUser(Long id) throws Exception {
 
-        Optional<MyUser> user =myUserRepo.findById(id);
+        Optional<MyUser> user = myUserRepo.findById(id);
 
-        if (user.isEmpty() ) {
+        if (user.isEmpty()) {
             throw new Exception("Not found user with id: " + id);
         }
 
         return user.get();
     }
+
+    // dor: added method that returns the ID
 }
