@@ -22,6 +22,7 @@ public class Test {
     @OneToMany(mappedBy = "test", cascade = CascadeType.ALL)
     private List<Question> questions;
     // dor: added course_id to test
+    @ManyToOne
     @JoinColumn(name = "course_id")
     private Course course;
 
