@@ -6,8 +6,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-
-
 @ControllerAdvice
 public class ErrorController {
 
@@ -21,14 +19,14 @@ public class ErrorController {
     @GetMapping("/{wrongUrl}")
     public String handleWrongUrl(@PathVariable String wrongUrl) {
         // Redirect to the error page
-        return "redirect:/error"; 
+        return "redirect:/error";
     }
 
     // @ExceptionHandler(NoHandlerFoundException.class)
     // public String handleNotFoundError(NoHandlerFoundException ex) {
-    //     return "redirect:/error";  
+    //     return "redirect:/error";
     // }
-    
+
 
 
     // @ExceptionHandler(AccessDeniedException.class)
