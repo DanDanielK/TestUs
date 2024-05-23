@@ -40,7 +40,8 @@ public class Course {
     private Teacher teacher;
 
     // dor: added list of tests for courses
-    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<Test> tests = new ArrayList<>();
 
 }
