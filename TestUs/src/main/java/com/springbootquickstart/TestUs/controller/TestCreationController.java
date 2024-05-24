@@ -17,6 +17,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import com.springbootquickstart.TestUs.questions.*;
 import com.springbootquickstart.TestUs.service.CourseService;
 import com.springbootquickstart.TestUs.service.MyUserDetailService;
+import com.springbootquickstart.TestUs.service.TeacherService;
+
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.ui.Model;
 
@@ -32,6 +34,9 @@ public class TestCreationController {
     @Autowired
     private MyUserDetailService userService;
 
+    @Autowired
+    private TeacherService teacherService;
+
     public TestCreationController(TestService service) {
         this.testService = service;
     }
@@ -39,7 +44,8 @@ public class TestCreationController {
     @GetMapping("/teacher/create-test")
     public String showCreateTestForm(@ModelAttribute("test") TestCreationDto test, Model model) {
         MyUser user = userService.returnMyUser();
-        List<Course> courses = courseService.findCoursesByTeacherId(user.getId().intValue());
+        int teacherID = teacherService.findById(user.getId()).getId();
+        List<Course> courses = courseService.findCoursesByTeacherId(teacherID);
         model.addAttribute("courses", courses);
         return "create-test";
     }
