@@ -29,6 +29,10 @@ public class CourseService {
         return courseRepository.findAll();
     }
 
+    public List<Course> findByTeacherId(Long id) {
+        return courseRepository.findCoursesByTeacherId(id);
+    }
+
     public Course findById(Long id) {
         return courseRepository.findById(id).orElse(null);
     }
@@ -37,27 +41,26 @@ public class CourseService {
         Course course = new Course();
         course.setName(courseDto.getCourseName());
         course.setDescription(courseDto.getCourseDescription());
-        course.setTeacher(teacherService.findByEmail(courseDto.getTeacherEmail())) ;
-        //course.addStudent(studentService.findByEmail("student@testus.com"));
+        course.setTeacher(teacherService.findByEmail(courseDto.getTeacherEmail()));
+        // course.addStudent(studentService.findByEmail("student@testus.com"));
 
         return courseRepository.save(course);
     }
+
     public List<Course> findCoursesByTeacherId(int teacherId) {
         return courseRepository.findCoursesByTeacherId(teacherId);
     }
 
-
-
-//    public void enrollStudentToCourse(Student student, Course course) {
-//        course.addStudent(student);
-//        student.addCourse(course);
-//        studentService.save(student);
-//    }
-//
-//    public void unenrollStudentFromCourse(Student student, Course course) {
-//        student.removeCourse(course);
-//        studentService.save(student);
-//    }
+    // public void enrollStudentToCourse(Student student, Course course) {
+    // course.addStudent(student);
+    // student.addCourse(course);
+    // studentService.save(student);
+    // }
+    //
+    // public void unenrollStudentFromCourse(Student student, Course course) {
+    // student.removeCourse(course);
+    // studentService.save(student);
+    // }
 
     public void save(Course course) {
         courseRepository.save(course);

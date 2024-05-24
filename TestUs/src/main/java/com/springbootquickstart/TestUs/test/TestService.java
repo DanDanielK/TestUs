@@ -1,5 +1,6 @@
 package com.springbootquickstart.TestUs.test;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.springbootquickstart.TestUs.dto.TestCreationDto;
@@ -16,11 +17,11 @@ public class TestService {
 
     private TestRepository testRepository;
     // dor: added courserepository
+    @Autowired
     private CourseRepository courseRepoistory;
 
-    public TestService(TestRepository testRepository, CourseRepository courseRepository) {
+    public TestService(TestRepository testRepository) {
         this.testRepository = testRepository;
-        this.courseRepoistory = courseRepoistory;
     }
 
     @Transactional

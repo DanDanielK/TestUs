@@ -24,11 +24,15 @@ public class TestViewController {
     @Autowired
     private TestService testService;
 
+    @Autowired
+    private TeacherService teacherService;
+
+    @Autowired
+    private MyUserDetailService userDetailService;
+
     @GetMapping("/teacher/view-tests")
     public String viewTests(Model model) {
-        MyUserDetailService userDetailService = new MyUserDetailService();
         MyUser currentLoggedUser = userDetailService.returnMyUser();
-        TeacherService teacherService = new TeacherService();
         Teacher currentLoggedTeacher = teacherService.findByMyUser(currentLoggedUser);
         int teacherID = currentLoggedTeacher.getId();
         // Fetch tests from the database
