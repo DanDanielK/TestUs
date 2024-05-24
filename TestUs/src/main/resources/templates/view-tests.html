@@ -13,6 +13,8 @@
             <thead>
                 <tr>
                     <th>Test ID</th>
+                    <th> Teacher </th>
+                    <th> Course name </th>
                     <th>Title</th>
                     <th>Start Time</th>
                     <th>Duration</th>
@@ -23,6 +25,8 @@
                 <!-- Loop through tests and display them -->
                 <tr th:each="test : ${tests}">
                     <td th:text="${test.testId}"></td>
+                    <td th:text="${test.course.teacher.myUser.email}"></td>
+                    <td th:text="${test.course.name}"></td>
                     <td th:text="${test.title}"></td>
                     <td th:text="${test.startTime}"></td>
                     <td th:text="${test.duration}"></td>
