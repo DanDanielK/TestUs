@@ -11,7 +11,7 @@
       
         <form th:action="@{/teacher/update-test}" th:object="${test}" method="post">
          <input type="hidden" th:field="*{testId}" />
-          <div>
+              <div>
                 <label>Title:</label>
                 <input type="text" th:field="*{title}" />
             </div>
@@ -51,9 +51,10 @@
                 <form th:action="@{/teacher/delete-question/{questionId}(questionId=${question.id})}" method="post" th:object="${question}">
                     <button type="submit">Delete</button>
                 </form>
+            -->
             <button type="submit">Save Changes</button>
         </form>
-    -->
+    
     </div> 
     <script>
         function deleteQuestion(questionId) {
