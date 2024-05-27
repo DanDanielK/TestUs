@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Test</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Edit Test</h1>
+      
+        <form th:action="@{/teacher/update-test}" th:object="${test}" method="post">
+         <input type="hidden" th:field="*{testId}" />
+          <div>
+                <label>Title:</label>
+                <input type="text" th:field="*{title}" />
+            </div>
+            <div>
+                <label>Start Time:</label>
+                <input type="text" th:field="*{startTime}" />
+            </div>
+            <div>
+                <label>Duration:</label>
+                <input type="text" th:field="*{duration}" />
+            </div>
+        <!--
+           <h2>Questions</h2>
+            <div th:each="question : ${questions}">
+                <div th:switch="${question.getType()}">
+                    <div th:case="'American'">
+                        <label>American Question Text:</label>
+                        <input type="text" th:field="*{questionText}" />
+                        <label>Option 1:</label>
+                        <input type="text" th:field="*{option1}" />
+                        <label>Option 2:</label>
+                        <input type="text" th:field="*{option2}" />
+                        <label>Option 3:</label>
+                        <input type="text" th:field="*{option3}" />
+                        <label>Option 4:</label>
+                        <input type="text" th:field="*{option4}" />
+                        <label>Correct Answer:</label>
+                        <input type="text" th:field="*{correctAnswer}" />
+                    </div>
+                    <div th:case="'TrueFalse'">
+                        <label>True/False Question Text:</label>
+                        <input type="text" th:field="*{questionText}" />
+                        <label>Correct Answer:</label>
+                        <input type="text" th:field="*{correctAnswer}" />
+                    </div>
+                </div>
+                <form th:action="@{/teacher/delete-question/{questionId}(questionId=${question.id})}" method="post" th:object="${question}">
+                    <button type="submit">Delete</button>
+                </form>
+            <button type="submit">Save Changes</button>
+        </form>
+    -->
+    </div> 
+    <script>
+        function deleteQuestion(questionId) {
+            if (confirm('Are you sure you want to delete this question?')) {
+                fetch(`/delete-question/${questionId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => response.text())
+                .then(data => {
+                    console.log(data);
+                    // Remove the deleted question's row from the table
+                    document.getElementById(`question-row-${questionId}`).remove();
+                })
+                .catch(error => console.error('Error:', error));
+            }
+        }
+    </script>
+</body>
+</html>

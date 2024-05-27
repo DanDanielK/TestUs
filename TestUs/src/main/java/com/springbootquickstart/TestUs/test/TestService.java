@@ -7,6 +7,7 @@ import com.springbootquickstart.TestUs.dto.TestCreationDto;
 import com.springbootquickstart.TestUs.model.Course;
 import com.springbootquickstart.TestUs.questions.Question;
 import com.springbootquickstart.TestUs.repository.CourseRepository;
+import com.springbootquickstart.TestUs.repository.QuestionRepository;
 
 import java.util.logging.Logger;
 import java.util.ArrayList;
@@ -19,6 +20,9 @@ public class TestService {
     // dor: added courserepository
     @Autowired
     private CourseRepository courseRepoistory;
+
+    @Autowired
+    private QuestionRepository questionRepository;
 
     public TestService(TestRepository testRepository) {
         this.testRepository = testRepository;
@@ -38,6 +42,10 @@ public class TestService {
             questionsToAdd.add(question);
         }
         test.getQuestions().addAll(questionsToAdd);
+        testRepository.save(test);
+    }
+
+    public void saveTest(Test test) {
         testRepository.save(test);
     }
 
@@ -68,5 +76,13 @@ public class TestService {
         }
         return tests;
 
+    }
+
+    public void deleteQuestionById(long questionId) {
+        questionRepository.deleteById(questionId);
+    }
+
+    public Test getTestById(int testId) {
+        return testRepository.findById(testId).orElseThrow(() -> new RuntimeException("Test not found"));
     }
 }
