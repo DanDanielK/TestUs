@@ -1,6 +1,5 @@
 package com.springbootquickstart.TestUs.model;
 
-
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import lombok.Data;
@@ -21,7 +20,7 @@ public class Teacher {
     @Valid
     private MyUser myUser;
 
-    @OneToMany(mappedBy = "teacher",cascade = CascadeType.ALL)
-    private List<Course> courses=new ArrayList<Course>();
+    @OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL)
+    private List<Course> courses = new ArrayList<Course>();
 
 }

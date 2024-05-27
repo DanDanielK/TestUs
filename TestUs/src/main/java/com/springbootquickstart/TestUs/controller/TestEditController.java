@@ -28,28 +28,37 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequestMapping("/teacher")
-public class TestViewController {
+public class TestEditController {
 
     @Autowired
     private TestService testService;
 
-    @Autowired
-    private TeacherService teacherService;
+    @GetMapping("/edit-test")
+    public String editTest(@RequestParam("testId") int testId, Model model) {
+        System.out.println("Received testId: " + testId);
+        Test test = testService.getTestById(testId);
+        List<Question> questions = test.getQuestions();
+        System.out.println("Title: " + test.getTitle());
+        System.out.println("questions size" + questions.size());
+        System.out.println("questions first text" + questions.getFirst().getQuestionText());
+        model.addAttribute("test", test);
+        model.addAttribute("questions", questions);
+        return "edit-test";
+    }
 
-    @Autowired
-    private MyUserDetailService userDetailService;
+    @PostMapping("/update-test")
+    public String updateTest(@ModelAttribute Test test, @ModelAttribute List<Question> questions) {
+        test.setQuestions(questions);
+        testService.saveTest(test);
+        return "redirect:/teacher/view-tests"; // redirect to the list of tests after updating
+    }
 
-    @GetMapping("/view-tests")
-    public String viewTests(Model model) {
-        MyUser currentLoggedUser = userDetailService.returnMyUser();
-        Teacher currentLoggedTeacher = teacherService.findByMyUser(currentLoggedUser);
-        int teacherID = currentLoggedTeacher.getId();
-        // Fetch tests from the database
-        List<Test> tests = testService.getTestsByTeacherID(teacherID);
-        // Add tests to the model
-        model.addAttribute("tests", tests);
-        // Return the view template
-        return "view-tests";
+    @DeleteMapping("/delete-question/{questionId}")
+
+    @ResponseBody
+    public String deleteQuestion(@PathVariable long questionId) {
+        testService.deleteQuestionById(questionId);
+        return "Question deleted";
     }
 
 }

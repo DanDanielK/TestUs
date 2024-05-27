@@ -1,6 +1,7 @@
 package com.springbootquickstart.TestUs.controller;
 
 import org.hibernate.boot.archive.spi.ArchiveException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -8,23 +9,44 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.springbootquickstart.TestUs.dto.TestCreationDto;
+import com.springbootquickstart.TestUs.model.Course;
+import com.springbootquickstart.TestUs.model.MyUser;
 import com.springbootquickstart.TestUs.test.TestService;
 import java.time.LocalDateTime;
 import jakarta.servlet.http.HttpServletRequest;
 import com.springbootquickstart.TestUs.questions.*;
+import com.springbootquickstart.TestUs.service.CourseService;
+import com.springbootquickstart.TestUs.service.MyUserDetailService;
+import com.springbootquickstart.TestUs.service.TeacherService;
+
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.ui.Model;
+
 import java.util.*;
 
 @Controller
 public class TestCreationController {
 
     private TestService testService;
+    @Autowired
+    private CourseService courseService;
+
+    @Autowired
+    private MyUserDetailService userService;
+
+    @Autowired
+    private TeacherService teacherService;
 
     public TestCreationController(TestService service) {
         this.testService = service;
     }
 
     @GetMapping("/teacher/create-test")
-    public String showCreateTestForm(@ModelAttribute("test") TestCreationDto test) {
+    public String showCreateTestForm(@ModelAttribute("test") TestCreationDto test, Model model) {
+        MyUser user = userService.returnMyUser();
+        int teacherID = teacherService.findById(user.getId()).getId();
+        List<Course> courses = courseService.findCoursesByTeacherId(teacherID);
+        model.addAttribute("courses", courses);
         return "create-test";
     }
 
@@ -35,6 +57,7 @@ public class TestCreationController {
         String startTimeStr = request.getParameter("startTime");
         LocalDateTime startTime = LocalDateTime.parse(startTimeStr);
         int duration = Integer.parseInt(request.getParameter("duration"));
+        Long courseId = Long.parseLong(request.getParameter("courseId"));
         List<Question> questionList = new ArrayList<>();
         int i = 1;
         while (request.getParameter("question" + i) != null) {
@@ -62,6 +85,7 @@ public class TestCreationController {
         testDto.setStartTime(startTime);
         testDto.setDuration(duration);
         testDto.setQuestions(questionList);
+        testDto.setCourseId(courseId);
         testService.createTest(testDto);
         String s = "Test created succesfully! number of questions saved: " + testDto.getQuestions().size();
         redirectAttributes.addFlashAttribute("successMessage", s);

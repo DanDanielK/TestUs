@@ -13,6 +13,7 @@ import java.util.List;
 public interface CourseRepository extends JpaRepository<Course, Long> {
     @NotNull
     List<Course> findAll();
-    List<Course> findCoursesByTeacherId(int teacherId);
+
+    List<Course> findCoursesByTeacherId(long teacherId);
 
 }

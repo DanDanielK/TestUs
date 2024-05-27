@@ -1,6 +1,5 @@
 package com.springbootquickstart.TestUs.controller;
 
-
 import com.springbootquickstart.TestUs.service.Button;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,19 +17,20 @@ public class TeacherController {
     @GetMapping("")
     public String teacherMenu(Model model) {
 
-        //student menu page options
-        final String[] menuItemsText = {"view course", "Review Past Tests", "Logout"};
-        final String[] menuItemsUrl = {"view-course", "review-past-tests", "logout"};
+        // student menu page options
+        final String[] menuItemsText = { "view course", "Review Past Tests", "Logout", "view tests",
+                "create new test" };
+        final String[] menuItemsUrl = { "view-course", "review-past-tests", "logout", "view-tests", "create-test" };
 
         List<Button> buttons = new ArrayList<>();
 
         for (int i = 0; i < menuItemsText.length; i++) {
-            buttons.add(new Button(menuItemsText[i],  "teacher/" + menuItemsUrl[i]));
+            buttons.add(new Button(menuItemsText[i], "teacher/" + menuItemsUrl[i]));
         }
 
         model.addAttribute("buttons", buttons);
 
-        //title of the menu
+        // title of the menu
         model.addAttribute("menuTitle", "Teacher Menu");
 
         return "mainMenu";

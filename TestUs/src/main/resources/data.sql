@@ -15,4 +15,4 @@ INSERT INTO teacher(id,user_id)
 VALUES (DEFAULT,3)ON CONFLICT (user_id) DO NOTHING;
 
 INSERT INTO course(id,teacher_id,name,description)
-VALUES (DEFAULT,1,'Test course','Test course description')ON CONFLICT (id) DO NOTHING;
+VALUES (DEFAULT,1,'Test course','Test course description');

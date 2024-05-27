@@ -1,9 +1,14 @@
 package com.springbootquickstart.TestUs.test;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.springbootquickstart.TestUs.dto.TestCreationDto;
+import com.springbootquickstart.TestUs.model.Course;
 import com.springbootquickstart.TestUs.questions.Question;
+import com.springbootquickstart.TestUs.repository.CourseRepository;
+import com.springbootquickstart.TestUs.repository.QuestionRepository;
+
 import java.util.logging.Logger;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,15 +17,24 @@ import java.util.List;
 public class TestService {
 
     private TestRepository testRepository;
+    // dor: added courserepository
+    @Autowired
+    private CourseRepository courseRepoistory;
 
-    public TestService(TestRepository repository) {
-        this.testRepository = repository;
+    @Autowired
+    private QuestionRepository questionRepository;
+
+    public TestService(TestRepository testRepository) {
+        this.testRepository = testRepository;
     }
 
     @Transactional
     public void createTest(TestCreationDto testDto) {
         Logger logger = Logger.getLogger(getClass().getName());
         Test test = convertToTest(testDto);
+        Course course = courseRepoistory.findById(testDto.getCourseId())
+                .orElseThrow(() -> new RuntimeException("Course not found"));
+        test.setCourse(course);
         List<Question> questionsToAdd = new ArrayList<>();
         for (Question question : testDto.getQuestions()) {
             logger.info(question.getQuestionText());
@@ -28,6 +42,10 @@ public class TestService {
             questionsToAdd.add(question);
         }
         test.getQuestions().addAll(questionsToAdd);
+        testRepository.save(test);
+    }
+
+    public void saveTest(Test test) {
         testRepository.save(test);
     }
 
@@ -46,5 +64,25 @@ public class TestService {
 
     public List<Test> getAllTests() {
         return testRepository.findAll();
+    }
+
+    // dor: added getTestsByTeachID
+    public List<Test> getTestsByTeacherID(int teacherID) {
+        List<Course> coursesOfTeacher = courseRepoistory.findCoursesByTeacherId(teacherID);
+        List<Test> tests = new ArrayList<>();
+        for (Course course : coursesOfTeacher) {
+            List<Test> testsOfCourse = testRepository.findByCourseId(course.getId());
+            tests.addAll(testsOfCourse);
+        }
+        return tests;
+
+    }
+
+    public void deleteQuestionById(long questionId) {
+        questionRepository.deleteById(questionId);
+    }
+
+    public Test getTestById(int testId) {
+        return testRepository.findById(testId).orElseThrow(() -> new RuntimeException("Test not found"));
     }
 }
