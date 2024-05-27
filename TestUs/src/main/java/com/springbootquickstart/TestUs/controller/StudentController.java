@@ -8,6 +8,8 @@ import com.springbootquickstart.TestUs.service.Button;
 import com.springbootquickstart.TestUs.service.CourseService;
 import com.springbootquickstart.TestUs.service.CourseStudentService;
 import com.springbootquickstart.TestUs.service.StudentService;
+import com.springbootquickstart.TestUs.test.Test;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
@@ -17,20 +19,21 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.time.Duration;
 
 @Controller
 @RequestMapping("/student")
 public class StudentController {
-
-
-
 
     @Autowired
     private StudentService studentService;
@@ -58,8 +61,8 @@ public class StudentController {
     public String studentMenu(Model model) {
 
         //student menu page options
-        final String[] menuItemsText = {"view courses", "Review Past Tests", "Logout"};
-        final String[] menuItemsUrl = {"view-courses", "review-past-tests", "logout"};
+        final String[] menuItemsText = {"view courses", "Review All Tests", "Logout"};
+        final String[] menuItemsUrl = {"view-courses", "review-all-tests", "logout"};
 
         List<Button> buttons = new ArrayList<>();
 
@@ -95,6 +98,133 @@ public class StudentController {
         return "redirect:/student/view-courses";
     }
 
+
+    @GetMapping("/review-all-tests")
+    public String reviewPastTests(Model model){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Student student = studentService.findByEmail(auth.getName());
+        //List<Test> testList = new ArrayList<>(courseStudentService.getTestsByStudent(student));
+        Test test = new Test();
+        test.setDuration(300);
+        test.setStartTime(LocalDateTime.now().minusHours(1));
+        test.setTitle("python");
+        test.setTestId(1);
+
+        List<Test> testList = new ArrayList<>();
+        testList.add(test);
+        model.addAttribute("testsList",testList);
+
+        //test.setEndTime(LocalDateTime.now().plusMinutes(300));
+
+        return "student/studentTests";
+    }
+
+
+
+    /*
+     *  ---------------------------------  TAKE TEST  ---------------------------------
+     */
+    
+     @GetMapping("/take-test")
+     public String takeTest( Model model){  //@RequestParam("testId") int testId,
+         //find the student that is logged in and get the test with the given testId
+         // note: the testId is passed as a request parameter in the URL only when its time to take the test
+         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+         //Student student = studentService.findByEmail(auth.getName());
+         //System.out.println("Student: " + student.);
+         //List<Test> testList = new ArrayList<>(courseStudentService.getTestsByStudent(student));
+         //model.addAttribute("testList",testList);
+ 
+ 
+         // test remaining time in minutes
+        Duration remainingTime = Duration.ofMinutes(1);
+        
+        model.addAttribute("remainingTime", remainingTime.getSeconds());
+         List<Question> questions = new ArrayList<>();
+         
+         // Sample questions
+         questions.add(new Question(1, "What is the capital of the USA?", List.of("Washington, D.C.", "New York", "Los Angeles", "Chicago", "Miami")));
+         questions.add(new Question(2, "Who was the first President of the USA?", List.of("George Washington", "Abraham Lincoln", "Thomas Jefferson")));
+
+         questions.add(new Question(3, "What is the capital of the USA?", List.of("Washington, D.C.", "New York", "Los Angeles")));
+         questions.add(new Question(4, "Who was the first President of the USA?", List.of("George Washington", "Abraham Lincoln", "Thomas Jefferson")));
+
+         questions.add(new Question(5, "What is the capital of the USA?", List.of("Washington, D.C.", "New York", "Los Angeles")));
+         questions.add(new Question(6, "Who was the first President of the USA?", List.of("George Washington", "Abraham Lincoln", "Thomas Jefferson")));
+         
+         model.addAttribute("questions", questions);
+        
+         return "student/takeTest";
+ 
+     }
+ 
+     @PostMapping("/submit")
+     public String submitAnswers() {
+         // Handle the form submission
+         return "result";
+     }
+
+
+
+     public class Question {
+        private int id;
+        private String text;
+        private List<String> options;
+    
+        public Question(int id, String text, List<String> options) {
+            this.id = id;
+            this.text = text;
+            this.options = options;
+        }
+    
+        public int getId() {
+            return id;
+        }
+    
+        public void setId(int id) {
+            this.id = id;
+        }
+    
+        public String getText() {
+            return text;
+        }
+    
+        public void setText(String text) {
+            this.text = text;
+        }
+    
+        public List<String> getOptions() {
+            return options;
+        }
+    
+        public void setOptions(List<String> options) {
+            this.options = options;
+        }
+    }
+
+
+
+
+
+
+    
+    // public String viewQuestions(@RequestParam("testId") int testId, Model model) {
+    //     // Retrieve the test from the repository using the testId
+    //     Optional<Test> optionalTest = testRepository.findById(testId);
+
+    //     if (optionalTest.isPresent()) {
+    //         Test test = optionalTest.get();
+    //         // Add the test object to the model to pass it to the view
+    //         model.addAttribute("test", test);
+    //         // Return the name of the view template for displaying the questions
+    //         return "view-questions";
+    //     } else {
+    //         // If test is not found, handle the error accordingly (redirect or show error
+    //         // message)
+    //         // For example, you can redirect the user back to the view tests page
+    //         return "redirect:/view-tests";
+    //     }
+    // }
 
 
 }

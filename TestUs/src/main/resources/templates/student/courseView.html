@@ -24,6 +24,18 @@
                 <!-- Check if signUpStatus is 'Approved' -->
                 <th:block th:if="${courseStudent.signupStatus.toString() == 'APPROVED'}">
                     <button class="btn btn--block card__btn">Details</button>
+
+                    <!-- check for avaliable test and show a button to the test-->
+                    <th:block th:if="${courseStudent.signupStatus.toString() == 'APPROVED'}">
+
+                        <!--test button-->
+                        <button class="btn btn--block card__btn mt-1">Take test</button>
+
+                        <!-- label : the time the test ends -->
+                        <label class="mt-1"  th:text="'Can be submitted until '+${courseStudent.signupStatus}">Can be submitted until </label>
+
+                    </th:block>
+
                 </th:block>
                 <!-- If not 'Approved', display the status -->
                 <th:block th:unless="${courseStudent.signupStatus.toString() == 'APPROVED'}">

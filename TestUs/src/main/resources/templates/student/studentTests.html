@@ -1,0 +1,57 @@
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layouts/user}">
+    <div class="container" layout:fragment="content">
+        <div class="text-center mt-5">
+            <h2>View Tests</h2>
+        </div>
+        <div class="m-2">
+            <a href="/student" class="btn btn-primary">Go Back</a>
+        </div>
+
+        <div class="m-2">
+            <label for="dath"> Filter by dath:</label>
+            <select name="dath" id="dath" class="form-select" onchange="filterByDath()">
+                <option value="ALL">All</option>
+                <option value="COMPLETED">Completed</option>
+                <option value="TODO">To do</option>
+            </select>
+        </div> 
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped" id="TestsTable">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Test Id</th>
+                        <th>Course Id</th>
+                        <th>Course name</th>
+                        <th>Ends in</th>
+                        <th>Grade</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <th:block th:each="test : ${testsList}">
+                        <tr>
+                            <td th:text="${test.testId}">1</td>
+                            <td></td>
+                            <!--<td th:text="${test.courseId}">1</td>>-->
+                            <td th:text="${test.title}">"python"</td>
+                            <td th:text="${test.startTime}">12/5/23</td>
+                            <td></td>
+                            <!--<td th:text="${test.grade}">45</td> -->
+                            <td>
+                                <!-- add take test vutton or view test button-->
+                                
+                                <!-- <a class="btn btn-primary" th:href="@{/test/view-{role}/edit(role=${role}, id=${user.id})}" >View test</a> -->
+                            </td>
+                        </tr>
+                    </th:block>
+                </tbody>
+            </table>
+        </div>
+    </div>
+ 
+
+</html>

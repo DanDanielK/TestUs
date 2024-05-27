@@ -27,7 +27,7 @@ public class AuthenticationSuccessHandler extends SavedRequestAwareAuthenticatio
         } else if
             (authentication.getAuthorities().stream()
                 .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_STUDENT")))
-    {
+        {
 
             redirectUrl = "/student";
     }else if
