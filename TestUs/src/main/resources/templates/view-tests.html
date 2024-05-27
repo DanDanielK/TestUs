@@ -33,6 +33,7 @@
                     <td>
                         <!-- Link to view questions of the test -->
                         <a class="action-btn" th:href="@{/view-questions(testId=${test.testId})}">View Questions</a>
+                        <a class="action-btn" th:href="@{/teacher/edit-test(testId=${test.testId})}">Edit</a>
                     </td>
                 </tr>
             </tbody>
