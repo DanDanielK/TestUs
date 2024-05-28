@@ -26,26 +26,28 @@
        
            <h2>Questions</h2>
            <div th:each="question, iterStat : ${test.questions}">
+            <input type="hidden" th:value="${question.id}" th:field="*{questions[__${iterStat.index}__].id}"/>
+            <input type="hidden" th:value="${question.type}" th:field="*{questions[__${iterStat.index}__].type}"/>
             <div th:switch="${question.type}">
                 <div th:case="'American'">
                     <label>American Question Text:</label>
-                    <input type="text" th:field="*{questions[__${iterStat.index}__].questionText}" />
+                    <input type="text" name = "AmquestText${iterStat.index}" th:field="*{questions[__${iterStat.index}__].questionText}" />
                     <label>Option 1:</label>
-                    <input type="text" th:field="*{questions[__${iterStat.index}__].option1}" />
+                    <input type="text" name = "AmquestOption1${iterStat.index}" th:field="*{questions[__${iterStat.index}__].option1}" />
                     <label>Option 2:</label>
-                    <input type="text" th:field="*{questions[__${iterStat.index}__].option2}" />
+                    <input type="text" name = "AmquestOption2${iterStat.index}" th:field="*{questions[__${iterStat.index}__].option2}" />
                     <label>Option 3:</label>
-                    <input type="text" th:field="*{questions[__${iterStat.index}__].option3}" />
+                    <input type="text" name = "AmquestOption3${iterStat.index}" th:field="*{questions[__${iterStat.index}__].option3}" />
                     <label>Option 4:</label>
-                    <input type="text" th:field="*{questions[__${iterStat.index}__].option4}" />
+                    <input type="text" name = "AmquestOption4${iterStat.index}" th:field="*{questions[__${iterStat.index}__].option4}" />
                     <label>Correct Answer:</label>
-                    <input type="text" th:field="*{questions[__${iterStat.index}__].correctAnswer}" />
+                    <input type="text" name = "AmquestCorrectAnswer${iterStat.index}" th:field="*{questions[__${iterStat.index}__].correctAnswer}" />
                 </div>
                 <div th:case="'TrueFalse'">
                     <label>True/False Question Text:</label>
-                    <input type="text" th:field="*{questions[__${iterStat.index}__].questionText}" />
+                    <input type="text" name = "TFquestText${iterStat.index}" th:field="*{questions[__${iterStat.index}__].questionText}" />
                     <label>Correct Answer:</label>
-                    <input type="text" th:field="*{questions[__${iterStat.index}__].correctAnswer}" />
+                    <input type="text" name = "TFquestCorrectAnswer${iterStat.index}" th:field="*{questions[__${iterStat.index}__].correctAnswer}" />
                 </div>
             </div>
             </div>

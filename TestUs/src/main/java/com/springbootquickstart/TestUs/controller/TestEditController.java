@@ -65,33 +65,48 @@ public class TestEditController {
 
         List<Question> questionList = new ArrayList<>();
         int i = 0;
-        while (request.getParameter("questionText" + i) != null) {
-            String questionType = request.getParameter("questionType" + i);
-            String questionText = request.getParameter("questionText" + i);
-            String correctAnswer = request.getParameter("correctAnswer" + i);
+        // Loop through American and TrueFalse questions
+        while (request.getParameter("questions[" + i + "].questionText") != null) {
+            Long questionId = null;
+            String questionIdStr = request.getParameter("questions[" + i + "].id");
+            if (questionIdStr != null && !questionIdStr.isEmpty()) {
+                questionId = Long.parseLong(questionIdStr);
+            }
+            String questionType = request.getParameter("questions[" + i + "].type");
+            String questionText = request.getParameter("questions[" + i + "].questionText");
+            String correctAnswer = request.getParameter("questions[" + i + "].correctAnswer");
+
             if (questionType.equals("American")) {
-                String option1 = request.getParameter("option1" + i);
-                String option2 = request.getParameter("option2" + i);
-                String option3 = request.getParameter("option3" + i);
-                String option4 = request.getParameter("option4" + i);
+                String option1 = request.getParameter("questions[" + i + "].option1");
+                String option2 = request.getParameter("questions[" + i + "].option2");
+                String option3 = request.getParameter("questions[" + i + "].option3");
+                String option4 = request.getParameter("questions[" + i + "].option4");
+
                 AmericanQuestion americanQuestion = new AmericanQuestion(questionText, correctAnswer, option1, option2,
                         option3, option4);
+                americanQuestion.setTest(testService.getTestById(testId));
+                americanQuestion.setId(questionId);
                 questionList.add(americanQuestion);
             } else if (questionType.equals("TrueFalse")) {
                 TrueFalseQuestion trueFalseQuestion = new TrueFalseQuestion(questionText, correctAnswer);
+                trueFalseQuestion.setTest(testService.getTestById(testId));
+                trueFalseQuestion.setId(questionId);
                 questionList.add(trueFalseQuestion);
             }
+
             i++;
         }
+        System.out.println("SIZE OF QUESTIONS LIST: " + questionList.size());
 
         Test test = testService.getTestById(testId); // Assuming you have a method to fetch the test by ID
         test.setTitle(title);
         test.setStartTime(startTime);
         test.setDuration(duration);
         test.setQuestions(questionList);
-
         Course course = courseRepository.findCourseByTestId(testId);
         test.setCourse(course);
+        // System.out.println("\n in testEditController: \n" +
+        // test.getQuestions().getFirst().getQuestionText());
         testService.saveTest(test);
         return "redirect:/teacher/view-tests"; // Redirect to the list of tests after updating
     }

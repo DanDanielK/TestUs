@@ -47,6 +47,10 @@ public class TestService {
 
     public void saveTest(Test test) {
         testRepository.save(test);
+        List<Question> newQuestions = test.getQuestions();
+        for (Question q : newQuestions) {
+            questionRepository.save(q);
+        }
     }
 
     private Test convertToTest(TestCreationDto testDto) {
