@@ -17,37 +17,39 @@
             </div>
             <div>
                 <label>Start Time:</label>
-                <input type="text" th:field="*{startTime}" />
+                <input type="datetime-local" name="startTime" th:value="*{startTime}" />
             </div>
             <div>
                 <label>Duration:</label>
                 <input type="text" th:field="*{duration}" />
             </div>
-        <!--
+       
            <h2>Questions</h2>
-            <div th:each="question : ${questions}">
-                <div th:switch="${question.getType()}">
-                    <div th:case="'American'">
-                        <label>American Question Text:</label>
-                        <input type="text" th:field="*{questionText}" />
-                        <label>Option 1:</label>
-                        <input type="text" th:field="*{option1}" />
-                        <label>Option 2:</label>
-                        <input type="text" th:field="*{option2}" />
-                        <label>Option 3:</label>
-                        <input type="text" th:field="*{option3}" />
-                        <label>Option 4:</label>
-                        <input type="text" th:field="*{option4}" />
-                        <label>Correct Answer:</label>
-                        <input type="text" th:field="*{correctAnswer}" />
-                    </div>
-                    <div th:case="'TrueFalse'">
-                        <label>True/False Question Text:</label>
-                        <input type="text" th:field="*{questionText}" />
-                        <label>Correct Answer:</label>
-                        <input type="text" th:field="*{correctAnswer}" />
-                    </div>
+           <div th:each="question, iterStat : ${test.questions}">
+            <div th:switch="${question.type}">
+                <div th:case="'American'">
+                    <label>American Question Text:</label>
+                    <input type="text" th:field="*{questions[__${iterStat.index}__].questionText}" />
+                    <label>Option 1:</label>
+                    <input type="text" th:field="*{questions[__${iterStat.index}__].option1}" />
+                    <label>Option 2:</label>
+                    <input type="text" th:field="*{questions[__${iterStat.index}__].option2}" />
+                    <label>Option 3:</label>
+                    <input type="text" th:field="*{questions[__${iterStat.index}__].option3}" />
+                    <label>Option 4:</label>
+                    <input type="text" th:field="*{questions[__${iterStat.index}__].option4}" />
+                    <label>Correct Answer:</label>
+                    <input type="text" th:field="*{questions[__${iterStat.index}__].correctAnswer}" />
                 </div>
+                <div th:case="'TrueFalse'">
+                    <label>True/False Question Text:</label>
+                    <input type="text" th:field="*{questions[__${iterStat.index}__].questionText}" />
+                    <label>Correct Answer:</label>
+                    <input type="text" th:field="*{questions[__${iterStat.index}__].correctAnswer}" />
+                </div>
+            </div>
+            </div>
+                <!--
                 <form th:action="@{/teacher/delete-question/{questionId}(questionId=${question.id})}" method="post" th:object="${question}">
                     <button type="submit">Delete</button>
                 </form>

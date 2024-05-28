@@ -2,11 +2,13 @@ package com.springbootquickstart.TestUs.questions;
 
 import com.springbootquickstart.TestUs.test.Test;
 import jakarta.persistence.*;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @NoArgsConstructor
+@Data
 @Table(name = "questions")
 public abstract class Question {
     @Id
@@ -27,29 +29,4 @@ public abstract class Question {
 
     // Abstract method to get the type of question
     public abstract String getType();
-
-    // Getters and setters
-    public String getQuestionText() {
-        return questionText;
-    }
-
-    public void setQuestionText(String questionText) {
-        this.questionText = questionText;
-    }
-
-    public String getCorrectAnswer() {
-        return correctAnswer;
-    }
-
-    public void setCorrectAnswer(String correctAnswer) {
-        this.correctAnswer = correctAnswer;
-    }
-
-    public Test getTest() {
-        return test;
-    }
-
-    public void setTest(Test test) {
-        this.test = test;
-    }
 }
