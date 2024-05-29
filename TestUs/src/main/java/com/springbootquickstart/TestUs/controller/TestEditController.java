@@ -20,6 +20,7 @@ import com.springbootquickstart.TestUs.questions.AmericanQuestion;
 import com.springbootquickstart.TestUs.questions.Question;
 import com.springbootquickstart.TestUs.questions.TrueFalseQuestion;
 import com.springbootquickstart.TestUs.repository.CourseRepository;
+import com.springbootquickstart.TestUs.repository.QuestionRepository;
 import com.springbootquickstart.TestUs.service.CourseService;
 import com.springbootquickstart.TestUs.service.MyUserDetailService;
 import com.springbootquickstart.TestUs.service.TeacherService;
@@ -44,6 +45,9 @@ public class TestEditController {
 
     @Autowired
     private CourseRepository courseRepository;
+
+    @Autowired
+    private QuestionRepository questionRepository;
 
     @GetMapping("/edit-test")
     public String editTest(@RequestParam("testId") int testId, Model model) {
@@ -70,6 +74,8 @@ public class TestEditController {
             String questionIdStr = request.getParameter("questions[" + i + "].id");
             if (questionIdStr != null && !questionIdStr.isEmpty()) {
                 questionId = Long.parseLong(questionIdStr);
+            } else {
+                questionId = questionRepository.getHighestQuestionId() + 1;
             }
             String questionType = request.getParameter("questions[" + i + "].type");
             String questionText = request.getParameter("questions[" + i + "].questionText");
