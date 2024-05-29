@@ -89,6 +89,7 @@
             </div>
        
            <h2>Questions</h2>
+           <div id="questionDetails">
            <div th:each="question, iterStat : ${test.questions}" th:id="'question-row-' + ${question.id}" class="question-container">
             <input type="hidden" th:value="${question.id}" th:field="*{questions[__${iterStat.index}__].id}"/>
             <input type="hidden" th:value="${question.type}" th:field="*{questions[__${iterStat.index}__].type}"/>
@@ -122,11 +123,14 @@
                     </select>
                 </div>
             </div>
+           
             <button type="button" th:onclick="deleteQuestion([[${question.id}]])">Delete</button>
         </div>
+    </div>
+            <button type="button" th:onclick="addNewQuestion()">Add New Question</button>
             <button type="submit">Save Changes</button>
-        
         </form>
+        
     </div> 
     <script>
         function deleteQuestion(questionId) {
@@ -148,6 +152,101 @@
                 })
                 .catch(error => console.error('Error:', error));
             }
+        }
+    var questionCount = 0;
+        function addNewQuestion(){
+            // Calculate the maximum question ID
+    var maxQuestionId = 0;
+    document.querySelectorAll('input[name^="questions["]').forEach(function(input) {
+        var id = parseInt(input.getAttribute('name').match(/\[(\d+)\]/)[1]);
+        if (id > maxQuestionId) {
+            maxQuestionId = id;
+        }
+    });
+            var questionContainer = document.createElement("div");
+            questionContainer.classList.add("question-container");
+   // Create a new question container
+            // Add question number
+            var questionNumber = document.createElement("h3");
+            questionCount = maxQuestionId + 1;
+            questionNumber.textContent = "Question " + questionCount;
+            questionContainer.appendChild(questionNumber);
+            // Add question type dropdown
+            var questionTypeDropdown = document.createElement("select");
+            questionTypeDropdown.name = "questionType" + questionCount;
+            var option1 = document.createElement("option");
+            option1.text = "Select Question Type";
+            option1.value = "";
+            var option2 = document.createElement("option");
+            option2.text = "American Question";
+            option2.value = "american";
+            var option3 = document.createElement("option");
+            option3.text = "True/False Question";
+            option3.value = "truefalse";
+            questionTypeDropdown.add(option1);
+            questionTypeDropdown.add(option2);
+            questionTypeDropdown.add(option3);
+            questionTypeDropdown.setAttribute("onchange", "showQuestionDetails(this)");
+            questionContainer.appendChild(questionTypeDropdown);
+            document.getElementById("questionDetails").appendChild(questionContainer);
+        }
+        function showQuestionDetails(dropdown) {
+        var questionType = dropdown.value;
+        var questionContainer = dropdown.parentElement;
+
+    // Remove previous question details if any
+         var questionDetails = questionContainer.getElementsByClassName("question-details")[0];
+            if (questionDetails) {
+                 questionDetails.remove();
+            }
+
+    // Create question details container
+        questionDetails = document.createElement("div");
+        questionDetails.classList.add("question-details");
+
+    // Add input fields based on question type
+     if (questionType === "american") {
+        questionDetails.innerHTML = `
+        <input type="hidden" name="questions[${questionCount}].id" value="">
+        <input type="hidden" name="questions[${questionCount}].type" value="American">
+        <input type="text" name="questions[${questionCount}].questionText" placeholder="Question" required><br>
+            <input type="text" name="questions[${questionCount}].option1" placeholder="Option 1" required><br>
+            <input type="text" name="questions[${questionCount}].option2" placeholder="Option 2" required><br>
+            <input type="text" name="questions[${questionCount}].option3" placeholder="Option 3" required><br>
+            <input type="text" name="questions[${questionCount}].option4" placeholder="Option 4" required><br>
+            <select name="questions[${questionCount}].correctAnswer" required>
+                <option value="">Select Correct Answer</option>
+                <option value="option1">Option 1</option>
+                <option value="option2">Option 2</option>
+                <option value="option3">Option 3</option>
+                <option value="option4">Option 4</option>
+            </select><br>
+        `;
+    } else if (questionType === "truefalse") {
+        questionDetails.innerHTML = `
+        <input type="hidden" name="questions[${questionCount}].id" value="">
+            <input type="hidden" name="questions[${questionCount}].type" value="TrueFalse">
+        <input type="text" name="questions[${questionCount}].questionText" placeholder="Question" required><br>
+            <select name="questions[${questionCount}].correctAnswer" required>
+                <option value="">Select Correct Answer</option>
+                <option value="true">True</option>
+                <option value="false">False</option>
+            </select><br>
+        `;
+    }
+
+    // Add question details to question container
+    questionContainer.appendChild(questionDetails);
+
+    // Show the question details container
+    questionDetails.style.display = "block";
+
+    // Hide the dropdown
+    dropdown.style.display = "none";
+
+    // Show the save button
+     var saveTestButton = document.getElementById("saveTestButton");
+     saveTestButton.style.display = "block";
         }
     </script>
 </body>
