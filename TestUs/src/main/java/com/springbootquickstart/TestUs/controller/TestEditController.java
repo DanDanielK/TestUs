@@ -108,6 +108,8 @@ public class TestEditController {
     @DeleteMapping("/delete-question/{questionId}")
     @ResponseBody
     public String deleteQuestion(@PathVariable long questionId) {
+        // long questionId = Long.parseLong(request.getParameter("questionId"));
+        System.out.println("REACHED DELETETING" + questionId);
         testService.deleteQuestionById(questionId);
         return "Question deleted";
     }
