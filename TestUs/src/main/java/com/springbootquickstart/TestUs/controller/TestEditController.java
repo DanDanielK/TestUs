@@ -47,11 +47,11 @@ public class TestEditController {
 
     @GetMapping("/edit-test")
     public String editTest(@RequestParam("testId") int testId, Model model) {
-        System.out.println("Received testId: " + testId);
         Test test = testService.getTestById(testId);
-        // List<Question> questions = test.getQuestions();
+        if (test.getQuestions() == null) {
+            test.setQuestions(new ArrayList<>());
+        }
         model.addAttribute("test", test);
-        // model.addAttribute("questions", questions);
         return "edit-test";
     }
 
@@ -62,7 +62,6 @@ public class TestEditController {
         String startTimeStr = request.getParameter("startTime");
         LocalDateTime startTime = LocalDateTime.parse(startTimeStr);
         int duration = Integer.parseInt(request.getParameter("duration"));
-
         List<Question> questionList = new ArrayList<>();
         int i = 0;
         // Loop through American and TrueFalse questions
@@ -75,7 +74,6 @@ public class TestEditController {
             String questionType = request.getParameter("questions[" + i + "].type");
             String questionText = request.getParameter("questions[" + i + "].questionText");
             String correctAnswer = request.getParameter("questions[" + i + "].correctAnswer");
-
             if (questionType.equals("American")) {
                 String option1 = request.getParameter("questions[" + i + "].option1");
                 String option2 = request.getParameter("questions[" + i + "].option2");
@@ -96,8 +94,6 @@ public class TestEditController {
 
             i++;
         }
-        System.out.println("SIZE OF QUESTIONS LIST: " + questionList.size());
-
         Test test = testService.getTestById(testId); // Assuming you have a method to fetch the test by ID
         test.setTitle(title);
         test.setStartTime(startTime);
@@ -105,8 +101,6 @@ public class TestEditController {
         test.setQuestions(questionList);
         Course course = courseRepository.findCourseByTestId(testId);
         test.setCourse(course);
-        // System.out.println("\n in testEditController: \n" +
-        // test.getQuestions().getFirst().getQuestionText());
         testService.saveTest(test);
         return "redirect:/teacher/view-tests"; // Redirect to the list of tests after updating
     }
