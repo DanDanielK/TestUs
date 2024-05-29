@@ -4,6 +4,70 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Test</title>
+    <style>
+        /* Add your custom CSS styles here */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            text-align: center;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="datetime-local"],
+        select,
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        /* Style for the success message */
+        .success-message {
+            background-color: #d4edda; /* Green background */
+            color: #155724; /* Dark green text */
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+            border: 1px solid #c3e6cb; /* Light green border */
+        }
+
+        .question-container {
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -26,11 +90,12 @@
        
            <h2>Questions</h2>
            <div th:each="question, iterStat : ${test.questions}">
+            
             <input type="hidden" th:value="${question.id}" th:field="*{questions[__${iterStat.index}__].id}"/>
             <input type="hidden" th:value="${question.type}" th:field="*{questions[__${iterStat.index}__].type}"/>
             <div th:switch="${question.type}">
                 <div th:case="'American'">
-                    <label>American Question Text:</label>
+                    <h3>Question [[${iterStat.index + 1}]] </h3>        
                     <input type="text" name = "AmquestText${iterStat.index}" th:field="*{questions[__${iterStat.index}__].questionText}" />
                     <label>Option 1:</label>
                     <input type="text" name = "AmquestOption1${iterStat.index}" th:field="*{questions[__${iterStat.index}__].option1}" />
@@ -41,13 +106,21 @@
                     <label>Option 4:</label>
                     <input type="text" name = "AmquestOption4${iterStat.index}" th:field="*{questions[__${iterStat.index}__].option4}" />
                     <label>Correct Answer:</label>
-                    <input type="text" name = "AmquestCorrectAnswer${iterStat.index}" th:field="*{questions[__${iterStat.index}__].correctAnswer}" />
+                    <select name="AmquestCorrectAnswer${iterstat.index}" th:field="*{questions[__${iterStat.index}__].correctAnswer}">
+                        <option th:value="option1" th:text="'Option 1'">Option 1</option>
+                        <option th:value="option2" th:text="'Option 2'">Option 2</option>
+                        <option th:value="option3" th:text="'Option 3'">Option 3</option>
+                        <option th:value="option4" th:text="'Option 4'">Option 4</option>
+                    </select>
                 </div>
                 <div th:case="'TrueFalse'">
-                    <label>True/False Question Text:</label>
+                    <h3>Question [[${iterStat.index + 1}]] </h3> 
                     <input type="text" name = "TFquestText${iterStat.index}" th:field="*{questions[__${iterStat.index}__].questionText}" />
                     <label>Correct Answer:</label>
-                    <input type="text" name = "TFquestCorrectAnswer${iterStat.index}" th:field="*{questions[__${iterStat.index}__].correctAnswer}" />
+                    <select name="TFquestCorrectAnswer${iterStat.index}" th:field="*{questions[__${iterStat.index}__].correctAnswer}">
+                        <option th:value="true">true</option>
+                        <option th:value="false">false</option>
+                    </select>
                 </div>
             </div>
             </div>
