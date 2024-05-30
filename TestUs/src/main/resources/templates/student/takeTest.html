@@ -27,7 +27,7 @@
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-        <div class="timer text-white mr-auto">Time left: <span id="timer">10:00</span></div>
+        <div class="timer text-white mr-auto">Time left: <span id="timer"></span></div>
         <button class="btn btn-primary mr-2" id="backButton">Back</button>
         <button class="btn btn-success" id="saveButton">Save</button>
     </nav>
@@ -56,34 +56,41 @@
 
     <script>
         $(document).ready(function() {
-            var timerDuration = [[${remainingTime}]]; // Time in seconds passed from the controller
-            var timer = $('#timer');
-            
-            function updateTimer() {
-                var minutes = Math.floor(timerDuration / 60);
-                var seconds = timerDuration % 60;
-                seconds = seconds < 10 ? '0' + seconds : seconds;
-                timer.text(minutes + ':' + seconds);
-                timerDuration--;
+        var timerDuration = [[${remainingTime}]] * 60; // Convert minutes to seconds
+        var timer = $('#timer');
+        
+        function updateTimer() {
+            var days = Math.floor(timerDuration / (60 * 60 * 24));
+            var hours = Math.floor((timerDuration % (60 * 60 * 24)) / (60 * 60));
+            var minutes = Math.floor((timerDuration % (60 * 60)) / 60);
+            var seconds = timerDuration % 60;
 
-                if (timerDuration < 0) {
-                    clearInterval(timerInterval);
-                    $('#questionForm').submit(); // automatically submit the test
-                    alert('Time is up!');
-                }
+            seconds = seconds < 10 ? '0' + seconds : seconds;
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+            hours = hours < 10 ? '0' + hours : hours;
+
+            var displayTime = (days > 0 ? days + 'd ' : '') + hours + ':' + minutes + ':' + seconds;
+            timer.text(displayTime);
+            timerDuration--;
+
+            if (timerDuration < 0) {
+                clearInterval(timerInterval);
+                $('#questionForm').submit(); // automatically submit the test
+                alert('Time is up!');
             }
+        }
 
-            var timerInterval = setInterval(updateTimer, 1000);
+        var timerInterval = setInterval(updateTimer, 1000);
 
-            $('#backButton').click(function() {
-                window.history.back();
-            });
-
-            $('#saveButton').click(function() {
-                alert('Save button clicked!');
-                // Implement save functionality here
-            });
+        $('#backButton').click(function() {
+            window.history.back();
         });
+
+        $('#saveButton').click(function() {
+            alert('Save button clicked!');
+            // Implement save functionality here
+        });
+    });
     </script>
 </body>
 </html>

@@ -38,6 +38,8 @@ public class TestCreationDto {
         return this.startTime;
     }
 
+
+
     public void setCourseId(Long courseId) {
         this.courseId = courseId;
     }
@@ -57,4 +59,6 @@ public class TestCreationDto {
     public void setDuration(int duration) {
         this.duration = duration;
     }
+
+    
 }

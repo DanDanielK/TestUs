@@ -73,6 +73,7 @@
 			<groupId>nz.net.ultraq.thymeleaf</groupId>
 			<artifactId>thymeleaf-layout-dialect</artifactId>
 		</dependency>
+		
 
 		<dependency>
 			<groupId>org.springframework.security</groupId>
@@ -122,6 +123,11 @@
             <version>RELEASE</version>
             <scope>compile</scope>
         </dependency>
+		<dependency>
+    <groupId>org.thymeleaf.extras</groupId>
+    <artifactId>thymeleaf-extras-java8time</artifactId>
+	<version>RELEASE</version>
+</dependency>
 
         <!--
         <dependency>
