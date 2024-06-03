@@ -2,9 +2,11 @@ package com.springbootquickstart.TestUs.questions;
 
 import com.springbootquickstart.TestUs.test.Test;
 import jakarta.persistence.*;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Data
 @Inheritance(strategy = InheritanceType.JOINED)
 @NoArgsConstructor
 @Table(name = "questions")
@@ -52,4 +54,6 @@ public abstract class Question {
     public void setTest(Test test) {
         this.test = test;
     }
+
+    
 }
