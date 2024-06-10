@@ -31,3 +31,37 @@ function filterByRole(){
     }
 
 }
+
+
+
+
+// function filterByDath(){
+
+// const now = new Date();
+// const currentTimeString = now.toLocaleTimeString();
+
+// var dropdown = document.getElementById("dath");
+// var selectedValue= dropdown.value;
+// var table= document.getElementById("TestsTable");
+// var rows= table.getElementsByTagName("tr");
+
+// for(var i=1; i<rows.length; i++) {
+//     var row = rows[i];
+//     var dateStr = row.cells[3].textContent.trim();
+//     console.log("------------------------------------------"+ dateStr);
+//     if (selectedValue === "ALL") {
+//         row.style.display = "none";
+//     }
+//     else if (selectedValue === "COMPLETED" ){//&& new date(dateStr) > currentTimeString) {
+//         row.style.display = "";
+//     }
+//     else if (selectedValue === "TODO" ){//&& new date(dateStr) < currentTimeString) {
+//         row.style.display = "";
+//     }
+//     else {
+//         row.style.display = "none";
+//     }
+// }
+
+// }
+

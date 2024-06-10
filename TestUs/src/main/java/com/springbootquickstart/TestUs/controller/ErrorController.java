@@ -11,6 +11,7 @@ public class ErrorController {
 
     @RequestMapping("/error")
     public String handleError() {
+
         // Forward to the custom error page
         return "error";
     }

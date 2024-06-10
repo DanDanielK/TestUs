@@ -24,6 +24,12 @@
                 <!-- Check if signUpStatus is 'Approved' -->
                 <th:block th:if="${courseStudent.signupStatus.toString() == 'APPROVED'}">
                     <button class="btn btn--block card__btn">Details</button>
+
+                    <!-- check for avaliable test and show a button to the test-->
+                    <th:block th:if="${courseStudent.signupStatus.toString() == 'APPROVED'}">
+
+                    </th:block>
+
                 </th:block>
                 <!-- If not 'Approved', display the status -->
                 <th:block th:unless="${courseStudent.signupStatus.toString() == 'APPROVED'}">

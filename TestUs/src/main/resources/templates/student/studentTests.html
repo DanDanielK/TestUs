@@ -1,0 +1,85 @@
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layouts/user}">
+    <div class="container" layout:fragment="content">
+        <div class="text-center mt-5">
+            <h2>View Tests</h2>
+        </div>
+        <div class="m-2">
+            <a href="/student" class="btn btn-primary">Go Back</a>
+        </div>
+
+        <div class="m-2">
+            <label for="dath"> Filter by dath:</label>
+            <select name="dath" id="dath" class="form-select" onchange="filterByDath()">
+                <option value="ALL">All</option>
+                <option value="COMPLETED">Completed</option>
+                <option value="TODO">To do</option>
+                <option value="ACTIVE">Active</option>
+            </select>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped" id="TestsTable">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Test Id</th>
+                        <th>Course Id</th>
+                        <th>Course name</th>
+                        <th>Start Time</th>
+                        <th>End Time</th>
+                        <th>Grade</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <th:block th:each="testInfo : ${testsDtoList}">
+                        <tr th:attr="data-status=${testInfo.isTestCompleted() ? 'COMPLETED' : testInfo.isTestUpcoming() ? 'TODO' : 'ACTIVE'}">
+                            <td th:text ="${testInfo.testClass.testId}"></td>
+                            <td th:text = "${testInfo.testClass.course.id}"></td>
+                            <td th:text="${testInfo.testClass.course.name}">"python"</td>
+                            <td th:text="${#temporals.format(testInfo.startTime, 'yyyy-MM-dd HH:mm')}">Start Time</td>
+                           <td th:text="${#temporals.format(testInfo.endTime, 'yyyy-MM-dd HH:mm')}"></td>
+                            <td></td>
+                            <!--<td th:text="${test.grade}">45</td> -->
+                            <td>
+                               
+                                <!-- If the test is ongoing, render the button with 'active' state -->
+                                <a th:if="${testInfo.isTestActive()}" th:href="@{take-test(testId=${testInfo.testClass.testId})}">
+                                    <button class="btn btn-primary" type="button">Take Test</button>
+                                </a>
+
+                                <!-- If the test is upcoming, render the button with 'disabled' state -->
+                                <span th:if="${testInfo.isTestUpcoming()}" >Upcoming Test</span>
+
+                                <!-- If the test is completed, render the button with 'disabled' state -->
+                                <button th:if="${testInfo.isTestCompleted()}" class="btn btn-secondary" type="button" disabled>View  Test</button>
+
+                            </td>
+                        </tr>
+                    </th:block>
+                </tbody>
+            </table>
+        </div>
+        <script>
+            function filterByDath() {
+                const filter = document.getElementById('dath').value;
+                console.log(filter)
+                const rows = document.querySelectorAll('#TestsTable tbody tr');
+
+                
+                rows.forEach(row => {
+                    const status = row.getAttribute('data-status');
+                    console.log(row)
+                    console.log(status)
+                    if (filter === 'ALL') {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = (status === filter) ? '' : 'none';
+                    }
+                });
+            }
+        </script>
+    </div>
+</html>
