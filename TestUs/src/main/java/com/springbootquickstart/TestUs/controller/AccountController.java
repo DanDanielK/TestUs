@@ -6,7 +6,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 
 public class AccountController {
+
     @Autowired
     private MyUserDetailService userDetailService;
 
@@ -42,6 +45,25 @@ public class AccountController {
         }
         // You can redirect wherever you want, but generally it's a good practice to
         return "redirect:/home";
+    }
+
+    @RequestMapping(value = "/dashboard", method = RequestMethod.GET)
+    public String home() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.isAuthenticated()) {
+            for (GrantedAuthority authority : authentication.getAuthorities()) {
+                String role = authority.getAuthority();
+                switch (role) {
+                    case "ROLE_ADMIN":
+                        return "redirect:/admin";
+                    case "ROLE_TEACHER":
+                        return "redirect:/teacher";
+                    case "ROLE_STUDENT":
+                        return "redirect:/student";
+                }
+            }
+        }
+        return "redirect:/login"; // Default redirect for non-authenticated users
     }
 
 
