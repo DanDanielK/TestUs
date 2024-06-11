@@ -41,20 +41,29 @@
                             <td th:text="${testInfo.testClass.course.name}">"python"</td>
                             <td th:text="${#temporals.format(testInfo.startTime, 'yyyy-MM-dd HH:mm')}">Start Time</td>
                            <td th:text="${#temporals.format(testInfo.endTime, 'yyyy-MM-dd HH:mm')}"></td>
-                            <td></td>
-                            <!--<td th:text="${test.grade}">45</td> -->
+                           <td th:text="${testInfo.score != -1.0 ? testInfo.score : ''}"></td>
                             <td>
-                               
-                                <!-- If the test is ongoing, render the button with 'active' state -->
-                                <a th:if="${testInfo.isTestActive()}" th:href="@{take-test(testId=${testInfo.testClass.testId})}">
+
+                                <th:block th:if="${testInfo.isTestActive()}">
+                                <a th:if="${!testInfo.submitted}" th:href="@{take-test(testId=${testInfo.testClass.testId})}">
                                     <button class="btn btn-primary" type="button">Take Test</button>
                                 </a>
+                                <span th:if="${testInfo.submitted}" style="color: #007bff; text-decoration: none;">Already Submitted</span>
+                                </th:block>
 
-                                <!-- If the test is upcoming, render the button with 'disabled' state -->
+                                <!-- If the test is upcoming -->
                                 <span th:if="${testInfo.isTestUpcoming()}" >Upcoming Test</span>
 
-                                <!-- If the test is completed, render the button with 'disabled' state -->
-                                <button th:if="${testInfo.isTestCompleted()}" class="btn btn-secondary" type="button" disabled>View  Test</button>
+                                <!-- If the test is completed -->
+
+                                <th:block th:if="${testInfo.isTestCompleted()}">
+
+                                <a th:if="${testInfo.submitted}" th:href="@{view-test(testId=${testInfo.testClass.testId})}">
+                                    <button class="btn btn-secondary" type="button">View  Test</button>
+                                </a>
+
+                                <span th:if="${!testInfo.submitted}" style="color: #007bff; text-decoration: none;">Test was not submitted</span>
+                                </th:block>
 
                             </td>
                         </tr>

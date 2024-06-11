@@ -15,15 +15,17 @@ public class TestInfoDto {
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private int duration;
+    private boolean submitted;
+    private double score;
 
 
-    public TestInfoDto(Test test) {
+    public TestInfoDto(Test test, double score) {
         this.testClass = test;
         this.startTime = test.getStartTime();
         this.endTime = test.getStartTime().plusMinutes(test.getDuration());
         this.duration = test.getDuration();
+        this.score = score;
     }
-
 
     public boolean isTestActive(){
         LocalDateTime now = LocalDateTime.now();
@@ -51,6 +53,9 @@ public class TestInfoDto {
         // Calculate the duration between now and endTime
         return Duration.between(now, endTime);
     }
-    
+
+    public boolean isSubmitted(){
+        return submitted;
+    }  
     
 }

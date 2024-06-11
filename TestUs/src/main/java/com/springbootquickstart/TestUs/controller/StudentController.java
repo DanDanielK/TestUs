@@ -1,14 +1,14 @@
 package com.springbootquickstart.TestUs.controller;
 
-import com.fasterxml.jackson.annotation.ObjectIdGenerators.None;
-import com.springbootquickstart.TestUs.dto.TestCreationDto;
+import com.springbootquickstart.TestUs.answers.Answer;
+import com.springbootquickstart.TestUs.answers.AnswerService;
 import com.springbootquickstart.TestUs.dto.TestInfoDto;
 import com.springbootquickstart.TestUs.model.Course;
-import com.springbootquickstart.TestUs.model.CourseStudent;
-import com.springbootquickstart.TestUs.model.MyUser;
 import com.springbootquickstart.TestUs.model.Student;
+import com.springbootquickstart.TestUs.questions.AmericanQuestion;
 import com.springbootquickstart.TestUs.questions.Question;
-import com.springbootquickstart.TestUs.repository.MyUserRepository;
+import com.springbootquickstart.TestUs.questions.TrueFalseQuestion;
+
 import com.springbootquickstart.TestUs.service.Button;
 import com.springbootquickstart.TestUs.service.CourseService;
 import com.springbootquickstart.TestUs.service.CourseStudentService;
@@ -18,25 +18,22 @@ import com.springbootquickstart.TestUs.test.TestService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.sql.Date;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 import java.time.Duration;
+
 
 @Controller
 @RequestMapping("/student")
@@ -50,6 +47,8 @@ public class StudentController {
     private CourseStudentService courseStudentService;
     @Autowired
     private TestService testService;
+    @Autowired
+    private AnswerService answerService;
 
     /*
      *  ------------------------------------  MENU  -----------------------------------
@@ -120,7 +119,13 @@ public class StudentController {
 
             for(Test test : course.getTests()){
 
-                TestInfoDto testDto = new TestInfoDto(test);
+                TestInfoDto testDto = new TestInfoDto(test, answerService.getScore(test.getTestId(), student.getId())); // if score -1 the student has not taken the test
+
+                // check if the student has already taken the test or if the test finished the student has not taken the test
+                if (answerService.hasStudentSubmittedTest(test.getTestId(), student.getId())){
+                    testDto.setSubmitted(true);
+                }
+
                 testDtoList.add(testDto);
             }
 
@@ -132,137 +137,188 @@ public class StudentController {
         return "student/studentTests";
     }
 
+    @GetMapping("/view-test")
+    public String reviewPastResults(@RequestParam("testId") int testId, Model model){
+
+        try{
+        Test test = testService.getTestById(testId);
+
+        // split the questions
+        List<AmericanQuestion> americanQuestions = new ArrayList<>();
+        List<Question> trueFalseQuestions = new ArrayList<>();
+
+        for (Question q : test.getQuestions()) {
+
+            if (q instanceof AmericanQuestion) 
+                americanQuestions.add((AmericanQuestion) q);
+            
+            else if(q instanceof TrueFalseQuestion)
+                trueFalseQuestions.addLast((TrueFalseQuestion)q);
+
+        }
+            
+        model.addAttribute("americanQ", americanQuestions);
+        model.addAttribute("trueFalseQ", trueFalseQuestions);
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Student student = studentService.findByEmail(auth.getName());
+
+        //student answers
+        Answer answers = answerService.getAnswerByTestIdAndStudentId(testId, student.getId());
+
+        if (answers == null) return "redirect:/student/review-all-tests";
+        
+        Map<Long, String> studentAnswers = answers.getAnswers();
+        
+        double score = answerService.getScore(testId, student.getId());
+
+        model.addAttribute("aMap",studentAnswers);
+        model.addAttribute("score",score);
+
+        return "student/viewTestResults";
+        }
+        catch(Exception e){
+            System.out.println("------------Error: " + e.getMessage());
+            return "redirect:/student/review-all-tests";
+        }
+    }
+
 
     /*
      *  ---------------------------------  TAKE TEST  ---------------------------------
      */
     
-     @GetMapping("/take-test")
-     public String takeTest(@RequestParam("testId") int testId ,Model model){ 
+    @GetMapping("/take-test")
+    public String takeTest(@RequestParam("testId") int testId ,Model model){ 
+        /**
+         * take the test
+         * 
+         * @param testId: the id of the test
+         * @param model: the model to pass the data to the view
+         * @return: the view to take the test
+         */
 
         //find the student that is logged in 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Student student = studentService.findByEmail(auth.getName());
 
-        //validate the page request
         Test test  = null;
+        TestInfoDto testDto = null; 
+
+        // validate the page request
         try{
-            //if not found
-            test = testService.getTestById(testId);
+            test = testService.getTestById(testId); // if not found
 
-            //if the student is not enrolled in the course
+            if (test == null) throw new Exception("test is not active");
+             
+            testDto = new TestInfoDto(test, -1); // if the test is not active
 
-            //if the test is not active
-
+            if (!testDto.isTestActive()) throw new Exception("test not found");
+             
             //if the student has already taken the test
+            if (answerService.hasStudentSubmittedTest(testId, student.getId())) throw new Exception("student has already taken the test");
             
         }
-        finally{
-            if (test == null)
-                return "redirect:/student/review-all-tests";
-        }
-        
-
-        TestInfoDto testDto = new TestInfoDto(test);
- 
-        // test remaining time in minutes
-        Duration remainingTime = testDto.getRemainingTime();
-
-        if (!testDto.isTestActive()) {
-            // If the test is not active, redirect the student to the review tests page
+        catch(Exception e){
+            System.out.println("Error: " + e.getMessage());
             return "redirect:/student/review-all-tests";
         }
         
+        // test remaining time in minutes
+        Duration remainingTime = testDto.getRemainingTime();
         model.addAttribute("remainingTime", remainingTime.toMinutes());
 
-        //test.getQuestions()
-        List<Question> questions = new ArrayList<>(test.getQuestions());
-        Question question = questions.get(0);
-        //question.
+        // split the questions
+        List<AmericanQuestion> americanQuestions = new ArrayList<>();
+        List<Question> trueFalseQuestions = new ArrayList<>();
 
-         // Sample questions
-        //  questions.add(new Question(1, "What is the capital of the USA?", List.of("Washington, D.C.", "New York", "Los Angeles", "Chicago", "Miami")));
-        //  questions.add(new Question(2, "Who was the first President of the USA?", List.of("George Washington", "Abraham Lincoln", "Thomas Jefferson")));
+        for (Question q : test.getQuestions()) {
 
-        //  questions.add(new Question(3, "What is the capital of the USA?", List.of("Washington, D.C.", "New York", "Los Angeles")));
-        //  questions.add(new Question(4, "Who was the first President of the USA?", List.of("George Washington", "Abraham Lincoln", "Thomas Jefferson")));
+            if (q instanceof AmericanQuestion) 
+                americanQuestions.add((AmericanQuestion) q);
+            
+            else if(q instanceof TrueFalseQuestion)
+                trueFalseQuestions.addLast((TrueFalseQuestion)q);
+        }
+ 
+        model.addAttribute("americanQ", americanQuestions);
+        model.addAttribute("trueFalseQ", trueFalseQuestions);
+        model.addAttribute("testId", test.getTestId());
 
-        //  questions.add(new Question(5, "What is the capital of the USA?", List.of("Washington, D.C.", "New York", "Los Angeles")));
-        //  questions.add(new Question(6, "Who was the first President of the USA?", List.of("George Washington", "Abraham Lincoln", "Thomas Jefferson")));
-         
-         model.addAttribute("questions", questions);
+        //if its first time save empty answers to know the student has started the test
+        if (!answerService.hasStudentSubmittedTest(testId, student.getId())) {
+            Map<Long, String> answers = new HashMap<Long, String>();
+            for (Question q : test.getQuestions()) {
+                answers.put(q.getId(), "");
+            }
+            
+            answerService.saveOrUpdateAnswer(testId, student.getId(), answers, false);
+        }
         
          return "student/takeTest";
+        }
  
-     }
- 
-     @PostMapping("/submit")
-     public String submitAnswers() {
-         // Handle the form submission
-         return "result";
-     }
+    @PostMapping("/submit")
+    public String submitAnswers(@RequestParam Map<String, String> allParams){
+        /**
+         * handle the form (test) saving witout submission.
+         * 
+         * @param allParams: map of the answers
+         * @return: redirect to the review-all-tests page
+         * 
+         * Note: testId saved in the HTML page as hidden input
+         */
+
+        return saveAnswersHelper(allParams, true);
+    }
+
+    @PostMapping("/save")
+    public String saveAnswers(@RequestParam Map<String, String> allParams) {
+        /**
+         * handle the form (test) saving witout submission.
+         * 
+         * @param allParams: map of the answers
+         * @return: redirect to the review-all-tests page
+         * 
+         * Note: testId saved in the HTML page as hidden input
+         */
+        return saveAnswersHelper(allParams, false);
+    }
 
 
+    private String saveAnswersHelper(@RequestParam Map<String, String> allParams, Boolean submitted) {
+        /**
+         * save the answers to the database
+         * 
+         * @param allParams: map of the answers
+         * @param submitted: boolean, true if the test is submitted, false if 
+         *                   the test is saved.
+         * @return: redirect to the review-all-tests page
+         */
 
-    //  public class Question {
-    //     private int id;
-    //     private String text;
-    //     private List<String> options;
+        int testId = Integer.parseInt(allParams.get("testId"));
+        Test test  = testService.getTestById(testId);
+
+        if(test == null) return "redirect:/student/review-all-tests";
+
+        // remove the testId from the map of the answers
+        allParams.remove("testId");
+
+        //find the student that is logged in 
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Student student = studentService.findByEmail(auth.getName());
+        
+        Map<Long, String> answers = new HashMap<Long, String>();
+
+        // contain question ids as keys and answer as values
+        for (Map.Entry<String, String> entry : allParams.entrySet()) 
+            answers.put(Long.parseLong(entry.getKey()), entry.getValue());
+
+        // save / update the answers to the database, submitted = true.
+        answerService.saveOrUpdateAnswer(testId, student.getId(), answers, submitted);
+
+        return "redirect:/student/review-all-tests";
+        
+    }
     
-    //     public Question(int id, String text, List<String> options) {
-    //         this.id = id;
-    //         this.text = text;
-    //         this.options = options;
-    //     }
-    
-    //     public int getId() {
-    //         return id;
-    //     }
-    
-    //     public void setId(int id) {
-    //         this.id = id;
-    //     }
-    
-    //     public String getText() {
-    //         return text;
-    //     }
-    
-    //     public void setText(String text) {
-    //         this.text = text;
-    //     }
-    
-    //     public List<String> getOptions() {
-    //         return options;
-    //     }
-    
-    //     public void setOptions(List<String> options) {
-    //         this.options = options;
-    //     }
-    // }
-
-
-
-
-
-
-    
-    // public String viewQuestions(@RequestParam("testId") int testId, Model model) {
-    //     // Retrieve the test from the repository using the testId
-    //     Optional<Test> optionalTest = testRepository.findById(testId);
-
-    //     if (optionalTest.isPresent()) {
-    //         Test test = optionalTest.get();
-    //         // Add the test object to the model to pass it to the view
-    //         model.addAttribute("test", test);
-    //         // Return the name of the view template for displaying the questions
-    //         return "view-questions";
-    //     } else {
-    //         // If test is not found, handle the error accordingly (redirect or show error
-    //         // message)
-    //         // For example, you can redirect the user back to the view tests page
-    //         return "redirect:/view-tests";
-    //     }
-    // }
-
-
 }
