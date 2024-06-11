@@ -56,9 +56,13 @@ public class StudentController {
 
     @GetMapping("")
     public String studentMenu(Model model) {
-        /* student main menu page */
+        /**
+         * the student menu
+         * 
+         * @param model: the model to pass the data to the view
+         * @return: the view to the student menu
+         */
 
-        //student menu page options
         final String[] menuItemsText = {"view courses", "Review All Tests", "Logout"};
         final String[] menuItemsUrl = {"view-courses", "review-all-tests", "logout"};
 
@@ -83,22 +87,52 @@ public class StudentController {
 
     @GetMapping("/view-courses")
     public String viewCourses(Model model){
+        /**
+         * view the courses that the student is enrolled in and the cources that the student wants to enroll in.
+         * 
+         * @param model: the model to pass the data to the view
+         * @return: the view to the courses
+         */
+
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Student student= studentService.findByEmail(auth.getName());
-        List<Course> courseList=new ArrayList<>(courseStudentService.getCoursesByStudent(student));
-    List<Course>coursesNotEnrolled=courseStudentService.findCoursesNotEnrolledByStudentId(student);
+
+        List<Course>coursesNotEnrolled=courseStudentService.findCoursesNotEnrolledByStudentId(student);
+
         model.addAttribute("courseStudentList",courseStudentService.findByStudent(student));
         model.addAttribute("coursesNotEnrolled",coursesNotEnrolled);
+
         return "student/courseView";
     }
 
     @RequestMapping(value="/addCourse", method= RequestMethod.POST)
     public String addCourse(@RequestParam("courseId") int courseId){
+        /**
+         * add the student to the course
+         * 
+         * @param courseId: the id of the course
+         * @return: redirect to the view-courses page
+         */
+
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Student student = studentService.findByEmail(auth.getName());
         Course course = courseService.findById((long)courseId);
         courseStudentService.addStudentToCourse(course,student);
         return "redirect:/student/view-courses";
+    }
+
+    @GetMapping("/courseDetails")
+    public String viewCourse(@RequestParam("courseId") Long courseId, Model model) {
+        /**
+         * view the course details
+         * 
+         * @param courseId: the id of the course
+         * @param model: the model to pass the data to the view
+         * @return: the view to the course details
+         */
+        Course course = courseService.findById(courseId);
+        model.addAttribute("selectedCourse", course);
+        return "/student/courseDetailsStudent";
     }
 
 
