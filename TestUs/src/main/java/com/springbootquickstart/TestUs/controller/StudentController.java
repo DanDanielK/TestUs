@@ -108,6 +108,13 @@ public class StudentController {
 
     @GetMapping("/review-all-tests")
     public String reviewPastTests(Model model){
+        /**
+         * view all the tests that the student has taken
+         * 
+         * @param model: the model to pass the data to the view
+         * @return: the view to the tests
+         */
+
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Student student = studentService.findByEmail(auth.getName());
         
@@ -139,6 +146,13 @@ public class StudentController {
 
     @GetMapping("/view-test")
     public String reviewPastResults(@RequestParam("testId") int testId, Model model){
+        /**
+         * view the test results
+         * 
+         * @param testId: the id of the test
+         * @param model: the model to pass the data to the view
+         * @return: the view to the test results
+         */
 
         try{
         Test test = testService.getTestById(testId);
@@ -324,7 +338,12 @@ public class StudentController {
     /*
      *  ---------------------------------  LOGOUT  ---------------------------------
      */
+
     @GetMapping("/logout")
+    /**
+     * logout the student from the system
+     * @return login page
+     */
     public String logout(){
         return "redirect:/logout";
     }
