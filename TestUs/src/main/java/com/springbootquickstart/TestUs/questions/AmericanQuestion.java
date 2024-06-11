@@ -53,4 +53,14 @@ public class AmericanQuestion extends Question {
 
     }
 
+
+    public String getCorrectAnswerAsString(){
+        
+        String number = this.getCorrectAnswer().substring("option".length());
+
+        int correctAnswer = Integer.parseInt(number);
+
+        return getOptions().get(correctAnswer - 1);
+    }
+
 }

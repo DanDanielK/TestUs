@@ -67,7 +67,7 @@
                         <div class="card-body">
                             <p class="card-text" th:text="${question.questionText}"></p>
                             
-                            <div th:each="option : ${question.getOptions()}">
+                            <div th:each="option, iterStat : ${question.getOptions()}">
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" 
                                            th:name="${question.getId()}" 

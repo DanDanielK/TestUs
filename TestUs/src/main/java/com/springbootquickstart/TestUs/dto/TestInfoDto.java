@@ -25,7 +25,6 @@ public class TestInfoDto {
         this.endTime = test.getStartTime().plusMinutes(test.getDuration());
         this.duration = test.getDuration();
         this.score = score;
-        System.out.println("Score-------------: " + score);
     }
 
     public boolean isTestActive(){

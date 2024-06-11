@@ -7,7 +7,9 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.springbootquickstart.TestUs.questions.AmericanQuestion;
 import com.springbootquickstart.TestUs.questions.Question;
+import com.springbootquickstart.TestUs.questions.TrueFalseQuestion;
 import com.springbootquickstart.TestUs.test.TestService;
 
 @Service
@@ -65,8 +67,16 @@ public class AnswerService {
 
         for (Question question : testQuestions) {
             if (studentAnswers.containsKey(question.getId())) {
-                if (studentAnswers.get(question.getId()).equals(question.getCorrectAnswer())) {
-                    score += questionPoints;
+
+                if(question instanceof AmericanQuestion){
+                    if(studentAnswers.get(question.getId()).equals(((AmericanQuestion)question).getCorrectAnswerAsString())){
+                        score += questionPoints;
+                    }
+                }
+                else if(question instanceof TrueFalseQuestion){
+                    if(studentAnswers.get(question.getId()).equals(question.getCorrectAnswer())){
+                        score += questionPoints;
+                    }
                 }
             }
         }

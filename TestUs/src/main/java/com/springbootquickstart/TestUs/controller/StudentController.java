@@ -121,7 +121,7 @@ public class StudentController {
 
                 TestInfoDto testDto = new TestInfoDto(test, answerService.getScore(test.getTestId(), student.getId())); // if score -1 the student has not taken the test
 
-                // check if the student has already taken the test
+                // check if the student has already taken the test or if the test finished the student has not taken the test
                 if (answerService.hasStudentSubmittedTest(test.getTestId(), student.getId())){
                     testDto.setSubmitted(true);
                 }
@@ -135,6 +135,52 @@ public class StudentController {
         model.addAttribute("testsDtoList",testDtoList);
 
         return "student/studentTests";
+    }
+
+    @GetMapping("/view-test")
+    public String reviewPastResults(@RequestParam("testId") int testId, Model model){
+
+        try{
+        Test test = testService.getTestById(testId);
+
+        // split the questions
+        List<AmericanQuestion> americanQuestions = new ArrayList<>();
+        List<Question> trueFalseQuestions = new ArrayList<>();
+
+        for (Question q : test.getQuestions()) {
+
+            if (q instanceof AmericanQuestion) 
+                americanQuestions.add((AmericanQuestion) q);
+            
+            else if(q instanceof TrueFalseQuestion)
+                trueFalseQuestions.addLast((TrueFalseQuestion)q);
+
+        }
+            
+        model.addAttribute("americanQ", americanQuestions);
+        model.addAttribute("trueFalseQ", trueFalseQuestions);
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Student student = studentService.findByEmail(auth.getName());
+
+        //student answers
+        Answer answers = answerService.getAnswerByTestIdAndStudentId(testId, student.getId());
+
+        if (answers == null) return "redirect:/student/review-all-tests";
+        
+        Map<Long, String> studentAnswers = answers.getAnswers();
+        
+        double score = answerService.getScore(testId, student.getId());
+
+        model.addAttribute("aMap",studentAnswers);
+        model.addAttribute("score",score);
+
+        return "student/viewTestResults";
+        }
+        catch(Exception e){
+            System.out.println("------------Error: " + e.getMessage());
+            return "redirect:/student/review-all-tests";
+        }
     }
 
 
