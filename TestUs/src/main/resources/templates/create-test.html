@@ -4,131 +4,82 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TestUs - Create Test</title>
-    <style>
-        /* Add your custom CSS styles here */
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-
-        .container {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 400px;
-            text-align: center;
-        }
-
-        input[type="text"],
-        input[type="number"],
-        select,
-        input[type="submit"] {
-            width: 100%;
-            padding: 10px;
-            margin: 8px 0;
-            display: inline-block;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-
-        input[type="submit"] {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-
-        input[type="submit"]:hover {
-            background-color: #45a049;
-        }
-
-        /* Style for the success message */
-        .success-message {
-            background-color: #d4edda; /* Green background */
-            color: #155724; /* Dark green text */
-            padding: 10px;
-            margin-bottom: 15px;
-            border-radius: 4px;
-            border: 1px solid #c3e6cb; /* Light green border */
-        }
-
-        /* Hide question details initially */
-        .question-details {
-            display: none;
-        }
-
-        .question-container {
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            padding: 10px;
-            margin-bottom: 10px;
-        }
-
-        .readonly {
-            background-color: #f2f2f2;
-        }
-    </style>
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css">
 </head>
 <body>
-    <div class="container">
-        <h2>Test Creation</h2>
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">Test Creation</h2>
 
         <!-- Display success message if available -->
-        <div th:if="${successMessage}" class="success-message" role="alert">
+        <div th:if="${successMessage}" class="alert alert-success" role="alert">
             <span th:text="${successMessage}"></span>
         </div>
         
         <form action="create-test" method="post" onsubmit="return validateForm()">
-            <input type="text" name="title" placeholder="Test Title" required><br>
-            <input type="datetime-local" id="startTime" name="startTime" required><br>
-            <input type="number" name="duration" placeholder="Duration (in minutes)" required><br>
-
-            <!-- Added dropdown for selecting course -->
-            <select name="courseId" required>
-                <option value="">Select Course</option>
-                <option th:each="course : ${courses}" th:value="${course.id}" th:text="${course.name}"></option>
-            </select><br>
+            <div class="form-group mb-3">
+                <label for="title">Test Title</label>
+                <input type="text" id="title" name="title" class="form-control" placeholder="Test Title" required>
+            </div>
+            <div class="form-group mb-3">
+                <label for="startTime">Start Time</label>
+                <input type="datetime-local" id="startTime" name="startTime" class="form-control" required>
+            </div>
+            <div class="form-group mb-3">
+                <label for="duration">Duration (in minutes)</label>
+                <input type="number" id="duration" name="duration" class="form-control" placeholder="Duration (in minutes)" required>
+            </div>
+            <div class="form-group mb-3">
+                <label for="courseId">Select Course</label>
+                <select id="courseId" name="courseId" class="form-control" required>
+                    <option value="">Select Course</option>
+                    <option th:each="course : ${courses}" th:value="${course.id}" th:text="${course.name}"></option>
+                </select>
+            </div>
 
             <!-- Container for question details -->
-            <div id="questionDetails">
+            <div id="questionDetails" class="mb-3">
                 <!-- Question containers will be added dynamically here -->
             </div>
 
-            <input type="button" value="Add New Question" onclick="showQuestionTypeDropdown()" />
-            <input type="submit" id="saveTestButton" value="Save Test" style="display:none;">
+            <div class="d-flex justify-content-between">
+                <input type="button" class="btn btn-info" value="Add New Question" onclick="showQuestionTypeDropdown()" />
+                <input type="submit" id="saveTestButton" class="btn btn-success" value="Save Test" style="display:none;">
+            </div>
         </form>
 
-        <br>
-        <a href="/teacher/view-tests">View Tests</a> <!-- Link to navigate to view tests page -->
+        <div class="text-center mt-4">
+            <a href="/teacher/view-tests" class="btn btn-primary">View Tests</a>
+        </div>
     </div>
 
+    <!-- Bootstrap JS (Optional, for additional functionality) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js"></script>
+    
     <!-- JavaScript to add new question containers -->
     <script>
         var questionCount = 0;
-    
+
         function showQuestionTypeDropdown() {
             var questionDetails = document.getElementById("questionDetails");
-    
+
             // Create a new question container
             var newQuestionContainer = document.createElement("div");
-            newQuestionContainer.classList.add("question-container");
-            
+            newQuestionContainer.classList.add("card", "mb-3", "p-3");
+
             // Add question number
-            var questionNumber = document.createElement("h3");
+            var questionNumber = document.createElement("h5");
             questionNumber.textContent = "Question " + (questionCount + 1);
             newQuestionContainer.appendChild(questionNumber);
             questionCount++;
+
             // Add question type dropdown
             var questionTypeDropdown = document.createElement("select");
             questionTypeDropdown.name = "questionType" + questionCount;
+            questionTypeDropdown.classList.add("form-control", "mb-3");
             var option1 = document.createElement("option");
             option1.text = "Select Question Type";
             option1.value = "";
@@ -143,72 +94,97 @@
             questionTypeDropdown.add(option3);
             questionTypeDropdown.setAttribute("onchange", "showQuestionDetails(this)");
             newQuestionContainer.appendChild(questionTypeDropdown);
-    
+
             // Add the new question container to the question details section
             questionDetails.appendChild(newQuestionContainer);
         }
-    
+
         function showQuestionDetails(dropdown) {
-    var questionType = dropdown.value;
-    var questionContainer = dropdown.parentElement;
+            var questionType = dropdown.value;
+            var questionContainer = dropdown.parentElement;
 
-    // Remove previous question details if any
-    var questionDetails = questionContainer.getElementsByClassName("question-details")[0];
-    if (questionDetails) {
-        questionDetails.remove();
-    }
+            // Remove previous question details if any
+            var questionDetails = questionContainer.getElementsByClassName("question-details")[0];
+            if (questionDetails) {
+                questionDetails.remove();
+            }
 
-    // Create question details container
-    questionDetails = document.createElement("div");
-    questionDetails.classList.add("question-details");
+            // Create question details container
+            questionDetails = document.createElement("div");
+            questionDetails.classList.add("question-details");
 
-    // Add input fields based on question type
-    if (questionType === "american") {
-        questionDetails.innerHTML = `
-            <input type="text" name="question${questionCount}" placeholder="Question" required><br>
-            <input type="text" name="option1${questionCount}" placeholder="Option 1" required><br>
-            <input type="text" name="option2${questionCount}" placeholder="Option 2" required><br>
-            <input type="text" name="option3${questionCount}" placeholder="Option 3" required><br>
-            <input type="text" name="option4${questionCount}" placeholder="Option 4" required><br>
-            <select name="correctAnswer${questionCount}" required>
-                <option value="">Select Correct Answer</option>
-                <option value="option1">Option 1</option>
-                <option value="option2">Option 2</option>
-                <option value="option3">Option 3</option>
-                <option value="option4">Option 4</option>
-            </select><br>
-        `;
-    } else if (questionType === "truefalse") {
-        questionDetails.innerHTML = `
-            <input type="text" name="question${questionCount}" placeholder="Question" required><br>
-            <select name="correctAnswer${questionCount}" required>
-                <option value="">Select Correct Answer</option>
-                <option value="true">True</option>
-                <option value="false">False</option>
-            </select><br>
-        `;
-    }
+            // Add input fields based on question type
+            if (questionType === "american") {
+                questionDetails.innerHTML = `
+                    <div class="form-group mb-2">
+                        <input type="text" name="question${questionCount}" class="form-control" placeholder="Question" required>
+                    </div>
+                    <div class="form-group mb-2">
+                        <input type="text" name="option1${questionCount}" class="form-control" placeholder="Option 1" required>
+                    </div>
+                    <div class="form-group mb-2">
+                        <input type="text" name="option2${questionCount}" class="form-control" placeholder="Option 2" required>
+                    </div>
+                    <div class="form-group mb-2">
+                        <input type="text" name="option3${questionCount}" class="form-control" placeholder="Option 3" required>
+                    </div>
+                    <div class="form-group mb-2">
+                        <input type="text" name="option4${questionCount}" class="form-control" placeholder="Option 4" required>
+                    </div>
+                    <div class="form-group mb-2">
+                        <select name="correctAnswer${questionCount}" class="form-control" required>
+                            <option value="">Select Correct Answer</option>
+                            <option value="option1">Option 1</option>
+                            <option value="option2">Option 2</option>
+                            <option value="option3">Option 3</option>
+                            <option value="option4">Option 4</option>
+                        </select>
+                    </div>
+                `;
+            } else if (questionType === "truefalse") {
+                questionDetails.innerHTML = `
+                    <div class="form-group mb-2">
+                        <input type="text" name="question${questionCount}" class="form-control" placeholder="Question" required>
+                    </div>
+                    <div class="form-group mb-2">
+                        <select name="correctAnswer${questionCount}" class="form-control" required>
+                            <option value="">Select Correct Answer</option>
+                            <option value="true">True</option>
+                            <option value="false">False</option>
+                        </select>
+                    </div>
+                `;
+            }
 
-    // Add question details to question container
-    questionContainer.appendChild(questionDetails);
+            // Add question details to question container
+            questionContainer.appendChild(questionDetails);
 
-    // Show the question details container
-    questionDetails.style.display = "block";
+            // Show the question details container
+            questionDetails.style.display = "block";
 
-    // Hide the dropdown
-    dropdown.style.display = "none";
+            // Hide the dropdown
+            dropdown.style.display = "none";
 
-    // Show the save button
-    var saveTestButton = document.getElementById("saveTestButton");
-    saveTestButton.style.display = "block";
-}
-function validateForm() {
+            // Show the save button
+            var saveTestButton = document.getElementById("saveTestButton");
+            saveTestButton.style.display = "block";
+        }
+
+        function validateForm() {
             var startTime = document.getElementById("startTime").value;
             var currentTime = new Date().toISOString().slice(0, 16);
             if (startTime <= currentTime) {
                 alert("Please select a future date and time.");
                 return false;
             }
+
+            // Validate that duration is a number greater than 0
+            var duration = document.getElementById("duration").value; // Line modified
+            if (isNaN(duration) || duration <= 0) { // Line modified
+                alert("Please enter a valid duration greater than 0."); // Line modified
+                return false; // Line modified
+            } // Line modified
+
             return true;
         }
 

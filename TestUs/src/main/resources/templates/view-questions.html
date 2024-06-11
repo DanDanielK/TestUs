@@ -4,60 +4,76 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Test Details</title>
-    <link rel="stylesheet" type="text/css" href="styles.css">
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Questions for Test: <span th:text="${test.title}"></span></h1>
-        <div class="test-details">
-            <h2>Test Details</h2>
-            <table>
-                <tr>
-                    <th>Start Time:</th>
-                    <td><span th:text="${test.startTime}"></span></td>
-                </tr>
-                <tr>
-                    <th>Duration:</th>
-                    <td><span th:text="${test.duration}"></span> minutes</td>
-                </tr>
-            </table>
+    <div class="container mt-5">
+        <h1 class="text-center">Questions for Test: <span th:text="${test.title}"></span></h1>
+        
+        <div class="card my-4">
+            <div class="card-header">
+                <h2>Test Details</h2>
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    <tr>
+                        <th>Start Time:</th>
+                        <td><span th:text="${test.startTime}"></span></td>
+                    </tr>
+                    <tr>
+                        <th>Duration:</th>
+                        <td><span th:text="${test.duration}"></span> minutes</td>
+                    </tr>
+                </table>
+            </div>
         </div>
 
-        <div class="questions">
-            <h2>Questions</h2>
-            <table border="1">
-                <thead>
-                    <tr>
-                        <th>Question Text</th>
-                        <th>Options</th>
-                        <th>Correct Answer</th>
-                        <th>Type</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Loop through questions and display them -->
-                    <tr th:each="question : ${test.questions}">
-                        <td><span th:text="${question.questionText}"></span></td>
-                        <td>
-                            <!-- Check if the question is an American question -->
-                            <ul th:if="${question.type eq 'American'}">
-                                <li><span th:text="${question.option1}"></span></li>
-                                <li><span th:text="${question.option2}"></span></li>
-                                <li><span th:text="${question.option3}"></span></li>
-                                <li><span th:text="${question.option4}"></span></li>
-                            </ul>
-                            <!-- Check if the question is a True/False question -->
-                            <span th:if="${question.type eq 'TrueFalse'}">True / False</span>
-                        </td>
-                        <td><span th:text="${question.correctAnswer}"></span></td>
-                        <td><span th:text="${question.type}"></span></td>
-                    </tr>
-                </tbody>
-            </table>
-            <form action="/teacher/view-tests" method="get">
-                <button class="action-btn">Back to View Tests</button>
-            </form>
+        <div class="card my-4">
+            <div class="card-header">
+                <h2>Questions</h2>
+            </div>
+            <div class="card-body">
+                <table class="table table-bordered">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>Question Text</th>
+                            <th>Options</th>
+                            <th>Correct Answer</th>
+                            <th>Type</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Loop through questions and display them -->
+                        <tr th:each="question : ${test.questions}">
+                            <td><span th:text="${question.questionText}"></span></td>
+                            <td>
+                                <!-- Check if the question is an American question -->
+                                <ul th:if="${question.type eq 'American'}">
+                                    <li><span th:text="${question.option1}"></span></li>
+                                    <li><span th:text="${question.option2}"></span></li>
+                                    <li><span th:text="${question.option3}"></span></li>
+                                    <li><span th:text="${question.option4}"></span></li>
+                                </ul>
+                                <!-- Check if the question is a True/False question -->
+                                <span th:if="${question.type eq 'TrueFalse'}">True / False</span>
+                            </td>
+                            <td><span th:text="${question.correctAnswer}"></span></td>
+                            <td><span th:text="${question.type}"></span></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <form action="/teacher/view-tests" method="get">
+                    <button class="btn btn-primary">Back to View Tests</button>
+                </form>
+            </div>
         </div>
     </div>
+    
+    <!-- Bootstrap JS (Optional, for additional functionality) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js"></script>
 </body>
 </html>

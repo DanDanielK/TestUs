@@ -4,43 +4,58 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Tests</title>
-    <link rel="stylesheet" type="text/css" href="styles.css">
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css">
 </head>
 <body>
-    <div class="container">
-        <h1>View Tests</h1>
-        <table border="1">
-            <thead>
-                <tr>
-                    <th>Test ID</th>
-                    <th> Teacher </th>
-                    <th> Course name </th>
-                    <th>Title</th>
-                    <th>Start Time</th>
-                    <th>Duration</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Loop through tests and display them -->
-                <tr th:each="test : ${tests}">
-                    <td th:text="${test.testId}"></td>
-                    <td th:text="${test.course.teacher.myUser.email}"></td>
-                    <td th:text="${test.course.name}"></td>
-                    <td th:text="${test.title}"></td>
-                    <td th:text="${test.startTime}"></td>
-                    <td th:text="${test.duration}"></td>
-                    <td>
-                        <!-- Link to view questions of the test -->
-                        <a class="action-btn" th:href="@{/view-questions(testId=${test.testId})}">View Questions</a>
-                        <a class="action-btn" th:href="@{/teacher/edit-test(testId=${test.testId})}">Edit</a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <form action="/teacher/create-test" method="get">
-            <button class="action-btn">create new test</button>
-        </form>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">View Tests</h1>
+        
+        <div class="card">
+            <div class="card-body">
+                <table class="table table-bordered table-striped">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>Test ID</th>
+                            <th>Teacher</th>
+                            <th>Course Name</th>
+                            <th>Title</th>
+                            <th>Start Time</th>
+                            <th>Duration</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Loop through tests and display them -->
+                        <tr th:each="test : ${tests}">
+                            <td th:text="${test.testId}"></td>
+                            <td th:text="${test.course.teacher.myUser.email}"></td>
+                            <td th:text="${test.course.name}"></td>
+                            <td th:text="${test.title}"></td>
+                            <td th:text="${test.startTime}"></td>
+                            <td th:text="${test.duration}"></td>
+                            <td>
+                                <!-- Link to view questions of the test -->
+                                <a class="btn btn-info btn-sm" th:href="@{/view-questions(testId=${test.testId})}">View Questions</a>
+                                <a class="btn btn-warning btn-sm" th:href="@{/teacher/edit-test(testId=${test.testId})}">Edit</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div class="text-center mt-4">
+            <form action="/teacher/create-test" method="get">
+                <button class="btn btn-primary">Create New Test</button>
+            </form>
+        </div>
     </div>
+    
+    <!-- Bootstrap JS (Optional, for additional functionality) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js"></script>
 </body>
 </html>

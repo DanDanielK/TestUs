@@ -4,134 +4,99 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Test</title>
-    <style>
-        /* Add your custom CSS styles here */
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
 
-        .container {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 400px;
-            text-align: center;
-        }
-
-        input[type="text"],
-        input[type="number"],
-        input[type="datetime-local"],
-        select,
-        input[type="submit"] {
-            width: 100%;
-            padding: 10px;
-            margin: 8px 0;
-            display: inline-block;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-
-        input[type="submit"] {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-
-        input[type="submit"]:hover {
-            background-color: #45a049;
-        }
-
-        /* Style for the success message */
-        .success-message {
-            background-color: #d4edda; /* Green background */
-            color: #155724; /* Dark green text */
-            padding: 10px;
-            margin-bottom: 15px;
-            border-radius: 4px;
-            border: 1px solid #c3e6cb; /* Light green border */
-        }
-
-        .question-container {
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            padding: 10px;
-            margin-bottom: 10px;
-        }
-    </style>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Edit Test</h1>
-      
-        <form th:action="@{/teacher/update-test}" th:object="${test}" method="post">
-         <input type="hidden" th:field="*{testId}" />
-              <div>
-                <label>Title:</label>
-                <input type="text" th:field="*{title}" />
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Edit Test</h1>
+
+        <form th:action="@{/teacher/update-test}" th:object="${test}"  onsubmit="return validateForm()" method="post">
+            <input type="hidden" th:field="*{testId}" />
+            <div class="form-group mb-3">
+                <label for="title">Title:</label>
+                <input type="text" id="title" th:field="*{title}" class="form-control" />
             </div>
-            <div>
-                <label>Start Time:</label>
-                <input type="datetime-local" id="startTime" name="startTime" th:value="*{startTime}" />
+            <div class="form-group mb-3">
+                <label for="startTime">Start Time:</label>
+                <input type="datetime-local" id="startTime" name="startTime" th:value="*{startTime}" class="form-control" />
             </div>
-            <div>
-                <label>Duration:</label>
-                <input type="text" th:field="*{duration}" />
+            <div class="form-group mb-3">
+                <label for="duration">Duration:</label>
+                <input type="number" id="duration" th:field="*{duration}" class="form-control" />
             </div>
-       
-           <h2>Questions</h2>
-           <div id="questionDetails">
-           <div th:each="question, iterStat : ${test.questions}" th:id="'question-row-' + ${question.id}" class="question-container">
-            <input type="hidden" th:value="${question.id}" th:field="*{questions[__${iterStat.index}__].id}"/>
-            <input type="hidden" th:value="${question.type}" th:field="*{questions[__${iterStat.index}__].type}"/>
-            <div th:switch="${question.type}">
-                <div th:case="'American'">
-                    <h3>Question [[${iterStat.index + 1}]] </h3>        
-                    <input type="text" name = "AmquestText${iterStat.index}" th:field="*{questions[__${iterStat.index}__].questionText}" />
-                    <label>Option 1:</label>
-                    <input type="text" name = "AmquestOption1${iterStat.index}" th:field="*{questions[__${iterStat.index}__].option1}" />
-                    <label>Option 2:</label>
-                    <input type="text" name = "AmquestOption2${iterStat.index}" th:field="*{questions[__${iterStat.index}__].option2}" />
-                    <label>Option 3:</label>
-                    <input type="text" name = "AmquestOption3${iterStat.index}" th:field="*{questions[__${iterStat.index}__].option3}" />
-                    <label>Option 4:</label>
-                    <input type="text" name = "AmquestOption4${iterStat.index}" th:field="*{questions[__${iterStat.index}__].option4}" />
-                    <label>Correct Answer:</label>
-                    <select name="AmquestCorrectAnswer${iterstat.index}" th:field="*{questions[__${iterStat.index}__].correctAnswer}">
-                        <option th:value="option1" th:text="'Option 1'">Option 1</option>
-                        <option th:value="option2" th:text="'Option 2'">Option 2</option>
-                        <option th:value="option3" th:text="'Option 3'">Option 3</option>
-                        <option th:value="option4" th:text="'Option 4'">Option 4</option>
-                    </select>
+
+            <h2 class="mt-4">Questions</h2>
+            <div id="questionDetails">
+                <div th:each="question, iterStat : ${test.questions}" th:id="'question-row-' + ${question.id}" class="card mb-3 p-3">
+                    <input type="hidden" th:value="${question.id}" th:field="*{questions[__${iterStat.index}__].id}" />
+                    <input type="hidden" th:value="${question.type}" th:field="*{questions[__${iterStat.index}__].type}" />
+                    <div th:switch="${question.type}">
+                        <div th:case="'American'">
+                            <h3>Question [[${iterStat.index + 1}]]</h3>
+                            <div class="form-group mb-2">
+                                <label>Question Text:</label>
+                                <input type="text" name="AmquestText${iterStat.index}" th:field="*{questions[__${iterStat.index}__].questionText}" class="form-control" />
+                            </div>
+                            <div class="form-group mb-2">
+                                <label>Option 1:</label>
+                                <input type="text" name="AmquestOption1${iterStat.index}" th:field="*{questions[__${iterStat.index}__].option1}" class="form-control" />
+                            </div>
+                            <div class="form-group mb-2">
+                                <label>Option 2:</label>
+                                <input type="text" name="AmquestOption2${iterStat.index}" th:field="*{questions[__${iterStat.index}__].option2}" class="form-control" />
+                            </div>
+                            <div class="form-group mb-2">
+                                <label>Option 3:</label>
+                                <input type="text" name="AmquestOption3${iterStat.index}" th:field="*{questions[__${iterStat.index}__].option3}" class="form-control" />
+                            </div>
+                            <div class="form-group mb-2">
+                                <label>Option 4:</label>
+                                <input type="text" name="AmquestOption4${iterStat.index}" th:field="*{questions[__${iterStat.index}__].option4}" class="form-control" />
+                            </div>
+                            <div class="form-group mb-2">
+                                <label>Correct Answer:</label>
+                                <select name="AmquestCorrectAnswer${iterStat.index}" th:field="*{questions[__${iterStat.index}__].correctAnswer}" class="form-control">
+                                    <option th:value="option1" th:text="'Option 1'">Option 1</option>
+                                    <option th:value="option2" th:text="'Option 2'">Option 2</option>
+                                    <option th:value="option3" th:text="'Option 3'">Option 3</option>
+                                    <option th:value="option4" th:text="'Option 4'">Option 4</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div th:case="'TrueFalse'">
+                            <h3>Question [[${iterStat.index + 1}]]</h3>
+                            <div class="form-group mb-2">
+                                <label>Question Text:</label>
+                                <input type="text" name="TFquestText${iterStat.index}" th:field="*{questions[__${iterStat.index}__].questionText}" class="form-control" />
+                            </div>
+                            <div class="form-group mb-2">
+                                <label>Correct Answer:</label>
+                                <select name="TFquestCorrectAnswer${iterStat.index}" th:field="*{questions[__${iterStat.index}__].correctAnswer}" class="form-control">
+                                    <option th:value="true">True</option>
+                                    <option th:value="false">False</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-danger" th:onclick="deleteQuestion([[${question.id}]])">Delete</button>
                 </div>
-                <div th:case="'TrueFalse'">
-                    <h3>Question [[${iterStat.index + 1}]] </h3> 
-                    <input type="text" name = "TFquestText${iterStat.index}" th:field="*{questions[__${iterStat.index}__].questionText}" />
-                    <label>Correct Answer:</label>
-                    <select name="TFquestCorrectAnswer${iterStat.index}" th:field="*{questions[__${iterStat.index}__].correctAnswer}">
-                        <option th:value="true">true</option>
-                        <option th:value="false">false</option>
-                    </select>
-                </div>
             </div>
-           
-            <button type="button" th:onclick="deleteQuestion([[${question.id}]])">Delete</button>
-        </div>
-    </div>
-            <button type="button" th:onclick="addNewQuestion()">Add New Question</button>
-            <button type="submit">Save Changes</button>
+
+            <div class="d-flex justify-content-between mt-4">
+                <button type="button" class="btn btn-info" th:onclick="addNewQuestion()">Add New Question</button>
+                <button type="submit" class="btn btn-success">Save Changes</button>
+            </div>
         </form>
-        
-    </div> 
+    </div>
+
+    <!-- Bootstrap JS (Optional, for additional functionality) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js"></script>
+
+    <!-- JavaScript to add new question containers -->
     <script>
         function deleteQuestion(questionId) {
             if (confirm('Are you sure you want to delete this question?')) {
@@ -144,36 +109,37 @@
                 .then(response => response.text())
                 .then(data => {
                     console.log(data);
-                    // Remove the deleted question's row from the table
                     const questionRow = document.getElementById(`question-row-${questionId}`);
-                    if(questionRow){
+                    if (questionRow) {
                         questionRow.remove();
                     }
                 })
                 .catch(error => console.error('Error:', error));
             }
         }
-    var questionCount = 0;
-        function addNewQuestion(){
-            // Calculate the maximum question ID
-    var maxQuestionId = 0;
-    document.querySelectorAll('input[name^="questions["]').forEach(function(input) {
-        var id = parseInt(input.getAttribute('name').match(/\[(\d+)\]/)[1]);
-        if (id > maxQuestionId) {
-            maxQuestionId = id;
-        }
-    });
-            var questionContainer = document.createElement("div");
-            questionContainer.classList.add("question-container");
-   // Create a new question container
-            // Add question number
-            var questionNumber = document.createElement("h3");
+
+        var questionCount = 0;
+
+        function addNewQuestion() {
+            var maxQuestionId = 0;
+            document.querySelectorAll('input[name^="questions["]').forEach(function(input) {
+                var id = parseInt(input.getAttribute('name').match(/\[(\d+)\]/)[1]);
+                if (id > maxQuestionId) {
+                    maxQuestionId = id;
+                }
+            });
             questionCount = maxQuestionId + 1;
+
+            var questionContainer = document.createElement("div");
+            questionContainer.classList.add("card", "mb-3", "p-3");
+
+            var questionNumber = document.createElement("h3");
             questionNumber.textContent = "Question " + questionCount;
             questionContainer.appendChild(questionNumber);
-            // Add question type dropdown
+
             var questionTypeDropdown = document.createElement("select");
             questionTypeDropdown.name = "questionType" + questionCount;
+            questionTypeDropdown.classList.add("form-control", "mb-3");
             var option1 = document.createElement("option");
             option1.text = "Select Question Type";
             option1.value = "";
@@ -188,68 +154,100 @@
             questionTypeDropdown.add(option3);
             questionTypeDropdown.setAttribute("onchange", "showQuestionDetails(this)");
             questionContainer.appendChild(questionTypeDropdown);
+
             document.getElementById("questionDetails").appendChild(questionContainer);
         }
-        function showQuestionDetails(dropdown) {
-        var questionType = dropdown.value;
-        var questionContainer = dropdown.parentElement;
 
-    // Remove previous question details if any
-         var questionDetails = questionContainer.getElementsByClassName("question-details")[0];
+        function showQuestionDetails(dropdown) {
+            var questionType = dropdown.value;
+            var questionContainer = dropdown.parentElement;
+
+            var questionDetails = questionContainer.getElementsByClassName("question-details")[0];
             if (questionDetails) {
-                 questionDetails.remove();
+                questionDetails.remove();
             }
 
-    // Create question details container
-        questionDetails = document.createElement("div");
-        questionDetails.classList.add("question-details");
+            questionDetails = document.createElement("div");
+            questionDetails.classList.add("question-details");
 
-    // Add input fields based on question type
-     if (questionType === "american") {
-        questionDetails.innerHTML = `
-        <input type="hidden" name="questions[${questionCount}].id" value="">
-        <input type="hidden" name="questions[${questionCount}].type" value="American">
-        <input type="text" name="questions[${questionCount}].questionText" placeholder="Question" required><br>
-            <input type="text" name="questions[${questionCount}].option1" placeholder="Option 1" required><br>
-            <input type="text" name="questions[${questionCount}].option2" placeholder="Option 2" required><br>
-            <input type="text" name="questions[${questionCount}].option3" placeholder="Option 3" required><br>
-            <input type="text" name="questions[${questionCount}].option4" placeholder="Option 4" required><br>
-            <select name="questions[${questionCount}].correctAnswer" required>
-                <option value="">Select Correct Answer</option>
-                <option value="option1">Option 1</option>
-                <option value="option2">Option 2</option>
-                <option value="option3">Option 3</option>
-                <option value="option4">Option 4</option>
-            </select><br>
-        `;
-    } else if (questionType === "truefalse") {
-        questionDetails.innerHTML = `
-        <input type="hidden" name="questions[${questionCount}].id" value="">
-            <input type="hidden" name="questions[${questionCount}].type" value="TrueFalse">
-        <input type="text" name="questions[${questionCount}].questionText" placeholder="Question" required><br>
-            <select name="questions[${questionCount}].correctAnswer" required>
-                <option value="">Select Correct Answer</option>
-                <option value="true">True</option>
-                <option value="false">False</option>
-            </select><br>
-        `;
-    }
+            if (questionType === "american") {
+                questionDetails.innerHTML = `
+                    <input type="hidden" name="questions[${questionCount}].id" value="">
+                    <input type="hidden" name="questions[${questionCount}].type" value="American">
+                    <div class="form-group mb-2">
+                        <label>Question Text:</label>
+                        <input type="text" name="questions[${questionCount}].questionText" placeholder="Question" required class="form-control">
+                    </div>
+                    <div class="form-group mb-2">
+                        <label>Option 1:</label>
+                        <input type="text" name="questions[${questionCount}].option1" placeholder="Option 1" required class="form-control">
+                    </div>
+                    <div class="form-group mb-2">
+                        <label>Option 2:</label>
+                        <input type="text" name="questions[${questionCount}].option2" placeholder="Option 2" required class="form-control">
+                    </div>
+                    <div class="form-group mb-2">
+                        <label>Option 3:</label>
+                        <input type="text" name="questions[${questionCount}].option3" placeholder="Option 3" required class="form-control">
+                    </div>
+                    <div class="form-group mb-2">
+                        <label>Option 4:</label>
+                        <input type="text" name="questions[${questionCount}].option4" placeholder="Option 4" required class="form-control">
+                    </div>
+                    <div class="form-group mb-2">
+                        <label>Correct Answer:</label>
+                        <select name="questions[${questionCount}].correctAnswer" required class="form-control">
+                            <option value="">Select Correct Answer</option>
+                            <option value="option1">Option 1</option>
+                            <option value="option2">Option 2</option>
+                            <option value="option3">Option 3</option>
+                            <option value="option4">Option 4</option>
+                        </select>
+                    </div>
+                `;
+            } else if (questionType === "truefalse") {
+                questionDetails.innerHTML = `
+                    <input type="hidden" name="questions[${questionCount}].id" value="">
+                    <input type="hidden" name="questions[${questionCount}].type" value="TrueFalse">
+                    <div class="form-group mb-2">
+                        <label>Question Text:</label>
+                        <input type="text" name="questions[${questionCount}].questionText" placeholder="Question" required class="form-control">
+                    </div>
+                    <div class="form-group mb-2">
+                        <label>Correct Answer:</label>
+                        <select name="questions[${questionCount}].correctAnswer" required class="form-control">
+                            <option value="">Select Correct Answer</option>
+                            <option value="true">True</option>
+                            <option value="false">False</option>
+                        </select>
+                    </div>
+                `;
+            }
 
-    // Add question details to question container
-    questionContainer.appendChild(questionDetails);
+            questionContainer.appendChild(questionDetails);
+            questionDetails.style.display = "block";
+            dropdown.style.display = "none";
 
-    // Show the question details container
-    questionDetails.style.display = "block";
+        }
 
-    // Hide the dropdown
-    dropdown.style.display = "none";
+        function validateForm() {
+            var startTime = document.getElementById("startTime").value;
+            var currentTime = new Date().toISOString().slice(0, 16);
+            if (startTime <= currentTime) {
+                alert("Please select a future date and time.");
+                return false;
+            }
 
-    // Show the save button
-     var saveTestButton = document.getElementById("saveTestButton");
-     saveTestButton.style.display = "block";
+            // Validate that duration is a number greater than 0
+            var duration = document.getElementById("duration").value; // Line modified
+            if (isNaN(duration) || duration <= 0) { // Line modified
+                alert("Please enter a valid duration greater than 0."); // Line modified
+                return false; // Line modified
+            } // Line modified
+
+            return true;
         }
         document.getElementById("startTime").setAttribute("min", new Date().toISOString().slice(0, 16));
-
     </script>
 </body>
 </html>
