@@ -86,9 +86,9 @@
             <span th:text="${successMessage}"></span>
         </div>
         
-        <form action="create-test" method="post">
+        <form action="create-test" method="post" onsubmit="return validateForm()">
             <input type="text" name="title" placeholder="Test Title" required><br>
-            <input type="datetime-local" name="startTime" required><br>
+            <input type="datetime-local" id="startTime" name="startTime" required><br>
             <input type="number" name="duration" placeholder="Duration (in minutes)" required><br>
 
             <!-- Added dropdown for selecting course -->
@@ -202,6 +202,18 @@
     var saveTestButton = document.getElementById("saveTestButton");
     saveTestButton.style.display = "block";
 }
+function validateForm() {
+            var startTime = document.getElementById("startTime").value;
+            var currentTime = new Date().toISOString().slice(0, 16);
+            if (startTime <= currentTime) {
+                alert("Please select a future date and time.");
+                return false;
+            }
+            return true;
+        }
+
+        // Set the minimum date and time for the startTime input field
+        document.getElementById("startTime").setAttribute("min", new Date().toISOString().slice(0, 16));
     </script>
 </body>
 </html>

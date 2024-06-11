@@ -81,7 +81,7 @@
             </div>
             <div>
                 <label>Start Time:</label>
-                <input type="datetime-local" name="startTime" th:value="*{startTime}" />
+                <input type="datetime-local" id="startTime" name="startTime" th:value="*{startTime}" />
             </div>
             <div>
                 <label>Duration:</label>
@@ -248,6 +248,8 @@
      var saveTestButton = document.getElementById("saveTestButton");
      saveTestButton.style.display = "block";
         }
+        document.getElementById("startTime").setAttribute("min", new Date().toISOString().slice(0, 16));
+
     </script>
 </body>
 </html>
