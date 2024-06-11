@@ -320,5 +320,13 @@ public class StudentController {
         return "redirect:/student/review-all-tests";
         
     }
+
+    /*
+     *  ---------------------------------  LOGOUT  ---------------------------------
+     */
+    @GetMapping("/logout")
+    public String logout(){
+        return "redirect:/logout";
+    }
     
 }
