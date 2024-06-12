@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import com.springbootquickstart.TestUs.questions.AmericanQuestion;
 import com.springbootquickstart.TestUs.questions.Question;
 import com.springbootquickstart.TestUs.questions.TrueFalseQuestion;
-import com.springbootquickstart.TestUs.test.TestService;
+import com.springbootquickstart.TestUs.service.TestService;
 
 @Service
 public class AnswerService {

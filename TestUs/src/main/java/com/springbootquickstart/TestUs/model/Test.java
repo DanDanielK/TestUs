@@ -1,8 +1,7 @@
-package com.springbootquickstart.TestUs.test;
+package com.springbootquickstart.TestUs.model;
 
 import java.util.List;
 
-import com.springbootquickstart.TestUs.model.Course;
 import com.springbootquickstart.TestUs.questions.Question;
 import java.time.LocalDateTime;
 import jakarta.persistence.*;

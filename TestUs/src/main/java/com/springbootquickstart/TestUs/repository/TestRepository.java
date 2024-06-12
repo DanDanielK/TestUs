@@ -1,8 +1,8 @@
-package com.springbootquickstart.TestUs.test;
+package com.springbootquickstart.TestUs.repository;
 
 import java.util.List;
-import java.util.Optional;
 
+import com.springbootquickstart.TestUs.model.Test;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

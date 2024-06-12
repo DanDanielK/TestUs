@@ -3,7 +3,7 @@ package com.springbootquickstart.TestUs.dto;
 import java.time.LocalDateTime;
 import java.time.Duration;
 
-import com.springbootquickstart.TestUs.test.Test;
+import com.springbootquickstart.TestUs.model.Test;
 
 import lombok.Data;
 

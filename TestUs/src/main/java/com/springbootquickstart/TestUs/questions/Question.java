@@ -1,6 +1,6 @@
 package com.springbootquickstart.TestUs.questions;
 
-import com.springbootquickstart.TestUs.test.Test;
+import com.springbootquickstart.TestUs.model.Test;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;

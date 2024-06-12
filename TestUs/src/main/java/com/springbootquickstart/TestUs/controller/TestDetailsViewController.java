@@ -1,7 +1,7 @@
 package com.springbootquickstart.TestUs.controller;
 
-import com.springbootquickstart.TestUs.test.Test;
-import com.springbootquickstart.TestUs.test.TestRepository;
+import com.springbootquickstart.TestUs.model.Test;
+import com.springbootquickstart.TestUs.repository.TestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

@@ -13,8 +13,8 @@ import com.springbootquickstart.TestUs.service.Button;
 import com.springbootquickstart.TestUs.service.CourseService;
 import com.springbootquickstart.TestUs.service.CourseStudentService;
 import com.springbootquickstart.TestUs.service.StudentService;
-import com.springbootquickstart.TestUs.test.Test;
-import com.springbootquickstart.TestUs.test.TestService;
+import com.springbootquickstart.TestUs.model.Test;
+import com.springbootquickstart.TestUs.service.TestService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;

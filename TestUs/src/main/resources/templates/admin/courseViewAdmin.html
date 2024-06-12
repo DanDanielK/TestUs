@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/user_dashboard}">
 <head>
     <meta charset="UTF-8">
 <!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
@@ -13,7 +14,7 @@
 </head>
 
 <body>
-
+<div class="main-content container-fluid" layout:fragment="content">
 <ul class="cards">
     <li class="cards__item"  th:each="course:${courseList}">
         <div class="card">
@@ -62,6 +63,6 @@
     </div>
 <div class="overlay"></div>
 <script type="text/javascript" src="/js/popup.js"></script>
-
+</div>
 </body>
 </html>

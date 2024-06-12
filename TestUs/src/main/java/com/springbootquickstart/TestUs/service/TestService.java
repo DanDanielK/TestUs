@@ -1,5 +1,7 @@
-package com.springbootquickstart.TestUs.test;
+package com.springbootquickstart.TestUs.service;
 
+import com.springbootquickstart.TestUs.repository.TestRepository;
+import com.springbootquickstart.TestUs.model.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
