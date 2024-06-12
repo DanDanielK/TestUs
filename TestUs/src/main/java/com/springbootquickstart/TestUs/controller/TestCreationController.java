@@ -1,6 +1,5 @@
 package com.springbootquickstart.TestUs.controller;
 
-import org.hibernate.boot.archive.spi.ArchiveException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,7 +11,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.springbootquickstart.TestUs.dto.TestCreationDto;
 import com.springbootquickstart.TestUs.model.Course;
 import com.springbootquickstart.TestUs.model.MyUser;
-import com.springbootquickstart.TestUs.test.TestService;
+import com.springbootquickstart.TestUs.service.TestService;
 import java.time.LocalDateTime;
 import jakarta.servlet.http.HttpServletRequest;
 import com.springbootquickstart.TestUs.questions.*;
@@ -20,7 +19,6 @@ import com.springbootquickstart.TestUs.service.CourseService;
 import com.springbootquickstart.TestUs.service.MyUserDetailService;
 import com.springbootquickstart.TestUs.service.TeacherService;
 
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.ui.Model;
 
 import java.util.*;

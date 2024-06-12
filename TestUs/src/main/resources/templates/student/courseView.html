@@ -23,7 +23,12 @@
                 <p class="card__text" th:text="${courseStudent.course.description}"></p>
                 <!-- Check if signUpStatus is 'Approved' -->
                 <th:block th:if="${courseStudent.signupStatus.toString() == 'APPROVED'}">
-                    <button class="btn btn--block card__btn">Details</button>
+                    <!-- <button class="btn btn--block card__btn">Details</button> -->
+
+                    <form th:action="@{/student/courseDetails}" method="get">
+                        <input type="hidden" name="courseId" th:value="${courseStudent.id}" />
+                        <button type="submit" class="btn btn--block card__btn">Details</button>
+                    </form>
 
                     <!-- check for avaliable test and show a button to the test-->
                     <th:block th:if="${courseStudent.signupStatus.toString() == 'APPROVED'}">
@@ -49,6 +54,7 @@
             </div>
     </li>
 </ul>
+
 
 <div class="popup">
     <div class="close-btn">

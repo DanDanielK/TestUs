@@ -1,38 +1,29 @@
 package com.springbootquickstart.TestUs.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.springbootquickstart.TestUs.model.Course;
-import com.springbootquickstart.TestUs.model.MyUser;
-import com.springbootquickstart.TestUs.model.Teacher;
 import com.springbootquickstart.TestUs.questions.AmericanQuestion;
 import com.springbootquickstart.TestUs.questions.Question;
 import com.springbootquickstart.TestUs.questions.TrueFalseQuestion;
 import com.springbootquickstart.TestUs.repository.CourseRepository;
 import com.springbootquickstart.TestUs.repository.QuestionRepository;
-import com.springbootquickstart.TestUs.service.CourseService;
-import com.springbootquickstart.TestUs.service.MyUserDetailService;
-import com.springbootquickstart.TestUs.service.TeacherService;
-import com.springbootquickstart.TestUs.test.Test;
-import com.springbootquickstart.TestUs.test.TestService;
+import com.springbootquickstart.TestUs.model.Test;
+import com.springbootquickstart.TestUs.service.TestService;
 
 import jakarta.servlet.http.HttpServletRequest;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 

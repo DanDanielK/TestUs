@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Questionnaire</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .content {
+            margin-top: 80px; /* Adjust this based on the height of your top bar */
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .section {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .section h3 {
+            margin-bottom: 20px;
+        }
+
+        .card {
+            margin-bottom: 15px;
+        }
+
+        .navbar {
+            padding: 10px;
+        }
+
+        .correct {
+            color: green;
+        }
+
+        .incorrect {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <button class="btn btn-primary mr-2" id="backButton">Back</button>
+    </nav>
+
+    <div class="content">
+
+        <div th:if="${americanQ != null && !americanQ.isEmpty()}" class="section">
+            <h3>American Questions</h3>
+            <div th:each="question : ${americanQ}">
+                <div class="card">
+                    <div class="card-header">
+                        <span th:text="${question.questionText}"></span>
+                    </div>
+                    <div class="card-body">
+                        <h5>Options:</h5>
+                        <ul>
+                            <li th:each="option : ${question.getOptions()}" th:text="${option}"></li>
+                        </ul>
+                        <h5>Correct Answer:</h5>
+                        <ul>
+                            <li th:text="${question.getCorrectAnswerAsString()}"></li>
+                        </ul>
+                        <h5>Your Answer:</h5>
+                        <ul>
+                            <li th:text="${aMap[question.id]}"
+                            th:classappend="${aMap[question.id] == question.getCorrectAnswerAsString()} ? 'correct' : 'incorrect'"></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- True/False questions section -->
+        <div th:if="${trueFalseQ != null && !trueFalseQ.isEmpty()}" class="section">
+            <h3>True/False Questions</h3>
+            <div th:each="question : ${trueFalseQ}">
+                <div class="card">
+                    <div class="card-header">
+                        <span th:text="${question.questionText}"></span>
+                    </div>
+                    <div class="card-body">
+                        <h5>Options:</h5>
+                        <ul>
+                            <li>true</li>
+                            <li>false</li>
+                        </ul>
+                        <h5>Correct Answer:</h5>
+                        <ul>
+                        <li th:text="${question.correctAnswer}"></li>
+                        </ul>
+                        <h5>Your Answer:</h5>
+                        <ul>
+                        <li th:text="${aMap[question.id]}"
+                        th:classappend="${aMap[question.id] == question.correctAnswer} ? 'correct' : 'incorrect'"></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="section">
+            <h3>Results</h3>
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Score: <span th:text="${score}"></span></h5>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $('#backButton').click(function() {
+            window.history.back();
+        });
+    </script>
+</body>
+</html>

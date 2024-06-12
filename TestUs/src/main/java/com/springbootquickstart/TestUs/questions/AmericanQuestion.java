@@ -1,5 +1,6 @@
 package com.springbootquickstart.TestUs.questions;
 
+import java.util.Arrays;
 import java.util.List;
 
 import jakarta.persistence.*;
@@ -34,6 +35,32 @@ public class AmericanQuestion extends Question {
     @Override
     public String getType() {
         return "American";
+    }
+
+    public List<String> getOptions(){
+        
+        try{
+            
+        return Arrays.asList(
+            this.option1 ,
+            this.option2 ,
+            this.option3 ,
+            this.option4 );
+        }
+        catch(Exception e){
+            return  null;
+        }
+
+    }
+
+
+    public String getCorrectAnswerAsString(){
+        
+        String number = this.getCorrectAnswer().substring("option".length());
+
+        int correctAnswer = Integer.parseInt(number);
+
+        return getOptions().get(correctAnswer - 1);
     }
 
 }
