@@ -1,149 +1,33 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top"
-     th:fragment="header"
-     xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-     xmlns:th="http://www.thymeleaf.org/">
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navbar Example</title>
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" th:fragment="header">
+    <a class="navbar-brand mr-1" th:href="@{/dashboard}">TestUs</a>
 
-    <a class="navbar-brand mr-1"
-       th:href="@{/}">TestUs</a>
+    <!-- Centered name -->
+    <div class="navbar-nav mx-auto">
+        <div class="nav-item">
+            <a class="navbar-brand" th:href="@{/dashboard}" th:text="${userInfo.fullName}"></a>
+        </div>
+    </div>
 
-
-
-    <!-- Navbar -->
-    <ul class="navbar-nav ml-auto ml-md-0">
-
-<!--        <li sec:authorize="hasAuthority('STUDENT')" class="nav-item dropdown no-arrow mx-1">-->
-
-<!--            <a class="nav-link dropdown-toggle"-->
-<!--               href="#"-->
-<!--               id="shoppingCartDropdown"-->
-<!--               role="button"-->
-<!--               data-toggle="dropdown"-->
-<!--               aria-haspopup="true"-->
-<!--               aria-expanded="false">-->
-<!--                <i class="fas fa-shopping-cart fa-2x text-light fa-fw"></i>-->
-<!--                <span class="badge badge-danger m-0"-->
-<!--                      id="cart-item-count"></span>-->
-<!--            </a>-->
-
-<!--            <div class="dropdown-menu dropdown-menu-right shadow"-->
-<!--                 style="min-width: 300px"-->
-<!--                 aria-labelledby="shoppingCartDropdown">-->
-
-<!--                <table class="table mb-0 mt-0 table-hover">-->
-<!--                    <tfoot>-->
-<!--                    <tr>-->
-<!--                        <td class="text-right" colspan="2">-->
-<!--                            <a th:href="@{/buyer/cart}">View Shopping Cart</a>-->
-<!--                        </td>-->
-<!--                    </tr>-->
-<!--                    </tfoot>-->
-<!--                    <tbody id="shopping-cart-items"></tbody>-->
-<!--                </table>-->
-
-<!--            </div>-->
-<!--        </li>-->
-
-        <li class="nav-item dropdown no-arrow mx-1">
-            <a class="nav-link dropdown-toggle"
-               href="#"
-               id="messageDropdown"
-               role="button"
-               data-toggle="dropdown"
-               aria-haspopup="true"
-               aria-expanded="false">
-                <i class="fas fa-bell fa-2x text-light fa-fw"></i>
-                <span class="badge badge-danger m-0"
-                      id="user-message-count"></span>
-            </a>
-            <div class="dropdown-menu dropdown-menu-right shadow pb-0"
-                 style="min-width: 350px"
-                 aria-labelledby="messageDropdown">
-                <div class="card-body pl-3 pr-3 pt-2 pb-0">
-                    <div id="user-messages"></div>
-                </div>
-            </div>
-        </li>
-        <li class="nav-item dropdown no-arrow mx-1">
-            <div class="dropdown-menu dropdown-menu-right"
-                 aria-labelledby="messagesDropdown">
-                <a class="dropdown-item"
-                   href="#">Action</a>
-                <a class="dropdown-item"
-                   href="#">Another action</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item"
-                   href="#">Something else here</a>
-            </div>
-        </li>
-        <li class="nav-item dropdown no-arrow">
-            <a class="nav-link dropdown-toggle"
-               href="#"
-               id="userDropdown"
-               role="button"
-               data-toggle="dropdown"
-               aria-haspopup="true"
-               aria-expanded="false">
-                <i class="fas fa-2x text-light fa-user-circle fa-fw"></i>
-            </a>
-            <div class="dropdown-menu dropdown-menu-right"
-                 aria-labelledby="userDropdown">
-
-                <!-- login -->
-                <div sec:authorize="!isAuthenticated()">
-                    <a class="dropdown-item"
-                       th:href="@{/login}"
-                       th:text="#{button.login}">Login</a>
-                </div>
-                <!-- login -->
-
-                <div sec:authorize="isAuthenticated()">
-
-                    <div class="dropdown-item">
-                        <div class="font-weight-bold"
-                             th:text="${userInfo.fullName}"></div>
-                        <div class="text-muted"
-                             sec:authentication="name"></div>
-                    </div>
-                    <div class="dropdown-divider"></div>
-
-
-                    <a class="dropdown-item"
-                       sec:authorize="hasAuthority('ADMIN')"
-                       th:href="@{/admin/}">
-                        <span class="fa fas fa-fw fa-tachometer-alt"></span>
-                        Dashboard
-                        <!-- Admin dashboard link -->
-                    </a>
-
-                    <a class="dropdown-item"
-                       sec:authorize="hasAuthority('TEACHER')"
-                       th:href="@{/teacher/}">
-                        <span class="fa fas fa-fw fa-tachometer-alt"></span>
-                        Dashboard
-                        <!-- Seller dashboard link -->
-                    </a>
-
-                    <a class="dropdown-item"
-                       sec:authorize="hasAuthority('STUDENT')"
-                       th:href="@{/student}">
-                        <span class="fa fas fa-fw fa-tachometer-alt"></span>
-                        Dashboard
-                        <!-- Buyer dashboard link -->
-                    </a>
-
-                    <!-- logout -->
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item text-danger"
-                       href="#"
-                       data-toggle="modal"
-                       data-target="#logoutModal">
-                        <span class="fa fa-sign-out-alt"></span>
-                        <span th:text="#{button.logout}">Logout</span>
-                    </a>
-                    <!-- logout -->
-
-                </div>
-            </div>
-        </li>
-    </ul>
+    <!-- Right-aligned logout -->
+    <div class="ml-auto">
+        <a th:href="@{/logout}" class="navbar-brand">Logout</a>
+    </div>
 </nav>
+
+<!-- Include Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

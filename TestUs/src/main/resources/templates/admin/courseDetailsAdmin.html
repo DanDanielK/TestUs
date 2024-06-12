@@ -1,8 +1,11 @@
-<html lang="en"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      xmlns:th="http://www.thymeleaf.org"
-      layout:decorate="~{layouts/user}">
-    <div class="container" layout:fragment="content">
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/user_dashboard}">
+<head>
+    <meta charset="UTF-8">
+    <title>Course details</title>
+</head>
+<body>
+    <div class="main-content container-fluid" layout:fragment="content">
         <div class="text-center mt-5">
             <h2 th:text="${selectedCourse.name}">View Course</h2>
         </div>
