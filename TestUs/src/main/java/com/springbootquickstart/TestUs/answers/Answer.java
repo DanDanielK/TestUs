@@ -24,7 +24,6 @@ public class Answer {
     @Id
     private int testId;
 
-
     @Id
     private int studentId;
 

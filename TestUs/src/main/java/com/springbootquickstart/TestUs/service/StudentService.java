@@ -19,12 +19,13 @@ public class StudentService {
     @Autowired
     private MyUserDetailService myUserDetailService;
 
-    public Student findByMyUser(MyUser myUser){
-        Optional<Student> student=studentRepository.findByMyUser(myUser);
-        if(student.isPresent()){
+    public Student findByMyUser(MyUser myUser) {
+        Optional<Student> student = studentRepository.findByMyUser(myUser);
+        if (student.isPresent()) {
             return student.get();
-        }else{
-            throw new UsernameNotFoundException("Student not found for this user"+myUser.getEmail()+" id"+myUser.getId());
+        } else {
+            throw new UsernameNotFoundException(
+                    "Student not found for this user" + myUser.getEmail() + " id" + myUser.getId());
         }
     }
 
@@ -45,13 +46,12 @@ public class StudentService {
 
     }
 
-    public void save(Student student){
+    public void save(Student student) {
         studentRepository.save(student);
     }
 
-
-
-
-
+    public List<Student> getStudentsDidTest(Integer testId) {
+        return studentRepository.findStudentsByTestId(testId);
+    }
 
 }
