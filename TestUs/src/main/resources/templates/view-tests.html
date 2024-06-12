@@ -39,6 +39,10 @@
                                 <!-- Link to view questions of the test -->
                                 <a class="btn btn-info btn-sm" th:href="@{/view-questions(testId=${test.testId})}">View Questions</a>
                                 <a class="btn btn-warning btn-sm" th:href="@{/teacher/edit-test(testId=${test.testId})}">Edit</a>
+                                <form action="/teacher/view-students-results" method="post" style="display:inline;">
+                                    <input type="hidden" name="testId" th:value="${test.testId}">
+                                    <button type="submit" class="btn btn-primary btn-sm">See Students Results</button>
+                                </form>
                             </td>
                         </tr>
                     </tbody>

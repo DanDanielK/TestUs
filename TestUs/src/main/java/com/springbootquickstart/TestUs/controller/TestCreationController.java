@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -113,4 +114,14 @@ public class TestCreationController {
         redirectAttributes.addFlashAttribute("successMessage", s);
         return "redirect:/teacher/create-test";
     }
+    /*
+     * @PostMapping("/teacher/view-students-results")
+     * public String viewStudentsResults(@RequestParam("testId") Long testId, Model
+     * model) {
+     * List<StudentResult> results = testService.getStudentsResults(testId); //
+     * Fetch results based on test ID
+     * model.addAttribute("results", results);
+     * return "view-students-results";
+     * }
+     */
 }
