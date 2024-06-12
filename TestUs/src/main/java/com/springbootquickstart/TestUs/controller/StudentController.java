@@ -56,9 +56,13 @@ public class StudentController {
 
     @GetMapping("")
     public String studentMenu(Model model) {
-        /* student main menu page */
+        /**
+         * the student menu
+         * 
+         * @param model: the model to pass the data to the view
+         * @return: the view to the student menu
+         */
 
-        //student menu page options
         final String[] menuItemsText = {"view courses", "Review All Tests", "Logout"};
         final String[] menuItemsUrl = {"view-courses", "review-all-tests", "logout"};
 
@@ -83,22 +87,52 @@ public class StudentController {
 
     @GetMapping("/view-courses")
     public String viewCourses(Model model){
+        /**
+         * view the courses that the student is enrolled in and the cources that the student wants to enroll in.
+         * 
+         * @param model: the model to pass the data to the view
+         * @return: the view to the courses
+         */
+
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Student student= studentService.findByEmail(auth.getName());
-        List<Course> courseList=new ArrayList<>(courseStudentService.getCoursesByStudent(student));
-    List<Course>coursesNotEnrolled=courseStudentService.findCoursesNotEnrolledByStudentId(student);
+
+        List<Course>coursesNotEnrolled=courseStudentService.findCoursesNotEnrolledByStudentId(student);
+
         model.addAttribute("courseStudentList",courseStudentService.findByStudent(student));
         model.addAttribute("coursesNotEnrolled",coursesNotEnrolled);
+
         return "student/courseView";
     }
 
     @RequestMapping(value="/addCourse", method= RequestMethod.POST)
     public String addCourse(@RequestParam("courseId") int courseId){
+        /**
+         * add the student to the course
+         * 
+         * @param courseId: the id of the course
+         * @return: redirect to the view-courses page
+         */
+
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Student student = studentService.findByEmail(auth.getName());
         Course course = courseService.findById((long)courseId);
         courseStudentService.addStudentToCourse(course,student);
         return "redirect:/student/view-courses";
+    }
+
+    @GetMapping("/courseDetails")
+    public String viewCourse(@RequestParam("courseId") Long courseId, Model model) {
+        /**
+         * view the course details
+         * 
+         * @param courseId: the id of the course
+         * @param model: the model to pass the data to the view
+         * @return: the view to the course details
+         */
+        Course course = courseService.findById(courseId);
+        model.addAttribute("selectedCourse", course);
+        return "/student/courseDetailsStudent";
     }
 
 
@@ -108,6 +142,13 @@ public class StudentController {
 
     @GetMapping("/review-all-tests")
     public String reviewPastTests(Model model){
+        /**
+         * view all the tests that the student has taken
+         * 
+         * @param model: the model to pass the data to the view
+         * @return: the view to the tests
+         */
+
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Student student = studentService.findByEmail(auth.getName());
         
@@ -139,6 +180,13 @@ public class StudentController {
 
     @GetMapping("/view-test")
     public String reviewPastResults(@RequestParam("testId") int testId, Model model){
+        /**
+         * view the test results
+         * 
+         * @param testId: the id of the test
+         * @param model: the model to pass the data to the view
+         * @return: the view to the test results
+         */
 
         try{
         Test test = testService.getTestById(testId);
@@ -319,6 +367,19 @@ public class StudentController {
 
         return "redirect:/student/review-all-tests";
         
+    }
+
+    /*
+     *  ---------------------------------  LOGOUT  ---------------------------------
+     */
+
+    @GetMapping("/logout")
+    /**
+     * logout the student from the system
+     * @return login page
+     */
+    public String logout(){
+        return "redirect:/logout";
     }
     
 }

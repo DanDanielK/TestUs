@@ -1,0 +1,27 @@
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layouts/user}">
+    <div class="container" layout:fragment="content">
+        <div class="text-center mt-5">
+            <h2 th:text="${selectedCourse.name}"></h2>
+        </div>
+        <div class="m-2">
+            <a href="javascript:history.back()" class="btn btn-primary">Go Back</a>
+        </div>
+
+        <div>
+            <h4>Course Name</h4>
+            <label th:text="${selectedCourse.name}"></label>
+
+            <h4>Course Description</h4>
+            <label th:text="${selectedCourse.description}"></label>
+
+            <h4>Teacher name</h4>
+            <label th:text="${selectedCourse.teacher.myUser.firstName + ' ' + selectedCourse.teacher.myUser.lastName }"></label>
+        </div>
+        
+        
+    </div>
+
+</html>
