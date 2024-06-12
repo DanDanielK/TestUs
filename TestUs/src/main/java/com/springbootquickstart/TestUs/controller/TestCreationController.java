@@ -85,8 +85,7 @@ public class TestCreationController {
         testDto.setQuestions(questionList);
         testDto.setCourseId(courseId);
         testService.createTest(testDto);
-        String s = "Test created succesfully! number of questions saved: " + testDto.getQuestions().size();
-        redirectAttributes.addFlashAttribute("successMessage", s);
+        redirectAttributes.addFlashAttribute("successMessage", "Test created succesfuly!");
         return "redirect:/teacher/create-test";
     }
 
