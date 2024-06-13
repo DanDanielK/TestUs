@@ -19,8 +19,36 @@
 
             <h4>Teacher name</h4>
             <label th:text="${selectedCourse.teacher.myUser.firstName + ' ' + selectedCourse.teacher.myUser.lastName }"></label>
+
+            <div class="text-left mt-2">
+                <h4>students</h4>
+                
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped" id="TestsTable">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Test Id</th>
+                                <th>Start Time</th>
+                                <th>Duration</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <th:block th:each="testInfo : ${tests}">
+                                <tr>
+                                    <td th:text ="${testInfo.testId}"></td>
+                                    
+                                    <td th:text="${#temporals.format(testInfo.startTime, 'yyyy-MM-dd HH:mm')}">Start Time</td>
+
+                                   <td th:text="${testInfo.duration}"></td>
+                                   
+                                </tr>
+                            </th:block>
+                        </tbody>
+                    </table>
+                </div>
+                
+            </div>
         </div>
-        
         
     </div>
 
