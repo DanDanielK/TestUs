@@ -7,9 +7,9 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.springbootquickstart.TestUs.questions.AmericanQuestion;
-import com.springbootquickstart.TestUs.questions.Question;
-import com.springbootquickstart.TestUs.questions.TrueFalseQuestion;
+import com.springbootquickstart.TestUs.model.questions.AmericanQuestion;
+import com.springbootquickstart.TestUs.model.questions.Question;
+import com.springbootquickstart.TestUs.model.questions.TrueFalseQuestion;
 import com.springbootquickstart.TestUs.service.TestService;
 
 @Service

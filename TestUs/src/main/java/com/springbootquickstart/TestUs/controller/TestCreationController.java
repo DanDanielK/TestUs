@@ -1,5 +1,8 @@
 package com.springbootquickstart.TestUs.controller;
 
+import com.springbootquickstart.TestUs.model.questions.AmericanQuestion;
+import com.springbootquickstart.TestUs.model.questions.Question;
+import com.springbootquickstart.TestUs.model.questions.TrueFalseQuestion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +16,7 @@ import com.springbootquickstart.TestUs.model.MyUser;
 import com.springbootquickstart.TestUs.service.TestService;
 import java.time.LocalDateTime;
 import jakarta.servlet.http.HttpServletRequest;
-import com.springbootquickstart.TestUs.questions.*;
+import com.springbootquickstart.TestUs.model.questions.*;
 import com.springbootquickstart.TestUs.service.CourseService;
 import com.springbootquickstart.TestUs.service.MyUserDetailService;
 import com.springbootquickstart.TestUs.service.TeacherService;

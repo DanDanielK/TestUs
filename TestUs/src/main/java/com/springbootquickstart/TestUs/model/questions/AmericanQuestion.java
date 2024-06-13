@@ -1,4 +1,4 @@
-package com.springbootquickstart.TestUs.questions;
+package com.springbootquickstart.TestUs.model.questions;
 
 import java.util.Arrays;
 import java.util.List;

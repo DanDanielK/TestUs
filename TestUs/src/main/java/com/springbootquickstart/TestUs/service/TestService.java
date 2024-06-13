@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.springbootquickstart.TestUs.dto.TestCreationDto;
 import com.springbootquickstart.TestUs.model.Course;
-import com.springbootquickstart.TestUs.questions.Question;
+import com.springbootquickstart.TestUs.model.questions.Question;
 import com.springbootquickstart.TestUs.repository.CourseRepository;
 import com.springbootquickstart.TestUs.repository.QuestionRepository;
 

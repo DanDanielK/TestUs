@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.springbootquickstart.TestUs.model.Course;
-import com.springbootquickstart.TestUs.questions.AmericanQuestion;
-import com.springbootquickstart.TestUs.questions.Question;
-import com.springbootquickstart.TestUs.questions.TrueFalseQuestion;
+import com.springbootquickstart.TestUs.model.questions.AmericanQuestion;
+import com.springbootquickstart.TestUs.model.questions.Question;
+import com.springbootquickstart.TestUs.model.questions.TrueFalseQuestion;
 import com.springbootquickstart.TestUs.repository.CourseRepository;
 import com.springbootquickstart.TestUs.repository.QuestionRepository;
 import com.springbootquickstart.TestUs.model.Test;

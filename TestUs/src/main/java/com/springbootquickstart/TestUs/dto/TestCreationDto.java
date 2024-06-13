@@ -3,7 +3,7 @@ package com.springbootquickstart.TestUs.dto;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import com.springbootquickstart.TestUs.questions.Question;
+import com.springbootquickstart.TestUs.model.questions.Question;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor

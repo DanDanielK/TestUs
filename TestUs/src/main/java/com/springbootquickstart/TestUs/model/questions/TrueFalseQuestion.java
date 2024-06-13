@@ -1,4 +1,4 @@
-package com.springbootquickstart.TestUs.questions;
+package com.springbootquickstart.TestUs.model.questions;
 
 import jakarta.persistence.*;
 import lombok.NoArgsConstructor;

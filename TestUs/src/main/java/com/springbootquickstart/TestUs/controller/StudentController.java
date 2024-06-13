@@ -5,9 +5,9 @@ import com.springbootquickstart.TestUs.answers.AnswerService;
 import com.springbootquickstart.TestUs.dto.TestInfoDto;
 import com.springbootquickstart.TestUs.model.Course;
 import com.springbootquickstart.TestUs.model.Student;
-import com.springbootquickstart.TestUs.questions.AmericanQuestion;
-import com.springbootquickstart.TestUs.questions.Question;
-import com.springbootquickstart.TestUs.questions.TrueFalseQuestion;
+import com.springbootquickstart.TestUs.model.questions.AmericanQuestion;
+import com.springbootquickstart.TestUs.model.questions.Question;
+import com.springbootquickstart.TestUs.model.questions.TrueFalseQuestion;
 
 import com.springbootquickstart.TestUs.service.Button;
 import com.springbootquickstart.TestUs.service.CourseService;
