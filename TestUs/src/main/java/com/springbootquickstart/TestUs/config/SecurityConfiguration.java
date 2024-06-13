@@ -58,9 +58,6 @@ private PasswordEncoder passwordEncoder;
                             .permitAll();
                 })
 
-//                .rememberMe((remember) -> remember
-//                        .rememberMeServices(rememberMeServices)
-//                )
                 .logout(logout -> logout.logoutRequestMatcher(new AntPathRequestMatcher("/logout","GET"))
                         .logoutSuccessUrl("/login")
                         .invalidateHttpSession(true)
@@ -70,31 +67,6 @@ private PasswordEncoder passwordEncoder;
 
     }
 
-
-//    @Bean
-//    public UserDetailsService userDetailsService() {
-//        UserDetails normalUser = User.builder()
-//                .username("gc")
-//                .password("$2a$12$pLlEDlW7J3LJMLMl0Uv8Xu.NO1TYDvrMmIpoDhpHZ3So65XlsR.Vy")
-//                .roles("STUDENT")
-//                .build();
-//        UserDetails adminUser = User.builder()
-//                .username("admin")
-//                .password("$2a$12$4MVGfzHJ2C370at3MTGHdeX6z/kon2X5KbVWZTGfqjWBhj.KnQBuC")
-//                .roles("ADMIN", "STUDENT")
-//                .build();
-//        return new InMemoryUserDetailsManager(normalUser, adminUser);
-//    }
-
-    @Bean
-    public UserDetailsService userDetailsService() {
-        UserDetails adminUser = User.builder()
-                .username("admin")
-                .password(passwordEncoder.encode("admin"))
-                .roles("ADMIN")
-                .build();
-        return userDetailService;
-    }
 
     @Bean
     public AuthenticationProvider authenticationProvider() {

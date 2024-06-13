@@ -1,7 +1,7 @@
 package com.springbootquickstart.TestUs.controller;
 
-import com.springbootquickstart.TestUs.answers.Answer;
-import com.springbootquickstart.TestUs.answers.AnswerService;
+import com.springbootquickstart.TestUs.model.answers.Answer;
+import com.springbootquickstart.TestUs.service.AnswerService;
 import com.springbootquickstart.TestUs.dto.TestInfoDto;
 import com.springbootquickstart.TestUs.model.Course;
 import com.springbootquickstart.TestUs.model.Student;

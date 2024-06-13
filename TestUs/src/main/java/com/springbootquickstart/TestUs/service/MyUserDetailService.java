@@ -1,7 +1,6 @@
 package com.springbootquickstart.TestUs.service;
 
 import com.springbootquickstart.TestUs.dto.UserRegisteredDto;
-import com.springbootquickstart.TestUs.helper.UserFoundException;
 import com.springbootquickstart.TestUs.model.MyUser;
 import com.springbootquickstart.TestUs.model.Role;
 import com.springbootquickstart.TestUs.model.Student;
@@ -83,14 +82,14 @@ public class MyUserDetailService implements UserDetailsService {
         myUserRepo.save(user);
     }
 
-    public void save(UserRegisteredDto userRegisteredDTO) throws UserFoundException {
+    public void save(UserRegisteredDto userRegisteredDTO) throws RuntimeException{
         // Role role =STUDENT;
         // if(userRegisteredDTO.getRole().equals("STUDENT"))
         // role = roleRepo.findByRole("STUDENT");
         // else if(userRegisteredDTO.getRole().equals("ADMIN"))
         // role = roleRepo.findByRole("ADMIN");
         if (myUserRepo.findByEmail(userRegisteredDTO.getEmail()).isPresent()) {
-            throw new UserFoundException("User already exists");
+            throw new RuntimeException("User already exists");
             // new RuntimeException("User already exists");
         }
         MyUser user = new MyUser();

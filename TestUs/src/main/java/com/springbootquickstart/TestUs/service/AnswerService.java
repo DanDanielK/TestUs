@@ -1,16 +1,17 @@
-package com.springbootquickstart.TestUs.answers;
+package com.springbootquickstart.TestUs.service;
 
 import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Map;
 
+import com.springbootquickstart.TestUs.model.answers.Answer;
+import com.springbootquickstart.TestUs.repository.AnswerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.springbootquickstart.TestUs.model.questions.AmericanQuestion;
 import com.springbootquickstart.TestUs.model.questions.Question;
 import com.springbootquickstart.TestUs.model.questions.TrueFalseQuestion;
-import com.springbootquickstart.TestUs.service.TestService;
 
 @Service
 public class AnswerService {

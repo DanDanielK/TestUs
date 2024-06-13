@@ -1,4 +1,4 @@
-package com.springbootquickstart.TestUs.answers;
+package com.springbootquickstart.TestUs.model.answers;
 
 import java.util.Map;
 

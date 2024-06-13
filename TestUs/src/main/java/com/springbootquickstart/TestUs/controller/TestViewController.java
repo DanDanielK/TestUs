@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.springbootquickstart.TestUs.answers.AnswerService;
+import com.springbootquickstart.TestUs.service.AnswerService;
 import com.springbootquickstart.TestUs.model.MyUser;
 import com.springbootquickstart.TestUs.model.Student;
 import com.springbootquickstart.TestUs.model.Teacher;

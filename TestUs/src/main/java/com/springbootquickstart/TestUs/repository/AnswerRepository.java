@@ -1,7 +1,7 @@
-package com.springbootquickstart.TestUs.answers;
+package com.springbootquickstart.TestUs.repository;
 
-import java.util.List;
-
+import com.springbootquickstart.TestUs.model.answers.Answer;
+import com.springbootquickstart.TestUs.model.answers.AnswerKey;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
