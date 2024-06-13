@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/user_dashboard}">
 <head>
     <meta charset="UTF-8">
 <!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
@@ -14,7 +14,7 @@
 
 <body>
 
-<ul class="cards">
+<ul class="cards" layout:fragment="content">
     <li class="cards__item"  th:each="courseStudent:${courseStudentList}">
         <div class="card">
             <!-- <div class="card_image"><img th:src="${course.image}" alt="course image"></div> -->
