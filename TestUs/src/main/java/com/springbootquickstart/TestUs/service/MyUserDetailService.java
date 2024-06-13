@@ -6,11 +6,9 @@ import com.springbootquickstart.TestUs.model.Role;
 import com.springbootquickstart.TestUs.model.Student;
 import com.springbootquickstart.TestUs.model.Teacher;
 import com.springbootquickstart.TestUs.repository.MyUserRepository;
-
 import com.springbootquickstart.TestUs.repository.StudentRepository;
 import com.springbootquickstart.TestUs.repository.TeacherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -19,7 +17,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.List;
 import java.util.Optional;
@@ -83,14 +80,8 @@ public class MyUserDetailService implements UserDetailsService {
     }
 
     public void save(UserRegisteredDto userRegisteredDTO) throws RuntimeException{
-        // Role role =STUDENT;
-        // if(userRegisteredDTO.getRole().equals("STUDENT"))
-        // role = roleRepo.findByRole("STUDENT");
-        // else if(userRegisteredDTO.getRole().equals("ADMIN"))
-        // role = roleRepo.findByRole("ADMIN");
         if (myUserRepo.findByEmail(userRegisteredDTO.getEmail()).isPresent()) {
             throw new RuntimeException("User already exists");
-            // new RuntimeException("User already exists");
         }
         MyUser user = new MyUser();
         user.setId(userRegisteredDTO.getId());

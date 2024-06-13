@@ -108,47 +108,6 @@ public class AdminController {
     }
 
 
-
-    @GetMapping("/add-coordinator")
-    public String addCoordinator() {
-        return "addCoordinator";
-    }
-
-    @PostMapping(path = "/add-coordinator" , consumes = "application/x-www-form-urlencoded")
-    public String addCoordinatorPost(UserRegisteredDto registerDto, RedirectAttributes redirectAttributes, HttpServletRequest request) {
-
-        try {
-            //change the role to coordinator - ONLY ADMIN CAN ADD COORDINATORS!!!
-            registerDto.setRole("coordinator");
-
-            userService.save(registerDto);
-
-            //add a flash attribute to indicate success
-            redirectAttributes.addFlashAttribute("successMessage", "Registration successful!");
-
-            //redirect to the same page to clear the form
-            return "redirect:" + request.getRequestURI();
-
-        } catch (Exception e) {
-            return null; //DOTO handle error UI
-        }
-
-    }
-
-    @RequestMapping(value = "/addCourse", method = RequestMethod.POST)
-    public String addCourse(@ModelAttribute("course") CourseDto courseDto,Model model) {
-        model.addAttribute("allTeacher",teacherService.findAll());
-        courseService.save(courseDto);
-        return "redirect:/admin/view-courses";
-    }
-
-//    @RequestMapping(value = "/courseDetails", method = RequestMethod.POST)
-//    public String courseDetails(@ModelAttribute("courseId") int courseId) {
-//
-//        courseService.save(courseDto);
-//        return "redirect:/admin/view-courses";
-//    }
-
     @GetMapping("/courseDetails")
     public String viewCourse(@RequestParam("courseId") Long courseId, Model model) {
         Course course = courseService.findById(courseId);
@@ -156,6 +115,13 @@ public class AdminController {
         model.addAttribute("allTeacher", teacherService.findAll());
         model.addAttribute("courseStudents", courseStudentService.findByCourse(course));
         return "/admin/courseDetailsAdmin";
+    }
+
+    @RequestMapping(value = "/addCourse", method = RequestMethod.POST)
+    public String addCourse(@ModelAttribute("course") CourseDto courseDto,Model model) {
+        model.addAttribute("allTeacher",teacherService.findAll());
+        courseService.save(courseDto);
+        return "redirect:/admin/view-courses";
     }
 
     @PostMapping("/update-course")
@@ -186,55 +152,6 @@ public class AdminController {
         model.addAttribute("usersList", usersList);
 
         return "/admin/viewUsers";
-    }
-
-//need to chane to deactivate
-    @GetMapping("/view-{role:(?:students|coordinators)}/delete")
-    public String deleteUser(@PathVariable("role") String role, @RequestParam("id") Long id, RedirectAttributes r, Model model) {
-
-        try {
-
-            //handle href link
-            model.addAttribute("role", role);
-
-            //delete user
-          // userService.deleteUser(id);
-
-            //indicate success
-            r.addFlashAttribute("successMessage", " user with ID " + id + " has been deleted.");
-
-        } catch (Exception e) {
-            r.addFlashAttribute("failMessage", e.getMessage());
-        }
-
-        //return to the same page
-        return "redirect:/admin/view-" + role;
-    }
-
-
-    @GetMapping("/view-{role:(?:students|coordinators)}/edit")
-    public String editeUser(@PathVariable("role") String role, @RequestParam("id") Long id, RedirectAttributes r, Model model) {
-
-        try {
-
-            //handle href link
-            model.addAttribute("role", role);
-
-            //get user by id
-           MyUser user = userService.getUser(id);
-
-            //send user info to the edit page
-            model.addAttribute("user", user);
-
-
-        } catch (Exception e) {
-            r.addFlashAttribute("failMessage", e.getMessage());
-            //return the same page
-            return "redirect:/admin/view-" + role;
-        }
-
-        //return the edit page
-        return "redirect:/admin/view-" + role + "/edit";
     }
 
     @PostMapping("/change-status")

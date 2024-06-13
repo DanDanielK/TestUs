@@ -23,23 +23,4 @@ public class ErrorController {
         return "redirect:/error";
     }
 
-    // @ExceptionHandler(NoHandlerFoundException.class)
-    // public String handleNotFoundError(NoHandlerFoundException ex) {
-    //     return "redirect:/error";
-    // }
-
-
-
-    // @ExceptionHandler(AccessDeniedException.class)
-    // public String handleAccessDeniedException(AccessDeniedException e) {
-    //     // Handle access denied exception
-    //     return "redirect:/access-denied";
-    // }
-
-    // @RequestMapping("/access-denied")
-    // public String accessDenied() {
-    //     // Forward to access denied page
-    //     return "access-denied";
-    // }
-
 }
