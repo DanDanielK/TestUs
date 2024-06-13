@@ -132,6 +132,7 @@ public class StudentController {
          */
         Course course = courseService.findById(courseId);
         model.addAttribute("selectedCourse", course);
+        model.addAttribute("tests", course.getTests());
         return "/student/courseDetailsStudent";
     }
 
@@ -317,6 +318,7 @@ public class StudentController {
          * Note: testId saved in the HTML page as hidden input
          */
 
+        System.out.println("------------------------------------submitting answers");
         return saveAnswersHelper(allParams, true);
     }
 

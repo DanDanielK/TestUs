@@ -46,15 +46,39 @@ public class AnswerService {
     }
 
     public Answer getAnswerByTestIdAndStudentId(int testId, int studentId) {
+        /*
+         * this method retrieves an answer by test ID and student ID
+         * 
+         * @param: testId - the ID of the test
+         * @param: studentId - the ID of the student
+         * @return: the answer
+         * 
+         */
         return answerRepository.findByTestIdAndStudentId(testId, studentId);
     }
 
     public boolean hasStudentSubmittedTest(int testId, int studentId) {
+        /*
+         * this method checks if a student has submitted a test
+         * 
+         * @param: testId - the ID of the test
+         * @param: studentId - the ID of the student
+         * @return: a boolean indicating whether the student has submitted the test
+         * 
+         */
         Answer answer = answerRepository.findByTestIdAndStudentId(testId, studentId);
         return answer != null && answer.isSubmitted();
     }
 
     public double getScore(int testId, int studentId) {
+        /*
+         * this method calculates the score of a student in a test
+         * 
+         * @param: testId - the ID of the test
+         * @param: studentId - the ID of the student
+         * @return: the score of the student in the test
+         * 
+         */
         Answer answer = answerRepository.findByTestIdAndStudentId(testId, studentId);
         if (answer == null) return -1.0;
 
