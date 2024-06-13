@@ -16,11 +16,11 @@
     <form class = form action="/login" method="post">
         <div class="email" for="username">
             <label>Email:</label>
-            <input type="text" id="username" name="username" value="student@testus.com" required>
+            <input type="text" id="username" name="username" value="" required>
         </div>
         <div class="password" for="password">
             <label>Password:</label>
-            <input type="password" id="password" name="password" value="student" required>
+            <input type="password" id="password" name="password" value="" required>
         </div>
         <button class="login" type="submit">Login</button>
         <div th:if="${param.error != null}" class="alert alert-danger">
