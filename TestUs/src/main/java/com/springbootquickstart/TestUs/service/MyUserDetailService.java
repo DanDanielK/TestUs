@@ -79,6 +79,9 @@ public class MyUserDetailService implements UserDetailsService {
         }
         return user.getRole().toString();
     }
+    public void save(MyUser user) {
+        myUserRepo.save(user);
+    }
 
     public void save(UserRegisteredDto userRegisteredDTO) throws UserFoundException {
         // Role role =STUDENT;
@@ -100,9 +103,11 @@ public class MyUserDetailService implements UserDetailsService {
         user.setPassword(passwordEncoder.encode(userRegisteredDTO.getPassword()));
         user.setRole(Role.valueOf(userRegisteredDTO.getRole()));
         if (userRegisteredDTO.getRole().equals("ADMIN")) {
+            user.setAccountLocked(true);
             myUserRepo.save(user);
         }
         if (userRegisteredDTO.getRole().equals("TEACHER")) {
+            user.setAccountLocked(true);
             Teacher teacher = new Teacher();
             teacher.setMyUser(user);
             teacherRepository.save(teacher);
@@ -138,5 +143,8 @@ public class MyUserDetailService implements UserDetailsService {
         return user.get();
     }
 
-    // dor: added method that returns the ID
+    public MyUser changePassword(String newRawPassword, MyUser user) {
+        user.setPassword(passwordEncoder.encode(newRawPassword));
+        return myUserRepo.save(user);
+    }
 }

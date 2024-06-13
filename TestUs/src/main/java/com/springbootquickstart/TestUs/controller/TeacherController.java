@@ -25,6 +25,9 @@ public class TeacherController {
         List<Button> buttons = new ArrayList<>();
 
         for (int i = 0; i < menuItemsText.length; i++) {
+            if (menuItemsUrl[i].equals("logout")) {
+                buttons.add(new Button(menuItemsText[i], "/logout"));
+            } else
             buttons.add(new Button(menuItemsText[i], "teacher/" + menuItemsUrl[i]));
         }
 

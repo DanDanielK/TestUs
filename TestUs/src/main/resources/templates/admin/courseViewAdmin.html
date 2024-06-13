@@ -56,7 +56,9 @@
             </div>
             <div class="form-element">
                 <label for="teacherEmail">Teacher Email</label>
-                <input type="text" class="form-control" id="teacherEmail" name="teacherEmail" required>
+                <select id="teacherEmail" name="teacherEmail" class="form-control" required>
+                    <option th:each="teacher : ${allTeacher}" th:value="${teacher.myUser.email}" th:text="${teacher.myUser.email}" ></option>
+                </select>
             </div>
             <button type="submit" class="btn btn-primary">Add Course</button>
         </form>

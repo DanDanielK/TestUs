@@ -23,6 +23,9 @@
             <input type="password" id="password" name="password" value="student" required>
         </div>
         <button class="login" type="submit">Login</button>
+        <div th:if="${param.error != null}" class="alert alert-danger">
+            Account is locked. Please contact support.
+        </div>
     </form>
     <div
             class="register">

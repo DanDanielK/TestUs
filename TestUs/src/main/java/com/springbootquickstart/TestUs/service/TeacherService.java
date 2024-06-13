@@ -27,13 +27,18 @@ public class TeacherService {
         }
     }
 
-    public Teacher findById(Long id) {
+    public Teacher findByUserId(Long id) {
         Optional<MyUser> teacherMyUser = myUserDetailService.findById(id);
         if (teacherMyUser.isPresent()) {
             return findByMyUser(teacherMyUser.get());
         }
         throw new UsernameNotFoundException("User Id not found" + id);
     }
+
+    public Teacher findByTeacherId(Long id) {
+        return teacherRepository.findById(id).orElse(null);
+    }
+
     public Teacher findByEmail(String email) {
         Optional<MyUser> teacherMyUser = myUserDetailService.findByEmail(email);
         if (teacherMyUser.isPresent()) {

@@ -19,27 +19,30 @@
 <!--        <div th:if="${failMessage}" class="alert alert-danger text-center">-->
 <!--            [[${failMessage}]]-->
 <!--        </div>-->
-        <form th:action="@{/admin/update-course}" method="post"
-              th:object="${course}">
-            <div class="form-group">
+        <form th:action="@{/admin/update-course}" method="post">
+            <div class="form-element">
+                <input type="hidden" id="courseId" name="courseId" th:value="${selectedCourse.id}">
+            </div>
+            <div class="form-element">
                 <label for="courseName">Course Name</label>
                 <input type="text" class="form-control" id="courseName" name="courseName" th:value="${selectedCourse.name}" required>
             </div>
 
-            <div class="form-group">
+            <div class="form-element">
                 <label for="courseDescription">Course Description</label>
                 <input type="text" class="form-control" id="courseDescription" name="courseDescription" th:value="${selectedCourse.description}" required>
             </div>
             <div class="form-element">
-                <label for="courseTeacher">Select Course</label>
+                <label for="courseTeacher">Teacher Email</label>
                 <select id="courseTeacher" name="courseTeacher" class="form-control" required>
-                    <option th:each="teacher : ${allTeacher}" th:value="${selectedCourse.teacher.myUser.firstName} +' '+ ${selectedCourse.teacher.myUser.lastName}" th:text="${teacher.myUser.firstName}+' '+${teacher.myUser.lastName}"></option>
+                    <option th:each="teacher : ${allTeacher}" th:value="${teacher.id}" th:text="${teacher.myUser.email}" th:selected="${teacher.id} == ${selectedCourse.teacher.id}"></option>
                 </select>
             </div>
             <div class="form-element">
-            <button type="submit" class="btn btn-primary">Update Course</button>
+                <button type="submit" class="btn btn-primary">Update Course</button>
             </div>
         </form>
+
 
         <div class="text-left mt-2">
             students
@@ -83,10 +86,7 @@
                 </table>
             </div>
 
-
+        </div>
     </div>
-<!--    <script>-->
-
-<!--    </script>-->
-    </div>
+</body>
 </html>

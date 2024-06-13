@@ -42,7 +42,7 @@ public class TestCreationController {
     @GetMapping("/teacher/create-test")
     public String showCreateTestForm(@ModelAttribute("test") TestCreationDto test, Model model) {
         MyUser user = userService.returnMyUser();
-        int teacherID = teacherService.findById(user.getId()).getId();
+        int teacherID = teacherService.findByUserId(user.getId()).getId();
         List<Course> courses = courseService.findCoursesByTeacherId(teacherID);
         model.addAttribute("courses", courses);
         return "create-test";

@@ -1,63 +1,82 @@
 <html lang="en"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:th="http://www.thymeleaf.org"
-      layout:decorate="~{layouts/user_dashboard}">
-    <div class="container" layout:fragment="content">
-        <div class="text-center mt-5">
-            <h2>View Users</h2>
-        </div>
-        <div class="m-2">
-            <a href="/admin" class="btn btn-primary">Go Back</a>
-        </div>
+      layout:decorate="~{layouts/user_dashboard}" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+    <title>User List</title>
 
-        <div th:if="${successMessage}" class="alert alert-success text-center">
-            [[${successMessage}]]
-        </div>
-        <div th:if="${failMessage}" class="alert alert-danger text-center">
-            [[${failMessage}]]
-        </div>
-        <div class="m-2">
-            <label for="role"> Filter by role:</label>
-            <select name="role" id="role" class="form-select" onchange="filterByRole()">
-                <option value="ALL">All</option>
-                <option value="STUDENT">Student</option>
-                <option value="TEACHER">Teacher</option>
-                <option value="ADMIN">Admin</option>
-            </select>
-        </div>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css">
 
-        <div class="table-responsive">
-            <table class="table table-bordered table-striped" id="usersTable">
-                <thead class="thead-dark">
-                    <tr>
-                        <th>ID</th>
-                        <th>E-mail</th>
-                        <th>First Name</th>
-                        <th>Last Name</th>
-                        <th>Role</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <th:block th:each="user : ${usersList}">
-                        <tr>
-                            <td th:text="${user.id}">1</td>
-                            <td th:text="${user.email}">example@example.com</td>
-                            <td th:text="${user.firstName}">firstName</td>
-                            <td th:text="${user.lastName}">lastName</td>
-                            <td th:text="${user.role.toString()}">role</td>
-                            <td>
-                                <a class="btn btn-primary" th:href="@{/admin/view-{role}/edit(role=${role}, id=${user.id})}" >Edit</a>
-                                <a class="btn btn-danger" th:href="@{/admin/view-{role}/delete(role=${role}, id=${user.id})}" onclick="return confirm('Do you want to delete this user?')">Delete</a>
-                            </td>
-                        </tr>
-                    </th:block>
-                </tbody>
-            </table>
-        </div>
+
+</head>
+<body>
+<script type="text/javascript" src="/js/filterByRole.js"></script>
+<div class="container" layout:fragment="content">
+    <div class="text-center mt-5">
+        <h2>View Users</h2>
     </div>
-<!--    <script>-->
+<!--    <div class="m-2">-->
+<!--        <a href="/admin" class="btn btn-primary">Go Back</a>-->
+<!--    </div>-->
 
-<!--    </script>-->
+    <div th:if="${successMessage}" class="alert alert-success text-center">
+        [[${successMessage}]]
+    </div>
+    <div th:if="${failMessage}" class="alert alert-danger text-center">
+        [[${failMessage}]]
+    </div>
+<!--    <div class="m-2">-->
+<!--        <label for="role"> Filter by role:</label>-->
+<!--        <select name="role" id="role" class="form-select" onchange="filterByRole()">-->
+<!--            <option value="ALL">All</option>-->
+<!--            <option value="STUDENT">Student</option>-->
+<!--            <option value="TEACHER">Teacher</option>-->
+<!--            <option value="ADMIN">Admin</option>-->
+<!--        </select>-->
+<!--    </div>-->
 
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped" id="usersTable">
+            <thead class="thead-dark">
+            <tr>
+                <th>ID</th>
+                <th>E-mail</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Role</th>
+                <th>is locked</th>
+<!--                <th>Actions</th>-->
+            </tr>
+            </thead>
+            <tbody>
+            <th:block th:each="user : ${usersList}">
+                <tr>
+                    <td th:text="${user.id}">1</td>
+                    <td th:text="${user.email}">example@example.com</td>
+                    <td th:text="${user.firstName}">firstName</td>
+                    <td th:text="${user.lastName}">lastName</td>
+                    <td th:text="${user.role.toString()}">role</td>
+                    <td>
+                        <form th:action="@{/admin/updateStatus}" method="post">
+                            <input type="hidden" name="userId" th:value="${user.id}"/>
+                            <select name="isAccountLocked" onchange="this.form.submit()">
+                                <option th:value="false" th:selected="${!user.isAccountLocked()}">Unlocked</option>
+                                <option th:value="true" th:selected="${user.isAccountLocked()}">Locked</option>
+                            </select>
+                        </form>
+                    </td>
+<!--                    <td>-->
+<!--                        <a class="btn btn-primary" th:href="@{/admin/view-{role}/edit(role=${role}, id=${user.id})}">Edit</a>-->
+<!--                        <a class="btn btn-danger" th:href="@{/admin/view-{role}/delete(role=${role}, id=${user.id})}" onclick="return confirm('Do you want to delete this user?')">Delete</a>-->
+<!--                    </td>-->
+                </tr>
+            </th:block>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
 </html>

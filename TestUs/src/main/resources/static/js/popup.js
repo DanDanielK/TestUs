@@ -29,7 +29,6 @@ function filterByRole(){
             row.style.display = "none";
         }
     }
-
 }
 
 
