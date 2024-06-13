@@ -50,7 +50,7 @@ public class TestViewController {
         // Add tests to the model
         model.addAttribute("tests", tests);
         // Return the view template
-        return "view-tests";
+        return "teacher/view-tests";
     }
 
     @PostMapping("view-students-results")
@@ -66,7 +66,7 @@ public class TestViewController {
         }
         model.addAttribute("students", students_did_test);
         model.addAttribute("scores", students_Scores);
-        return "view-students-results";
+        return "teacher/view-students-results";
     }
 
 }

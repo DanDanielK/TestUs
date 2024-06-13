@@ -30,12 +30,12 @@ public class TestDetailsViewController {
             // Add the test object to the model to pass it to the view
             model.addAttribute("test", test);
             // Return the name of the view template for displaying the questions
-            return "view-questions";
+            return "teacher/view-questions";
         } else {
             // If test is not found, handle the error accordingly (redirect or show error
             // message)
             // For example, you can redirect the user back to the view tests page
-            return "redirect:/view-tests";
+            return "redirect:teacher/view-tests";
         }
     }
 }
