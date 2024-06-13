@@ -47,7 +47,7 @@ public class TestEditController {
             test.setQuestions(new ArrayList<>());
         }
         model.addAttribute("test", test);
-        return "teacher/edit-test";
+        return "/edit-test";
     }
 
     @PostMapping("/update-test")

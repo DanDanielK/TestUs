@@ -48,7 +48,7 @@ public class TestCreationController {
         int teacherID = teacherService.findByUserId(user.getId()).getId();
         List<Course> courses = courseService.findCoursesByTeacherId(teacherID);
         model.addAttribute("courses", courses);
-        return "teacher/create-test";
+        return "/create-test";
     }
 
     @PostMapping("/teacher/create-test")
