@@ -51,16 +51,7 @@ public class CourseService {
         return courseRepository.findCoursesByTeacherId(teacherId);
     }
 
-    // public void enrollStudentToCourse(Student student, Course course) {
-    // course.addStudent(student);
-    // student.addCourse(course);
-    // studentService.save(student);
-    // }
-    //
-    // public void unenrollStudentFromCourse(Student student, Course course) {
-    // student.removeCourse(course);
-    // studentService.save(student);
-    // }
+
 
     public void save(Course course) {
         courseRepository.save(course);

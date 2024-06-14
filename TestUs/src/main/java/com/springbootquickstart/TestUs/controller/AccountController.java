@@ -20,11 +20,6 @@ public class AccountController {
     @Autowired
     private MyUserDetailService userDetailService;
 
-//    @ModelAttribute("user")
-//    public UserLoginDto userLoginDto() {
-//        return new UserLoginDto();
-//    }
-
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login() {

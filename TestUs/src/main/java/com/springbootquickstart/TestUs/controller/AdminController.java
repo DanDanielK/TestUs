@@ -56,22 +56,8 @@ public class AdminController {
         }else{
             throw new UsernameNotFoundException(user.getUsername());
         }
-//        MyUser users = userRepository.findByUsername(user.getUsername());
-//        return users.getName();
     }
 
-
-//    @GetMapping()
-//    public String displayAdminDashboard(Model model){
-//        String user= returnUsername();
-//
-//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//        Optional<MyUser> myUser = userService.findByUsername(auth.getName());
-//        model.addAttribute("courseList", courseService.findAll());
-//
-//        model.addAttribute("userDetails", user);
-//        return "admin/profile";
-//    }
 
 
     /* admin main menu page */
