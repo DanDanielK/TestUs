@@ -26,9 +26,17 @@ To install TestUs, follow these steps:
 
 ## Usage
 
-Here's how you can use TestUs:
+Admin
+email:admin@testus.com
+password: admin
 
-1. 
+Teacher
+email:teacher@testus.com
+password: teacher
+
+Student
+email:student@testus.com
+password: student
 
 ## Features
 
