@@ -13,8 +13,8 @@
 </head>
 
 <body>
-
-<ul class="cards" layout:fragment="content">
+<div class="main-content container-fluid" layout:fragment="content">
+<ul class="cards">
     <li class="cards__item"  th:each="courseStudent:${courseStudentList}">
         <div class="card">
             <!-- <div class="card_image"><img th:src="${course.image}" alt="course image"></div> -->
@@ -73,6 +73,6 @@
     </div>
 <div class="overlay"></div>
 <script type="text/javascript" src="/js/popup.js"></script>
-
+</div>
 </body>
 </html>

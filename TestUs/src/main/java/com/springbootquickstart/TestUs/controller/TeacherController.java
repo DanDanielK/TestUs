@@ -18,9 +18,8 @@ public class TeacherController {
     public String teacherMenu(Model model) {
 
         // student menu page options
-        final String[] menuItemsText = { "view course", "Review Past Tests", "Logout", "view tests",
-                "create new test" };
-        final String[] menuItemsUrl = { "view-course", "review-past-tests", "logout", "view-tests", "create-test" };
+        final String[] menuItemsText = { "view tests", "create new test","Logout"};
+        final String[] menuItemsUrl = {  "view-tests", "create-test", "logout" };
 
         List<Button> buttons = new ArrayList<>();
 
