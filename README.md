@@ -43,10 +43,11 @@ password: student
 - **Feature 1:** login, logout and register mechanism.
 - **Feature 2:** admin: create new coordinator acounts.
 - **Feature 3:** admin: edit/delete student/coordinator acounts.
-- **Feature 4:** coordinator: Description of feature .
-- **Feature 5:** coordinator:  .
-- **Feature 6:** student:  .
-- **Feature 7:** student:  .
+- **Feature 4:** coordinator: create/edit/delete tests.  
+- **Feature 5:** coordinator: View students results.
+- **Feature 6:** student: see all the tests linked to the student.
+- **Feature 7:** student: answering a test.
+- **Feature 8:** student: view test results.  
 
 ## Contributing
 
@@ -60,10 +61,10 @@ We welcome contributions from the community! To contribute to TestUs, please fol
 
 ## License
 
-TestUs is licensed under the [MIT License](link-to-license). See the [LICENSE](link-to-license) file for details.
+TestUs is licensed under the [MIT License](https://choosealicense.com/licenses/mit/). See the [LICENSE](https://choosealicense.com/licenses/mit/) file for details.
 
 ## Support
 
-For help and support, please visit the [project's documentation](link-to-docs) or [FAQs](link-to-faqs). 
+For help and support, please visit the [project's documentation](https://github.com/DanDanielK/TestUs/blob/main/TESTUS-%20%D7%9E%D7%A1%D7%9E%D7%9A%20%D7%AA%D7%9B%D7%A0%D7%95%D7%9F.pdf).
 
 
